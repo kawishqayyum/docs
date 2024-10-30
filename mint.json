@@ -194,7 +194,7 @@
                 "scraping-automation/scraping-browser/features/captcha-solver",
                 "scraping-automation/scraping-browser/features/proxy-location",
                 "scraping-automation/scraping-browser/features/playground",
-                 "scraping-automation/scraping-browser/features/premium-domains",
+                "scraping-automation/scraping-browser/features/premium-domains",
                 "scraping-automation/scraping-browser/features/troubleshooting",
                 "scraping-automation/scraping-browser/features/traffic-analysis"
               ]
@@ -282,10 +282,8 @@
           "pages": [
             "datasets/marketplace/browse-the-marketplace",
             "datasets/marketplace/dataset-view",
-            "datasets/marketplace/customization-and-filtering",
             "datasets/marketplace/purchase-options",
-            "datasets/marketplace/pricing",
-            "datasets/marketplace/faqs"
+            "datasets/marketplace/pricing"
           ]
         },
         {
@@ -293,8 +291,7 @@
           "pages": [
             "datasets/custom-datasets/request",
             "datasets/custom-datasets/delivery-options",
-            "datasets/custom-datasets/custom-dataset-api",
-            "datasets/custom-datasets/faqs"
+            "datasets/custom-datasets/custom-dataset-api"
           ]
         },
         {
@@ -631,7 +628,7 @@
       "source": "/scraping-automation/web-scraper-api/overview",
       "destination": "/scraping-automation/web-data-apis/web-scraper-api/overview"
     },
-       {
+    {
       "source": "/scraping-automation/scraping-browser/features/captcha-solver#scraping-browser-premium-domains",
       "destination": "/scraping-automation/scraping-browser/features/premium-domains"
     },
