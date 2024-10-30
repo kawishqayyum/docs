@@ -1,0 +1,16 @@
+#navbar {
+    background: "#fffff2";
+    padding: 1rem;
+}
+  
+footer {
+  margin-top: 2rem;
+}
+
+div.mt-12 > li > div {
+  font-weight: 600;
+}
+
+div.mt-12 > h5 {
+  font-weight: bolder;
+}

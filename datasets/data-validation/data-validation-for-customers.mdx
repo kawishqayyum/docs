@@ -1,0 +1,126 @@
+---
+title: Data validation for Customers
+sidebarTitle: For Customers
+---
+## Overview
+Bright Data 的自动数据集创建平台包括数据集交付之前的验证和批准阶段。该平台便于错误处理、验证检查和客户定制, 确保数据的准确性和可靠性。这些验证检查对于节省时间、减少数据错误，以及将数据质量保持在所需水平至关重要。
+![flow-chart.png](/images/datasets/data-validation/data-validation-for-customers/flow-chart.png)
+
+
+## 运行机制?
+数据集快照准备就绪后：
+<Tabs>
+<Tab title="✅ 如果所有验证测试均已通过">
+用户将获得数据集，并在平台上显示所有测试均已通过。
+</Tab>
+<Tab title="❌ 如果所有/部分验证测试失败">
+The developer reviews the issues and will decide whether to:
+1. Fix the dataset according to the failed tests.
+2. Deliver the dataset to the user, explaining why the validation test failed but was overridden.
+
+The user can then decide to:
+1.  Approve the snapshot.
+2.  Approve the snapshot for this time frame only.
+3.  Reject the snapshot, and we will fix the scraper accordingly.
+
+</Tab>
+</Tabs>
+
+当用户批准数据集快照后，将进入交付阶段。
+
+## 验证规则
+
+<AccordionGroup>
+<Accordion title="独特性">
+数据集必须包含一定百分比的唯一值。
+-   示例：在 LinkedIn 公司个人资料数据集中，每家公司的 LinkedIn 网址都应该是唯一的。如果存在重复的网址，则会多次列出同一家公司，这违反了唯一性规则。
+</Accordion>
+<Accordion title="填写率">
+数据集必须包含填写值的最小百分比。
+-   示例：在 LinkedIn 公司个人资料数据集中，至少 90% 的个人资料必须填写“行业”字段。如果超过 10% 的个人资料缺少此信息（将“行业”字段留空），则数据集不符合要求的填写率。
+</Accordion>
+<Accordion title="必填字段">
+某些字段必须填写；如果保持空白，则会出现错误。
+-   示例：在 LinkedIn 数据集中，“公司名称”和“总部位置”等字段可能是必填字段。任何缺少此信息的个人资料都将标记为错误。
+</Accordion>
+<Accordion title="数据稳定性">
+与先前收集的值相比，数字值的变化不得超过 X。
+-   示例：如果定期更新数据集，则除非有已知原因（例如合并），否则公司的员工人数不应在两次更新之间发生巨大变化（例如，员工人数从 50 人突然跃升至 5000 人）。
+</Accordion>
+<Accordion title="类型验证">
+根据其字段类型（例如字符串、数字、日期）验证每个条目的数据类型，并标记为不匹配以进行更正。
+-   示例：数据集应仅接受“创建日期”字段中的日期格式。如果输入了“未知”之类的文本字符串，则应将其标记以进行更正。
+</Accordion>
+<Accordion title="架构和字段自定义验证">
+创建自定义规则以验证字段是否存在及其值是否有效，例如要求大小字符串为 “S”、“M” 或 “L”。
+-   示例：数据集可能有一个“公司规模”字段，可接受的值如“小型”、“中型” 和 “大型”。如果记录的值不在这些选项范围内，则必须对其进行标记。
+</Accordion>
+<Accordion title="最低记录阈值">
+数据集必须有 X 条记录（每个 URL 应包含来自总网址输入的 X 条记录）。
+
+-   示例：如果数据集旨在代表特定行业（例如技术）中的公司，则必须至少包含该行业的公司概况数量才能视为具有完整性和代表性。
+</Accordion>
+<Accordion title="数据大小波动阈值">
+确定数据集大小的波动是否在 +/-X% 范围内。
+
+-   示例：对于每月更新的数据集，除非特定事件或趋势正在影响该行业，否则列出的公司总数不应在上月到下月间产生大幅波动（例如，增长或减少超过 10%）。
+</Accordion>
+<Accordion title="记录完整性验证">
+检查数据集中的每条记录，确保其中的留白字段或空字段比例不高。如果所记录的留白或空字段超过预定阈值（例如 70%），则会触发错误。
+
+-   示例：在 LinkedIn 公司个人资料数据集中，如果特定公司的个人资料中有 70% 以上的字段（如行业、规模、位置、描述）为空，则此规则会将其标记为不完整。
+
+</Accordion>
+<Accordion title="唯一身份和重复项验证">
+检测并解决由于身份分配不当或输入错误而导致数据集中出现多条重复记录的问题。它确保每条记录都是不同的，并准确地代表一个唯一的数据点。
+
+-   示例：在 LinkedIn 数据集中，此规则将识别由于分配唯一标识符时出现错误而多次列出同一家公司的情况。例如，如果公司资料的细微差异（例如公司名称的拼写不同）导致同一家公司作为单独的条目出现，则该规则会将其标记为需要更正的条目。
+</Accordion>
+</AccordionGroup>
+
+## 主要组件和功能
+<Frame caption="数据集测试的总体视图（所有结果、通过、失败）">
+  <img src="/images/datasets/data-validation/data-validation-for-customers/overall-view.png" alt="overall-view.png"/>
+</Frame>
+
+### 评估验证测试结果
+<Frame>
+  ![evaluate.png](/images/datasets/data-validation/data-validation-for-customers/evaluate.png)
+</Frame>
+
+处理数据集快照验证错误后，系统会通知用户进行评估并选择是否：
+1. 批准
+2. 暂时批准
+3. 拒绝快照。
+
+### 评估操作
+对于每一次失败的验证测试，用户有三个选择：
+
+1.  **设置新的阈值**
+    1.  设置自定义值 - 如果开发者未达到默认设定值，则用户可以选择新的阈值。设置新的阈值后，快照将返回给开发人员。
+    2.  设置为 X% - 接受开发者达到的成功率，并将阈值设置为开发人员设法提取的值。
+2.  **忽略测试（仅限一次）** - 接受开发人员仅提取一次的值（下一个数据集快照的默认值不会改变）
+
+3.  **拒绝** - 用户不接受对失败测试的调整；问题将返回给开发者进行修复。
+. 如果需要更多修复，该状态将标记为“已拒绝”，稍后将重新发送给客户审批。
+
+
+<Frame>
+<img src="/images/datasets/data-validation/data-validation-for-customers/evaluate-options.png" alt="evaluate-options.png" width="500" />
+</Frame>
+
+如果所有问题都已忽略/批准，请单击“交付数据集”以交付快照。
+
+<Note>客户批准处于等待状态 14 天时，快照交付将自动交付。</Note>
+
+<Frame>
+![validations-results.png](/images/datasets/data-validation/data-validation-for-customers/validations-results.png)
+</Frame>
+
+如果所有/部分问题都已拒绝，请单击“发回给开发者”将其发回以进行更多修复。
+<Frame>
+![failed-results.png](/images/datasets/data-validation/data-validation-for-customers/failed-results.png)
+</Frame>
+
+## 通信和通知
+用户通过控制面板中的账户和电子邮件收到状态更新的通知。

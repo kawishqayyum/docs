@@ -1,14 +1,8 @@
-# Mintlify Starter Kit
-
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
-
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+# Bright Data Ltd documentation
 
 ### Development
+
+> *For Bright Data R&D*: Make sure you're using Node 20
 
 Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
 
@@ -24,7 +18,11 @@ mintlify dev
 
 ### Publishing Changes
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+changes will be deployed to production automatically after pushing to the default `main` branch.
+
+Changes done by contractors should be pushed to personal branches first and then merged with pull request.
+
+Quick changes can be done directly through Mintlify built-in editor
 
 #### Troubleshooting
 
