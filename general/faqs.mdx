@@ -1,0 +1,463 @@
+---
+title: 常见问题解答
+---
+<AccordionGroup>
+
+
+<Accordion title="How do I set up a password for my account?">
+Even if you first signed in with 'magic link' or or using a six digit code, you can always create a password for your account. You can then save the password in your browser for faster access to the control panel.
+
+To set up a password for your Bright Data account, follow these steps:
+
+1. Access authentication settings: Click on "Settings" and go to the ['Passwords & authentication' tab](https://brightdata.com/cp/setting/auth)
+2. Create your password: Follow the instructions to create a password for your account. We recommend a least a 10-digit password with numbers and symbols.
+
+Remember, each user must set their own password. If you have other users on your account, they can configure their passwords individually if needed.
+</Accordion>
+
+<Accordion title="如何查看分配给您的区域的 IP？">
+要查看分配给您的区域的 IP 列表，只需导航到 **[“我的代理页面”](https://brightdata.com/cp/zones)**，点击您的代理区域，向下滚动到**“分配的 IP”**部分，然后只需点击**“显示分配的 IP”**或**“下载 IP 列表”**。
+
+![review-allocated-ips.gif](/images/general/faqs/review-allocated-ips.gif)
+</Accordion>
+<Accordion title="如何查看您的区域的统计数据？">
+可通过两种方法查看您的区域统计数据：
+
+<Tabs>
+<Tab title="通过控制面板">
++ 要查看所有区域的统计数据，请访问您的控制面板：
+![statistics-via-control-panel.png](/images/general/faqs/statistics-via-control-panel.png)
+
++ 要查看特定区域的统计数据，请转到该区域的设置并点击“统计数据”选项卡：
+  
+![specific-zone-statics.gif](/images/general/faqs/specific-zone-statics.gif)
+</Tab>
+<Tab title="通过 API">
++ Please visit [this page](/api-reference/) to see all available API endpoints (in multiple languages) and example responses related to viewing statistics.
+</Tab>
+</Tabs>
+</Accordion>
+<Accordion title="如何设置带宽使用限制？">
+
+默认情况下，所有代理区域的使用量均不受限制，您可以通过以下4个参数之一设置限制：
+
+* \美元/天
+* \美元/月
+* 字节/天
+* 字节/月
+要在您的某个区域设置此限制，请从 Bright Data 的[“我的代理页面”](https://brightdata.com/cp/zones)
+<Steps>
+<Step title="点击该区域进入任何区域的设置。">
+</Step>
+<Step title='转到“访问参数”选项卡。'>
+![access-parameters.png](/images/general/faqs/access-parameters.png)
+</Step>
+<Step title='向下滚动到“限制”，默认值为“无限制”'>
+</Step>
+<Step title='点击“编辑”按钮'>
+![edit-limit.png](/images/general/faqs/edit-limit.png)
+</Step>
+<Step title='启用“支出限制”选项。'>
+![spend-limit-toggle.png](/images/general/faqs/spend-limit-toggle.png)
+</Step>
+<Step title='设置要使用的参数，然后点击“更新”'>
+</Step>
+<Step title="您将在限制部分和代理页面的“使用/支出限制”列中看到相应更改。">
+</Step>
+</Steps>
+</Accordion>
+
+<Accordion title="如何计算住宅 IP 的成本效益？">
+
+![cost-limits-table.png](/images/general/faqs/cost-limits-table.png)
+
+  
+**我们是如何计算该表格的？**  
+  
+您的公司需要通过每小时向特定网站发送1000个 http 请求来从网络收集信息。 您编写抓取工具代码并通过服务器运行它。 目标网站允许每分钟50个来自同一 IP 的请求，然后才会屏蔽您的抓取工具。 现在，您必须购买更多的代理。  
+  
+**假设您选择数据中心代理：**  
+您不想共享 IP，所以您购买了200个专用的数据中心 IP。 您花2个小时编写抓取工具与新数据中心代理的集成代码，然后运行新程序。 这次，您的目标网站需要3天才能检测到您的抓取工具。 检测到代理后，您必须购买新的代理，然后再次重复此过程，每天检查以确保代理未被检测到。每月费用（所有数字均来自真实客户）：
+
+* 200个专用 IP：500美元
+* 带宽：（1000个请求 X 每个请求 20KB X 24小时 X 30天 = 14.5GB）：每月3美元
+* 开发人员（2小时集成 X 10 + 每3天1小时用于管理代理）：每月工作约3天或大约900美元
+
+仅这些东西，您每月的总成本就至少要1400美元，而开发人员每小时30美元的工资是非常保守的。此外，如果您的目标网站在屏蔽您之前发送错误信息，或者您的信息流每隔几天中断一次，这可能会对您的品牌或收入来源造成损害，这并不能解释信息可靠性的缺乏。
+  
+**假设您选择 Bright Data 住宅代理：**  
+您购买 40GB 的基本套餐，可以访问无限的住宅 IP。与您的抓取工具集成需要2个小时。由于平均每天有300万个住宅 IP 可用，您的目标网站无法检测到您的抓取工具，这使您可以专注于其他项目。
+  
+  
+带宽和无限 IP 每月的费用仅为500美元。您的信息始终是可靠的，因为您的请求总是会成功，并且访问权限永远不会在月中被切断。当您的业务由于这种抓取而增长，并且您的项目每月超过600MB时，费用差异可能远远高于约1000美元。
+  
+Bright Data 还允许您在不使用时暂停账户，这样您的每月费用就可以低于500美元。首先使用5美元的免费数据中心流量券来测试 Bright Data 的优点，然后申请访问我们的住宅网络以进行廉价而可靠的数据收集。
+</Accordion>
+<Accordion title="我的区域名称旁边的黄色警告图标是什么？">
+> **这是提醒您设置访问白名单**
+ 
+为了限制未经授权的服务器访问您的代理区域，我们建议您设置 IP 白名单。 这将确保只有您识别出的 IP 才可以访问您的代理区域，从而实现更高的安全性和控制力。
+
+请咨询您的 IT 或网络专家，确保您的出站 IP 是固定的并且不会改变，否则您可能会阻止自己或贵公司的其他授权用户访问代理区域。 
+
+</Accordion>
+<Accordion title="如何建立 IP 白名单？">
+您可以选择允许哪些外部 IP 在不传递凭据或不会被屏蔽的情况下指定目标代理端口。 在代理管理器上加入白名单时，授予的权限有3个级别：
+
+1. 允许访问用户界面的 IP。 自动允许这些 IP 访问所有代理和端口。 "转到“常规设置”，为“管理员列入白名单的 IP”选择“添加 IP”。
+   ![admin-whitelisted-ips.png](/images/general/faqs/admin-whitelisted-ips.png)
+2. 允许访问所有代理的 IP。 这些 IP 可以访问所有端口。 "转到“常规设置”，为“代理列入白名单的 IP”选择“添加 IP”。  
+   ![proxy-whitelisted-ips.png](/images/general/faqs/proxy-whitelisted-ips.png)
+3. 允许访问单个端口的 IP。 这些 IP 可以访问分配给它们的唯一端口。 转到端口设置（只需点击端口本身） 
+   ![proxy-ports.png](/images/general/faqs/proxy-ports.png)  
+   转到“常规”，然后为“列入白名单的 IP”选择“添加 IP”。 
+   ![add-ip.png](/images/general/faqs/add-ip.png)
+
+此方法需要身份验证令牌。
+
+在远程服务器上运行以下命令：
+```sh
+curl -X GET "http://127.0.0.1:22999/api/gen_token" -H "accept: application/json"
+```
+
+这将为您生成一个身份验证令牌：
+```sh 输出
+"token":"<TOKEN_STRING>"
+```
+
+现在：
+- 将令牌从代理管理器服务器复制到新的网络爬虫服务器
+- 从您的新服务器发出此请求：
+```sh
+curl <remote-server-IP>:22999/api/add_wip -X POST -H "Content-Type: application/json" -H "Authorization:<TOKEN_STRING>" -d '{"ip":"<CRAWLER_IP>"}'
+```
+网络爬虫的 IP 现在已在代理管理器上列入白名单。
+<Warning>
+使用此方法加入白名单可授予访问所有端口的权限，而不是访问代理管理器用户界面/管理面板的权限。
+</Warning>
+
+</Accordion>
+<Accordion title="如何使用基于令牌的身份验证限制访问">
+当使用多个具有轮换 IP（指定远程安全的代理管理器为目标）的网络爬虫时，此工作流程是最佳的。 此方法需要身份验证令牌。
+
+从远程服务器内部运行 Terminal/CMD 中的下一个命令
+```sh
+curl -X GET "http://127.0.0.1:22999/api/gen_token" -H "accept: application/json"
+```
+
+这将为您生成一个身份验证令牌：
+```sh 输出
+"token":"<TOKEN_STRING>"
+```
+现在，您使用您刚刚创建的访问令牌即可发送请求：
+```sh 
+curl -x token:<TOKEN_STRING>@<remote-server-IP>:<Port> "target-site.com"
+```
+</Accordion>
+<Accordion title="是否有办法知道我的公开数据是否被 Bright Data 的收集平台收集？">
+> **是**
+
+您可以在这里查看您的公开数据是否被收集：https://brightdata.com/check_your_data。
+</Accordion>
+<Accordion title="您只收集公共数据还是也收集私人数据？">
+我们从不收集私人数据。 我们只收集公开的数据。
+</Accordion>
+
+<Accordion title="什么是游乐场模式？">
+当您注册时，您的账户会在前三天自动进入“游乐场模式”，这样您无需添加付款方式即可立即尝试不同的 Bright Data 解决方案。
+
+要不受任何限制地测试或使用 Bright Data 的代理解决方案并获得5美元的免费信用额度，请验证您的账户以开始我们的30天有限试用。请注意，30天试用不适用于某些国家/地区。
+
+<Note>
+  游乐场模式适用于小规模测试和探索，不适用于大规模测试或生产用途。 在您验证您的账户并开始我们的有限试用之前，产品的使用受速度、带宽和每秒请求数等限制。
+</Note>
+</Accordion>
+
+<Accordion title="什么是有限试用模式？">
+
+有限试用模式允许您免费探索我们的 Bright Data 代理解决方案，无需立即付款。您将获得5美元的信用额度，可用于在30天内使用我们的任何代理服务，这样您就有整整一个月的时间来测试和体验我们的产品。
+ 
+请注意，30天试用不适用于某些国家/地区。如果您没有看到此选项，请向您的账户添加资金以开始使用 Bright Data——您只需添加10美元，即可开始“即付即用”计划。
+
+#### 如何验证我的账户以开始“有限试用”并获得5美元的信用额度？
+账户验证非常简单，而且免费。 只需向您的账户添加有效的付款方式即可开始有限试用模式并获得5美元的信用额度。您不会被收费。 
+
+#### 30天试用后会发生什么？
+在30天试用期结束时，您的免费信用额度将过期（如果尚未使用），您需要向您的账户添加资金才能继续使用我们的平台。 
+
+#### 我是否可以将免费信用额度用于你们的任何代理产品？
+是，在试用期间，5美元的试用信用额度可用于我们的任何代理产品，让您可以测试最适合您需求的产品。
+
+</Accordion>
+
+<Accordion title="为什么我无法连接到 brightdata.com 网站或控制面板？">
+在极少数情况下，某些广告拦截程序/扩展程序可能会阻止对 Bright Data 网站的访问。 如果您遇到任何问题，请将 brightdata.com 列入白名单或禁用广告拦截器。
+</Accordion>
+
+<Accordion title="Where can I see the list of country codes?">
+
+Below is the list of ISO 3166 country codes.  **Not** all the countries in the list have Bright Data proxies, most of the countries do. 
+
+|Country Name | Country code |
+|-------------|----------------|
+|Åland Islands|ax|
+|Zimbabwe|zw|
+|Zambia|zm|
+|Yemen|ye|
+|Western Sahara|eh|
+|Wallis and Futuna|wf|
+|Virgin Islands (U.S.)|vi|
+|Virgin Islands (British)|vg|
+|Viet Nam|vn|
+|Venezuela (Bolivarian Republic of)|ve|
+|Vanuatu|vu|
+|Uzbekistan|uz|
+|Uruguay|uy|
+|United States of America (the)|us|
+|United States Minor Outlying Islands (the)|um|
+|United Kingdom of Great Britain and Northern Ireland (the)|gb|
+|United Arab Emirates (the)|ae|
+|Ukraine|ua|
+|Uganda|ug|
+|Tuvalu|tv|
+|Turks and Caicos Islands (the)|tc|
+|Turkmenistan|tm|
+|Turkey|tr|
+|Tunisia|tn|
+|Trinidad and Tobago|tt|
+|Tonga|to|
+|Tokelau|tk|
+|Togo|tg|
+|Timor-Leste|tl|
+|Thailand|th|
+|Tanzania, United Republic of|tz|
+|Tajikistan|tj|
+|Taiwan (Province of China)|tw|
+|Syrian Arab Republic|sy|
+|Switzerland|ch|
+|Sweden|se|
+|Svalbard and Jan Mayen|sj|
+|Suriname|sr|
+|Sudan (the)|sd|
+|Sri Lanka|lk|
+|Spain|es|
+|South Sudan|ss|
+|South Georgia and the South Sandwich Islands|gs|
+|South Africa|za|
+|Somalia|so|
+|Solomon Islands|sb|
+|Slovenia|si|
+|Slovakia|sk|
+|Sint Maarten (Dutch part)|sx|
+|Singapore|sg|
+|Sierra Leone|sl|
+|Seychelles|sc|
+|Serbia|rs|
+|Senegal|sn|
+|Saudi Arabia|sa|
+|Sao Tome and Principe|st|
+|San Marino|sm|
+|Samoa|ws|
+|Saint Vincent and the Grenadines|vc|
+|Saint Pierre and Miquelon|pm|
+|Saint Martin (French part)|mf|
+|Saint Lucia|lc|
+|Saint Kitts and Nevis|kn|
+|Saint Helena, Ascension and Tristan da Cunha|sh|
+|Saint Barthélemy|bl|
+|Réunion|re|
+|Rwanda|rw|
+|Russian Federation (the)|ru|
+|Romania|ro|
+|Republic of North Macedonia|mk|
+|Qatar|qa|
+|Puerto Rico|pr|
+|Portugal|pt|
+|Poland|pl|
+|Pitcairn|pn|
+|Philippines (the)|ph|
+|Peru|pe|
+|Paraguay|py|
+|Papua New Guinea|pg|
+|Panama|pa|
+|Palestine, State of|ps|
+|Palau|pw|
+|Pakistan|pk|
+|Oman|om|
+|Norway|no|
+|Northern Mariana Islands (the)|mp|
+|Norfolk Island|nf|
+|Niue|nu|
+|Nigeria|ng|
+|Niger (the)|ne|
+|Nicaragua|ni|
+|New Zealand|nz|
+|New Caledonia|nc|
+|Netherlands (the)|nl|
+|Nepal|np|
+|Nauru|nr|
+|Namibia|na|
+|Myanmar|mm|
+|Mozambique|mz|
+|Morocco|ma|
+|Montserrat|ms|
+|Montenegro|me|
+|Mongolia|mn|
+|Monaco|mc|
+|Moldova (the Republic of)|md|
+|Micronesia (Federated States of)|fm|
+|Mexico|mx|
+|Mayotte|yt|
+|Mauritius|mu|
+|Mauritania|mr|
+|Martinique|mq|
+|Marshall Islands (the)|mh|
+|Malta|mt|
+|Mali|ml|
+|Maldives|mv|
+|Malaysia|my|
+|Malawi|mw|
+|Madagascar|mg|
+|Macao|mo|
+|Luxembourg|lu|
+|Lithuania|lt|
+|Liechtenstein|li|
+|Libya|ly|
+|Liberia|lr|
+|Lesotho|ls|
+|Lebanon|lb|
+|Latvia|lv|
+|Lao People's Democratic Republic (the)|la|
+|Kyrgyzstan|kg|
+|Kuwait|kw|
+|Korea (the Republic of)|kr|
+|Korea (the Democratic People's Republic of)|kp|
+|Kiribati|ki|
+|Kenya|ke|
+|Kazakhstan|kz|
+|Jordan|jo|
+|Jersey|je|
+|Japan|jp|
+|Jamaica|jm|
+|Italy|it|
+|Israel|il|
+|Isle of Man|im|
+|Ireland|ie|
+|Iraq|iq|
+|Iran (Islamic Republic of)|ir|
+|Indonesia|id|
+|India|in|
+|Iceland|is|
+|Hungary|hu|
+|Hong Kong|hk|
+|Honduras|hn|
+|Holy See (the)|va|
+|Heard Island and McDonald Islands|hm|
+|Haiti|ht|
+|Guyana|gy|
+|Guinea-Bissau|gw|
+|Guinea|gn|
+|Guernsey|gg|
+|Guatemala|gt|
+|Guam|gu|
+|Guadeloupe|gp|
+|Grenada|gd|
+|Greenland|gl|
+|Greece|gr|
+|Gibraltar|gi|
+|Ghana|gh|
+|Germany|de|
+|Georgia|ge|
+|Gambia (the)|gm|
+|Gabon|ga|
+|French Southern Territories (the)|tf|
+|French Polynesia|pf|
+|French Guiana|gf|
+|France|fr|
+|Finland|fi|
+|Fiji|fj|
+|Faroe Islands (the)|fo|
+|Falkland Islands (the) [Malvinas]|fk|
+|Ethiopia|et|
+|Eswatini|sz|
+|Estonia|ee|
+|Eritrea|er|
+|Equatorial Guinea|gq|
+|El Salvador|sv|
+|Egypt|eg|
+|Ecuador|ec|
+|Dominican Republic (the)|do|
+|Dominica|dm|
+|Djibouti|dj|
+|Denmark|dk|
+|Côte d'Ivoire|ci|
+|Czechia|cz|
+|Cyprus|cy|
+|Curaçao|cw|
+|Cuba|cu|
+|Croatia|hr|
+|Costa Rica|cr|
+|Cook Islands (the)|ck|
+|Congo (the)|cg|
+|Congo (the Democratic Republic of the)|cd|
+|Comoros (the)|km|
+|Colombia|co|
+|Cocos (Keeling) Islands (the)|cc|
+|Christmas Island|cx|
+|China|cn|
+|Chile|cl|
+|Chad|td|
+|Central African Republic (the)|cf|
+|Cayman Islands (the)|ky|
+|Canada|ca|
+|Cameroon|cm|
+|Cambodia|kh|
+|Cabo Verde|cv|
+|Burundi|bi|
+|Burkina Faso|bf|
+|Bulgaria|bg|
+|Brunei Darussalam|bn|
+|British Indian Ocean Territory (the)|io|
+|Brazil|br|
+|Bouvet Island|bv|
+|Botswana|bw|
+|Bosnia and Herzegovina|ba|
+|Bonaire, Sint Eustatius and Saba|bq|
+|Bolivia (Plurinational State of)|bo|
+|Bhutan|bt|
+|Bermuda|bm|
+|Benin|bj|
+|Belize|bz|
+|Belgium|be|
+|Belarus|by|
+|Barbados|bb|
+|Bangladesh|bd|
+|Bahrain|bh|
+|Bahamas (the)|bs|
+|Azerbaijan|az|
+|Austria|at|
+|Australia|au|
+|Aruba|aw|
+|Armenia|am|
+|Argentina|ar|
+|Antigua and Barbuda|ag|
+|Antarctica|aq|
+|Anguilla|ai|
+|Angola|ao|
+|Andorra|ad|
+|American Samoa|as|
+|Algeria|dz|
+|Albania|al|
+|Afghanistan|af|
+</Accordion>
+
+<Accordion title="Can I use Bright Data as a VPN for my PC?">
+Not really. Bright data is a service for enterprise customers who want to collect public web data from the Internet, and is not designed for private users.
+
+In addition, using Bright data does not encrypt your Internet traffic.
+
+If you want a free VPN, we recommend you check out [BrightVPN](www.brightvpn.com) - it is available for Windows and macOS, and does not even require you to open an account, ensuring complete anonymity.
+
+</Accordion>
+
+</AccordionGroup>
