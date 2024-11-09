@@ -1,0 +1,366 @@
+---
+title: 带宽
+---
+
+<AccordionGroup>
+<Accordion title="带宽如何计算？">
+
+带宽根据传入和传出目标站点的数据总和计算：请求标头 + 请求数据 (POST) + 响应标头+响应数据。  
+<Note>试用期间使用的流量将在您的控制面板上列出，但不会计入您的账单。</Note>
+</Accordion>
+
+<Accordion title="如何获取区域的带宽统计信息">
+API 端点： `GET /api/zone/bw`
+
+可选参数: `from=2018-07-01T00:00:00&to=2018-07-02T00:00:00`
+
+<CodeGroup>
+```sh Shell
+curl "https://api.brightdata.com/zone/bw?zone=ZONE" -H "Authorization: Bearer API_TOKEN"
+```
+
+```js Node.js
+#!/usr/bin/env node
+
+require('request-promise')({
+    url: 'https://api.brightdata.com/zone/bw?zone=ZONE',
+    headers: {
+        'Authorization': 'Bearer API_TOKEN'
+    },
+}).then(function(data) {
+        console.log(data);
+    },
+    function(err) {
+        console.error(err);
+    });
+```
+
+```java Java
+package example;
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.\*;
+
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String res = Executor.newInstance()
+      .addHeader("Authorization", "Bearer API_TOKEN")
+      .execute(Request.Get("https://api.brightdata.com/zone/bw?zone=ZONE"))
+      .returnContent().asString();
+    System.out.println(res)
+  }
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method = HttpMethod.Get,
+        RequestUri = new Uri("https://api.brightdata.com/zone/bw?zone=ZONE"),
+        Headers = {
+          {
+            "Authorization",
+            "Bearer API_TOKEN"
+          }
+        }
+    };
+    var response = await client.SendAsync(requestMessage);
+    var responseString = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(responseString);
+  }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+print(
+    'If you get error "ImportError: No module named requests",',
+    'please install it:\n$ sudo pip install requests'
+)
+import requests
+
+headers = {'Authorization': 'Bearer API_TOKEN'}
+
+r = requests.get(
+    'https://api.brightdata.com/zone/bw?zone=ZONE',
+    headers=headers
+)
+
+print(r.content)
+```
+</CodeGroup>
+
+```json 示例响应
+{
+  "ID:": {
+    "customer_id": "customer_id",
+    "from": "2022-10-01T00:00:00.000Z",
+    "to": "2022-11-23T00:00:00.000Z",
+    "data": {
+      "static": {
+        "bw_sum": [
+            0, 745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6960, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "bw_dn": [
+            0, 525, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5990, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "bw_up": [
+            0, 220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 970, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "http_direct_req": [
+            0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "bw_sum_dc": [
+            0, 745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6960, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "bw_api": [
+            0, 745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6960, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ],
+        "https_direct_req": [
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        ]
+      }
+    },
+    "last_value_ts": "2022-11-19T19:1* Connection #0 to host brightdata.com left intact 8:51.546Z",
+    "last_update_ts": "2022-11-22T11:35:32.122Z",
+    "sums": {
+      "static": {
+        "back_m1": {
+          "bw_sum": 745,
+          "bw_dn": 525,
+          "bw_up": 220,
+          "http_direct_req": 1,
+          "bw_sum_dc": 745,
+          "bw_api": 745,
+          "https_direct_req": 0
+        },
+        "back_m0": {
+          "bw_sum": 6960,
+          "bw_dn": 5990,
+          "bw_up": 970,
+          "http_direct_req": 0,
+          "bw_sum_dc": 6960,
+          "bw_api": 6960,
+          "https_direct_req": 1
+        },
+        "back_d2": {
+          "bw_sum": 0,
+          "bw_dn": 0,
+          "bw_up": 0,
+          "http_direct_req": 0,
+          "bw_sum_dc": 0,
+          "bw_api": 0,
+          "https_direct_req": 0
+        },
+        "back_d1": {
+          "bw_sum": 0,
+          "bw_dn": 0,
+          "bw_up": 0,
+          "http_direct_req": 0,
+          "bw_sum_dc": 0,
+          "bw_api": 0,
+          "https_direct_req": 0
+        },
+        "back_d0": {
+          "bw_sum": 0,
+          "bw_dn": 0,
+          "bw_up": 0,
+          "http_direct_req": 0,
+          "bw_sum_dc": 0,
+          "bw_api": 0,
+          "https_direct_req": 0
+        }
+      }
+    }
+  }
+}
+```
+</Accordion>
+
+<Accordion title="如何获得所有区域的带宽统计信息">
+
+API 端点： `GET /api/customer/bw`
+
+可选参数: `from=2018-07-01T00:00:00&to=2018-07-02T00:00:00`
+<CodeGroup>
+
+```sh Shell
+curl "https://api.brightdata.com/customer/bw" -H "Authorization: Bearer API_TOKEN"
+```
+
+```js Node.js
+#!/usr/bin/env node
+require('request-promise')({
+ url: 'https://api.brightdata.com/customer/bw',
+ headers: {'Authorization': 'Bearer API_TOKEN'},
+}).then(function(data){ console.log(data); },
+ function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.\*;
+public class Example {
+ public static void main(String[] args) throws Exception {
+ String res = Executor.newInstance()
+ .addHeader("Authorization", "Bearer API_TOKEN")  
+ .execute(Request.Get("https://api.brightdata.com/customer/bw"))  
+ .returnContent().asString();
+ System.out.println(res)
+ }  
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+public class Program {
+ public static async Task Main() {
+ var client = new HttpClient();
+ var requestMessage = new HttpRequestMessage {
+ Method = HttpMethod.Get,  
+ RequestUri = new Uri("https://api.brightdata.com/customer/bw"),
+ Headers = {
+ {"Authorization", "Bearer API_TOKEN"}
+ }
+ };
+ var response = await client.SendAsync(requestMessage);
+ var responseString = await response.Content.ReadAsStringAsync();
+ Console.WriteLine(responseString);
+ }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+import requests
+headers = {'Authorization': 'Bearer API_TOKEN'}
+r = requests.get('https://api.brightdata.com/customer/bw', headers=headers)
+print(r.content)
+```
+
+</CodeGroup>
+</Accordion>
+
+<Accordion title="如何获得区域的带宽和总成本">
+API 端点：`GET /api/zone/cost`
+
+可选参数: `from=2018-07-01T00:00:00&to=2018-07-02T00:00:00`
+
+<CodeGroup>
+```sh Shell
+curl "https://api.brightdata.com/zone/cost?zone=ZONE" -H "Authorization: Bearer API_TOKEN"
+```
+
+```js Node.js
+#!/usr/bin/env node
+require('request-promise')({
+ url: 'https://api.brightdata.com/zone/cost?zone=ZONE',
+ headers: {'Authorization': 'Bearer API_TOKEN'},
+}).then(function(data){ console.log(data); },
+ function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.\*;
+public class Example {
+ public static void main(String[] args) throws Exception {
+ String res = Executor.newInstance()
+ .addHeader("Authorization", "Bearer API_TOKEN")  
+ .execute(Request.Get("https://api.brightdata.com/zone/cost?zone=ZONE"))  
+ .returnContent().asString();
+ System.out.println(res)
+ }  
+}
+```
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+public class Program {
+ public static async Task Main() {
+ var client = new HttpClient();
+ var requestMessage = new HttpRequestMessage {
+ Method = HttpMethod.Get,  
+ RequestUri = new Uri("https://api.brightdata.com/zone/cost?zone=ZONE"),
+ Headers = {
+ {"Authorization", "Bearer API_TOKEN"}
+ }
+ };
+ var response = await client.SendAsync(requestMessage);
+ var responseString = await response.Content.ReadAsStringAsync();
+ Console.WriteLine(responseString);
+ }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+import requests
+headers = {'Authorization': 'Bearer API_TOKEN'}
+r = requests.get('https://api.brightdata.com/zone/cost?zone=ZONE', headers=headers)
+print(r.content)
+```
+</CodeGroup>
+```JSON 示例响应
+Example response:  
+{
+  "ID": {
+    "back_m2": {
+      "bw": 0,
+      "cost": 0
+    },
+    "back_m1": {
+      "bw": 36557298,
+      "cost": 0
+    },
+    "back_m0": {
+      "bw": 1219004,
+      "cost": 0
+    },
+    "back_d2": {
+      "bw": 82190,
+      "cost": 0
+    },
+    "back_d1": {
+      "bw": 0,
+      "cost": 0
+    },
+    "back_d0": {
+      "bw": 0,
+      "cost": 0
+    }
+  }
+}
+```
+</Accordion>
+</AccordionGroup>
