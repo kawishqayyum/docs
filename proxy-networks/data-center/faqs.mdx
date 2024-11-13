@@ -1,0 +1,658 @@
+---
+title: "数据中心代理常见问题解答"
+描述: "Find answers to common questions about integrating, configuring, and using Bright Data's Datacenter proxy products, including IP types, geotargeting, and error codes."
+sidebarTitle: 常见问题解答
+---
+<AccordionGroup>
+
+<Accordion title="数据中心的 IP 类型是什么？">
+我们在[数据中心](https://brightdata.com/proxy-types/datacenter-proxies)代理网络中提供四种类型的 IP：
+
+1. 共享（按使用量付费）
+2. 共享（按 IP 付费）
+3. 专用 
+
+<Tabs>
+<Tab title="共享">
+共享 IP 由多个用户共享。 我们在 互联网服务提供商（ISP） 代理网络中的共享 IP 有 2 个等级：
+
+<Tabs>
+<Tab title="按使用量付费">
+<Tip>您只需按使用量付费。</Tip>
+
+将您连接到由 4 万个 IP 组成的资源池，该资源池由来自各个可用国家/地区固定分配的 IP 范围组成。
+这些 IP 可以根据需要在 4 万个资源池中持续轮换（特定国家/地区可以在 chrome、代理管理器或 API 中选择）
+
+### 功能
+- 地理位置定位 - 使用“共享” IP（按使用量付费），您可以在发送请求时使用 -country 标志来控制您的地理位置定位。针对美国的定位请求，简单示例如下所示
+
+	```sh 示例
+	curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-us:<zone_password> "http://lumtest.com/myip.json"
+	```
+
+访问我们的代理集成示例页面了解有关定位不同国家/地区定位选项的更多信息
+</Tab>
+
+<Tab title="按 IP 付费">
+Purchase individual IPs for your use (with unlimited BW or cost per GB) in the country of your choosing. You will be charged per IP and usage, or switch to unlimited bandwidth.
+
+## 功能
+- **Geolocation targeting** - The IP allocated to your zone will be from the selected country.
+	<Frame>
+	![add-country.png](/images/proxy-networks/faqs/add-country.png)
+	</Frame>
+<Tip>
+For geolocation, if you choose an IP type where your IPs are automatically allocated (按 IP 付费 or 专用), it is recommended to set up a separate 互联网服务提供商（ISP） proxy zone, for each geolocation you wish to target.
+</Tip>
+</Tab>
+</Tabs>
+</Tab>
+<Tab title="专用">
+[专用 IPs](https://brightdata.com/solutions/dedicated-proxies) are set aside for your use only. This IP type is more lucrative and you can control the allocation of the IPs based on the following features:
+
+### 功能
+- **Geolocation targeting** - The dedicated IP allocated to your zone will be from your selected country
+	<Frame>
+		![add-country.png](/images/proxy-networks/faqs/add-country.png)
+	</Frame>
+- **Domains** - Define the domains you'd like your IPs to be exclusive to. 请求 to all other domains will be sent from our super proxies.
+	<Frame>
+		![add-domains.png](/images/proxy-networks/faqs/add-domains.png)
+	</Frame>
+
+	<Note>You may check 'All domains' for full exclusivity over the IPs, and in this case, they will only be used by you.</Note>
+</Tab>
+</Tabs>
+</Accordion>
+<Accordion title="互联网服务提供商（ISP） 的 IP 类型是什么？">
+我们在 ISP 代理网络中提供三种类型的 IP：
+
+1. 共享（按使用量付费）
+2. 共享（按 IP 付费）
+3. 专用
+
+<Tabs>
+<Tab title="共享">
+共享 IP 由多个用户共享。 我们在 互联网服务提供商（ISP） 代理网络中的共享 IP 有 2 个等级：
+
+<Tabs>
+<Tab title="按使用量付费">
+<Tip>您只需按使用量付费。</Tip>
+
+将您连接到由 1 万个 IP 组成的资源池，该资源池由来自各个可用国家/地区固定分配的 IP 范围组成。
+这些 IP 可以根据需要在 1 万个资源池中持续轮换（特定国家/地区可以在 chrome、代理管理器或 API 中选择）
+
+### 功能
+- 地理位置定位 - 使用“共享” IP（按使用量付费），您可以在发送请求时使用 -country 标志来控制您的地理位置定位。针对美国的定位请求，简单示例如下所示
+
+	```sh 示例
+	curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-us:<zone_password> "http://lumtest.com/myip.json"
+	```
+
+访问我们的代理集成示例页面了解有关定位不同国家/地区定位选项的更多信息
+</Tab>
+
+<Tab title="按 IP 付费">
+Purchase individual IPs for your use (with unlimited BW or cost per GB) in the country of your choosing. You will be charged per IP and usage, or switch to unlimited bandwidth.
+
+## 功能
+- **Geolocation targeting** - The IP allocated to your zone will be from the selected country.
+	<Frame>
+	![add-country.png](/images/proxy-networks/faqs/add-country.png)
+	</Frame>
+<Tip>
+For geolocation, if you choose an IP type where your IPs are automatically allocated (按 IP 付费 or 专用), it is recommended to set up a separate 互联网服务提供商（ISP） proxy zone, for each geolocation you wish to target.
+</Tip>
+</Tab>
+</Tabs>
+</Tab>
+<Tab title="专用">
+专用 IPs are set aside for your use only. This IP type is more lucrative and you can control the allocation of the IPs based on the following features:
+
+### 功能
+- **Geolocation targeting** - The dedicated IP allocated to your zone will be from your selected country
+	<Frame>
+		![add-country.png](/images/proxy-networks/faqs/add-country.png)
+	</Frame>
+- **Domains** - Define the domains you'd like your IPs to be exclusive to. 请求 to all other domains will be sent from our super proxies.
+	<Frame>
+		![add-domains.png](/images/proxy-networks/faqs/add-domains.png)
+	</Frame>
+
+	<Note>You may check 'All domains' for full exclusivity over the IPs, and in this case, they will only be used by you.</Note>
+</Tab>
+</Tabs>
+</Accordion>
+<Accordion title="如何将新的代理集成到您的代码中？">
+要将代理集成到您的代码中，请访问 API 示例页面，该页面可通过您所在区域的设置访问，位于“访问参数”下：
+![integrate-new-proxy.gif](/images/proxy-networks/faqs/integrate-new-proxy.gif)
+
+在此页面上，您可以选择大多数现代编码语言的集成示例，只需选择集成类型、代理区域、编码语言等，该页面就会生成一个可供您立即使用的代码片段。
+
+</Accordion>
+<Accordion title="如何将代理集成到第三方软件中？">
+在上文提到的 API 示例页面中查看一些示例（只需在“语言”下拉菜单中选择“其他软件”），或者查看我们的集成页面，其中提供了将代理集成到当今业内最热门工具中的具体指南。
+
+**重要说明**：如果您使用 Bright Data 的网络解锁器、住宅代理或 SERP API，则可能需要使用我们的 SSL 证书来启用端到端的安全连接。
+
+</Accordion>
+<Accordion title="如何定位特定国家？">
+发送请求时，在请求中您所在区域的名称后添加 -country 标志，然后加上该国家/地区 2 个字母的 ISO 代码。 
+
+在以下示例中：我们在请求中添加了 -country-us ，因此我们将发送来自美国（“us”）的请求。
+
+```sh
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-us: <zone_password>
+```
+</Accordion>
+<Accordion title="如何定位特定城市？">
+
+要定位特定城市，您需要使用共享（按 IP 付费）或专用代理网络。
+
+配置代理区域时，选择首选国家/地区后，您可以添加城市，以进一步指定您的地理定位
+
+![add-city.png](/images/proxy-networks/faqs/add-city.png)
+
+点击“添加城市”后，您将看到所选国家/地区的可用定位城市。为了检查特定地理位置的可用 IP 数量。
+
+配置完成后，您将能够使用以下语法发送来自所选城市的请求
+
+```sh
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-<country>-city-<city>: <zone_password>
+```
+<Note>
+选择包含两个单词的城市名称时，将合并写成一个单词。
+
+例如，当以布宜诺斯艾利斯（Buenos Aires）为定位时，请求的语法将是：
+
+`-country ar-city-buenosaires`
+</Note>
+
+[要查看更多地理定位示例，您可能需要查看我们的代理集成示例页面。](https://brightdata.com/cp/zones/proxy_examples)
+
+</Accordion>
+
+<Accordion title="Bright Data 的代理分布在哪些地方？">
+
+Bright Data 在全球各个国家/地区提供代理，以下国家除外：
+
+- 伊朗
+- 伊拉克
+- 叙利亚
+- 黎巴嫩
+- 巴勒斯坦
+- 朝鲜
+- 古巴
+- 苏丹
+- 俄罗斯克里米亚地区
+
+遗憾的是，如果您需要来自这些国家/地区的代理，Bright Data 将无法为您提供帮助。
+</Accordion>
+
+<Accordion title="如何查看代理事件日志？">
+事件日志将向您（最多）显示您的账户中最近在任何区域发出的 200 次请求。
+
+位于您的 Bright Data 控制面板的代理页面中： https://brightdata.com/cp/zones
+
+转到“事件日志”选项卡：
+
+![event-log.png](/images/proxy-networks/faqs/event-log.png)
+
+显示的数据包括：
+
+* **日期**：请求的时间和日期
+* **区域**：请求使用了哪个区域
+* **来源 IP**：请求来自哪个 IP
+* **URL**：请求的定位站点
+* **结果**：请求成功或失败
+
+![event-log-headers.png](/images/proxy-networks/faqs/event-log-headers.png)
+
+</Accordion>
+<Accordion title="如何启用自动 IP 回退？（100% 正常运行时间）">
+<Info>适用于数据中心和互联网服务提供商（ISP）</Info>
+
+100% 正常运行时间旨在防止任何“外部”事件影响用户。这一理念很简单，与上述两个问题的运作方式相同——如果我们的系统检测到问题，例如连接问题或某个 IP 其中的 GEO 与您在购买该 IP 时要求的不完全相同，我们将自动通过与原始 IP 完全相同的其他 IP 处理您的路由请求。
+
+同时，我们希望确保必须使用特定 IP 的客户不会受到影响，因此我们列出了一些例外情况：
+
+* 如果您的请求中以特定 IP 为定位，我们不会为其分配回退 IP
+* 100% 的正常运行时间不会中断实时连接。 如果需要回退，它将在建立下一个连接后继续参与
+
+100% 的正常运行时间通过提供 100% 的连接和持续的高性能水平带来立竿见影的价值，免费使用，且无需对代码或工作方式进行任何更改。
+
+<Note>
+可以通过 [API](/api-reference/account-management-api/Switch_100_uptime_ON_OFF_in_a_Static_zone) 开启或关闭 100% 正常运行时间功能。
+</Note>
+
+</Accordion>
+<Accordion title="如何为代理启用自动故障转移？">
+导航到您的代理配置设置，然后在高级设置下启用“100% 正常运行时间”
+
+![100-uptime.gif](/images/proxy-networks/faqs/100-uptime.gif)
+</Accordion>
+
+<Accordion title="如何在多个请求中继续使用同一个 IP？">
+
+* 这可以通过在代理用户名中添加会话标志来完成：
+```sh
+brd.superproxy.io:33335 br-customer-<customer_id>-zone-<zone_name>-session-rand39484
+```
+在线程启动时生成随机数，如果要更改为线程连接分配的代理对等点（Proxy Peer），则对其进行更改。
+* 会话 ID 可以是任何随机字符串/计数器：具有相同会话字符串的请求将使用相同的（尽可能长的）代理对等点；具有不同会话字符串的请求将被分配不同的代理对等点。
+* 要强制更改 IP，只需修改会话 ID 即可
+* 如果分配的代理对等点（退出节点 IP）不可用，则超级代理将在第一个请求中返回错误 “502 - 无对等点可用”，然后在第二个请求中，即使您没有更改会话 ID，超级代理也会分配一个新的对等点。
+* 会话 IP 最多可保持 1 分钟的闲置时间。 一分钟后，如果没有请求，IP 将释放回资源池。  
+要延长此会话/IP 的使用时间，请每 30 秒发送一个小的 keep-alive 请求，以防止该会话闲置一分钟以上。
+这个请求可以是任何小的请求，比如 /favicon.ico，甚至是返回 404 的请求（只要 Web 服务器不会因为这一请求而断开插座连接）。
+* 如果您有多个客户端，并且想忽略您的客户端源 IP（与您的会话 ID 一起使用来创建会话），那么您想使用全局会话，然后添加 `glob_` 作为会话前缀：
+
+```sh
+brd-customer-<customer_id>-zone-<zone_name>-session-glob_rand39484
+```
+完整请求示例：
+```sh
+brd-customer-cxxxxx-zone-zone_x-session-glob_rand39484
+```
+
+在线程启动时生成随机数，如果要更改为线程连接分配的代理对等点，则对其进行更改。
+
+</Accordion>
+<Accordion title="如何将 IP 和域名列入白名单/黑名单？">
+
+  要将 IP 添加到区域的黑名单/白名单，有两种方法：  
+
+* 通过控制面板：
+	+ 进入您区域的任何设置，然后点击“访问参数”选项卡。
+	+ 向下滚动到 “IP” 和“定位主机”部分，因为它们分别负责将 IP 和域名列入白名单/黑名单：  
+	
+	![whitelist-blacklist.png](/images/proxy-networks/faqs/whitelist-blacklist.png)
+	
+	
+	使用代理区域添加所有允许访问的相关 IP 和域名。
+
+* **通过 API 终端节点：**
+	+ [将 IP 添加到区域白名单](/api-reference/account-management-api/Add_IP_to_Zone_whitelist)
+	+ [从区域白名单中移除 IP](/api-reference/account-management-api/Remove_IP_from_Zone_whitelist)
+	+ [将 IP 添加到区域黑名单](/api-reference/account-management-api/Add_IP_to_Zone_blacklist)
+	+ [从区域黑名单中移除 IP](/api-reference/account-management-api/Remove_IP_from_Zone_blacklist)
+	+ [从区域白名单/黑名单中移除域名](/api-reference/account-management-api/Remove_domain_from_Zone_whitelist_blacklist)
+	+ [将域名添加到区域白名单/黑名单](/api-reference/account-management-api/Add_domain_to_Zone_whitelist_blacklist)
+
+* **有关白名单的重要提示：**
+	+ 应列入白名单的 IP 是您发送请求时使用的您的计算机 IP，而不是区域中的代理 IP。
+	+ 我们强烈建议尽可能将您的 IP 列入白名单，因为当白名单为空时，如果我们的自动安全封禁系统检测到任何异常活动，您未列入白名单的 IP 可能会暂时封禁。[视频链接](https://brightdata.com/static/video/howto/blacklist_system_explanation.mp4?md5=153602994-22bce32a&hver=2)
+	+ 对于您添加多少个 IP/域名到白名单， 不设限制 ，我们还支持 IP 范围。 
+	  
+	添加域名的示例：
+	![domain-add-example.png](/images/proxy-networks/faqs/domain-add-example.png)
+	+ 添加 IP 的示例：
+	![ip-add-example.png](/images/proxy-networks/faqs/ip-add-example.png)
+
+</Accordion>
+<Accordion title="How to see supported 端口s & 协议s?">
+
+默认情况下，所有区域都提供端口 80 和 443，支持 HTTP 和 HTTPS 协议。  
+
+在数据中心或 互联网服务提供商（ISP） 类型的代理区域中，默认情况下支持所有高于 1024 的端口。 
+
+在住宅或移动类型的代理区域中，默认情况下以下端口可用：8080、8443、5678、1962、2000、4443、4433、4430、44444 和 1969。
+
+Bright Data 可以根据要求支持其他端口。 每一项支持新端口的请求将遵循专门的额外合规流程，由 Bright Data 的合规团队执行。  
+
+激活前需要 Bright Data 合规性审查的端口示例：
+
+
+| 端口 | 协议 |
+| --- | --- |
+| 8443 | HTTP |
+| 8243 | HTTPS |
+
+要请求向您的区域添加端口权限，请执行以下操作：
+
+* 进入您区域的设置（默认情况下它将在“配置”选项卡上打开，如果没有，请点击）
+* 向下滚动到“高级选项”，然后点击
+* 启用“端口”
+* 输入您想获得批准的端口号
+* 填写表格，等待我们的合规团队与您联系并批准申请
+
+![add-ports.gif](/images/proxy-networks/faqs/add-ports.gif)
+
+</Accordion>
+<Accordion title="如何定位特定的操作系统？">
+
+Bright Data 允许定位以下操作系统：
+
+<CodeGroup>
+```sh Windows
+curl --proxy-user brd-customer-<customer_id>-zone-<zone_name>-os-windows:<zone_password> --proxy brd.superproxy.io:33335 "<target_site>"
+```
+```sh macOS
+curl --proxy-user brd-customer-<customer_id>-zone-<zone_name>-os-osx:<zone_password> --proxy brd.superproxy.io:33335 "<target_site>"
+```
+```sh Android
+curl --proxy-user brd-customer-<customer_id>-zone-<zone_name>-os-android:<zone_password> --proxy brd.superproxy.io:33335 "<target_site>"
+```
+</CodeGroup>
+
+</Accordion>
+<Accordion title="如何刷新分配给您的区域 IP？">
+
+如果您在区域配置中选择了“按 IP 付费”的共享地址或专用 IP 类型，则系统将为您分配一个固定 IP 地址。根据您的用例，您可能需要不时刷新这些 IP 地址。
+
+要刷新分配给您的区域 IP，请导航到所选区域，在“已分配的 IP”下点击 “显示已分配的 IP”， 选中您要刷新的 IP 或 gIP 的复选框 ，然后点击“刷新”
+
+![refresh-ips.gif](/images/proxy-networks/faqs/refresh-ips.gif)
+
+<Note>刷新 IP 或 gIP 将产生额外费用。</Note>
+
+或者，您可以使用 API 刷新您的专用住宅 IP 或 数据中心/ISP IP
+
+</Accordion>
+<Accordion title="如何使用特定 IP？">
+
+使用 Bright Data 的住宅代理网络时，您可能会发现需要使用分配给您的区域的特定 IP。
+
+1. 发送添加了 “—verbose” 或 “-v” 选项的测试请求 （这将开启详细日志记录）
+
+```sh 
+curl "https://lumtest.com/myip.json" --verbose --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+```
+2. **Locate** the x-brd-ip response header and copy its value
+
+![x-brd-ip.png](/images/proxy-networks/faqs/x-brd-ip.png)
+
+3. 在请求中区域名称后面添加 -ip-标志，并使用在上一步中复制的哈希 IP 值
+
+4. 发送测试请求，然后查看响应
+
+```sh
+curl "https://lumtest.com/myip.json" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-ip-<hashed-ip>:<zone_password>
+```
+我们建议使用 https://lumtest.com/myip.json 作为定位域名进行测试，并查看您的 IP 凭证。
+
+</Accordion>
+<Accordion title="How to target an ASN specific IP?">
+
+可以通过在“地理位置定位”下将 ASN 参数添加到您的区域配置中来启用此功能。  
+
+![asn-targeting.png](/images/proxy-networks/faqs/asn-targeting.png)
+
+保存配置后，可以将 ASN 标志添加到区域的凭据中，并在使用住宅代理时将其集成。
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-asn-<asn-number>:<zone_password> "<target_site>"
+```
+**注意**：ASN 编号的值可在此处找到: https://bgp.potaroo.net/cidr/autnums.html
+
+</Accordion>
+<Accordion title="如何定位住宅 IP 群组 (gIP)？">
+
+可以通过 gIP 的形式选择专用住宅 IP。可以通过选择“专用” IP 类型并选择 gIP 数量，在区域的配置页面下对其进行分配。还需要定位特定的域名。
+
+![number-of-dedicated-gIPs.png](/images/proxy-networks/faqs/number-of-dedicated-gIPs.png)
+
+保存配置后，选择“显示分配的专用住宅 IP” 将提供一个代表群组 IP 的哈希值列表。 
+![show-allocated-dedicated-ips.png](/images/proxy-networks/faqs/show-allocated-dedicated-ips.png)  
+  
+这些值可用于定位特定的 gIP。 例如：
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-gip-<gip_hash_value>:<zone_password> "<target_site>"
+```
+
+</Accordion>
+<Accordion title="如何启用长会话对等点">
+
+长会话对等点使您能够在很长一段时间内保持稳定的 IP 地址，从而确保顺畅一致的抓取操作。 与常规住宅 IP 不同，如果对等点意外断开连接，IP 可以随时轮换，而长会话对等点则提供连续会话。
+
+**启用长会话对等点**
+
+很简单，只需前往现有的住宅区或打开一个新的住宅区域，然后打开“长时间会话对等点”功能即可。 现在，您未来的请求将仅通过已知的长期对等点方路由。   
+**注意**： 启用此功能后，确实会增加该区域的额外费用
+
+![long-session-peers.png](/images/proxy-networks/faqs/long-session-peers.png)
+
+**这些对等点来自哪里？**
+
+我们的住宅对等点资源池由来自全球各地选择使用我们产品的真实用户组成。作为使用选择的一部分，我们将这些真实用户在“停机”期间的 IP 作为我们符合道德标准的住宅网络的一部分。通过启用长会话对等点，您可以确保通过已知长时间保持活跃状态的对等点进行路由，并且与普通住宅对等点相比，可以将单个 IP 地址保留更长时间
+
+**长会话对等点的优势**
+
+持续的抓取操作：这种稳定性最大限度地减少了因 IP 变更而造成的中断，并最大限度地提高了抓取任务的效率。 您可以长期依赖同一 IP 地址，从而可以进行长时间的抓取操作。 此功能对于需要连续数据提取或监控的项目特别有用。
+
+</Accordion>
+<Accordion title="如何使用中国住宅 IP 浏览中文网站">
+
+**在中国境外时**
+
+定位中国住宅 IP 对等点即可：
+```sh 
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-cn:<zone_password> "<target_site>"
+```
+在中国境内除了定位中国住宅 IP 对等点之外，还需要定位我们的中国超级代理。
+
+* 使用 API 命令时，代理 DNS 服务器为 servercountry-cn.brd.superproxy.io
+```sh
+curl --proxy servercountry-cn.brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-cn:<zone_password> "<target_site>"
+```
+* 使用代理管理器时：
+	+ 只需点击端口即可选择相关的端口设置    
+	![port-row.png](/images/proxy-networks/faqs/port-row.png)
+	+ 选择定位并将中国设置为定位国家  
+	![target-china.png](/images/proxy-networks/faqs/target-china.png)
+	+ "选择 IP 控制：将超级代理位置设置为“中国”。
+	![super-proxy-china.png](/images/proxy-networks/faqs/super-proxy-china.png)
+
+</Accordion>
+<Accordion title="运营商专属代理对等点 IP">
+
+* 您可以选择使用以下列表中的特定运营商： 
+```
+a1, aircel, airtel, att, celcom, chinamobile, claro, comcast, cox, digi, 
+dt, docomo, dtac, etisalat, idea, kyivstar, meo, megafon, mtn, mtnza, mts,
+optus, orange, qwest, reliance_jio, robi, sprint, telefonica, telstra, 
+tmobile, tigo, tim, verizon, vimpelcom, vodacomza, vodafone, vivo, zain,
+vivabo, telenormyanmar, kcelljsc, swisscom, singtel, asiacell, windit, 
+cellc, ooredoo, drei, umobile, cableone, proximus,tele2, mobitel, o2, 
+bouygues, free, sfr, digicel
+ ```
+* 例如
+<CodeGroup>
+```sh Deutsche Telekom
+brd-customer-<customer_id>-zone-<zone_name>-carrier-dt
+```
+
+```sh Sprint
+brd-customer-<customer_id>-zone-<zone_name>-carrier-sprint
+```
+</CodeGroup>
+</Accordion>
+<Accordion title="关于地理位置数据库，以及如何检查代理 IP 信息？">
+互联网网站使用地理位置数据库 (GeoDB) 来查询有关用户所使用的 IP 地址的信息。 Bright Data 监控并维护当今使用的 4 个主要 GeoDB 的准确记录：Maxmind、ip2location、db-ip 和 Google。  
+  
+还有许多其他较小的 GeoDB，其中大多数使用的是过时的记录或有缺陷的测试方法，因此所提供的信息不够准确，或者只是为了吸引浏览者从他们那里购买 VPN 或代理产品而提供。 因此，我们强烈建议在测试您的 IP 时使用上述 GeoDB。
+
+要查看我们有关您正在使用的代理 IP 的信息，请浏览以下内容之一： 
+
+- https://lumtest.com/echo.json
+- https://www.iplocation.net
+- https://www.maxmind.com/en/geoip-demo
+</Accordion>
+<Accordion title="哪些 Bright Data 产品最适合抓取搜索引擎结果页面 (SERP)？">
+#### 对于单步抓取：
+SERP API 是定位搜索引擎结果页面 (SERP) 的理想产品，因为它通过主动解锁，可以保证成功率（仅按成功付费），自动选择最佳代理，自定义标题，指纹识别，解析验证码等。
+
+#### 对于多步抓取（playwright/puppeteer/selenium）：
+抓取浏览器是一款理想产品，因为它作为我们完全云托管的浏览器，旨在帮助您轻松地专注于多步数据收集，同时我们会为您处理完整的代理和解锁基础架构，包括验证码求解。
+</Accordion>
+
+<Accordion title="我能否可以从住宅、数据中心或 互联网服务提供商（ISP） 代理网络定位 Google SERP？">
+
+**住宅 Proxy** - No, 但是， SERP API 是定位搜索引擎结果页面的理想产品，因为它通过主动解锁、自动选择最佳代理、自定义标题、指纹识别、解析验证码等功能保证成功率（仅按成功付费）。Targeting Google SERPs from the 住宅 network will result in Super-proxy bypass, which will casue the request to be sent from our servers instead of the peer. 
+
+**数据中心和 ISP 代理 - 不可以。当您尝试通过这两个代理网络专门定位 Google 时，您的请求将被拒绝，并且您将在响应标题中收到以下错误消息：
+
+```
+HTTP/1.1 403 搜索 engine host is not allowed
+X-Luminati-Error: Forbidden: This target URL isn't supported on proxy networks, use the SERP API product for targeting this URL. 您可以联系您的账户经理或开立支持工单以寻求帮助
+```
+</Accordion>
+
+<Accordion title="我能否评估任何特定国家/地区的可用 IP 数量？">
+
+可以，您可以通过该交互式图表评估各个国家/地区可用的 IP 数量: https://brightdata.com/cp/ips_availability
+
+首先，从下拉菜单中选择国家/地区。 该国家/地区的可用 IP 数量如下所示。
+
+![available-ips.gif](/images/proxy-networks/faqs/available-ips.gif)
+
+</Accordion>
+<Accordion title="我可以向 IP 发送请求而不是向域名发送请求吗？">
+
+不可以 - 使用 Bright 数据时，禁止直接向主机服务器而不是向域名发送请求。  
+使用 URL 格式（如 1.1.1. 1:443）的请求将使用超级代理服务器执行，而不是使用代理对等点 IP。
+
+使用超级代理的请求示例：  
+  
+![x-luminati-ip.png](/images/proxy-networks/faqs/x-luminati-ip.png)  
+
+</Accordion>
+<Accordion title="我可以使用端口 25 或任何其他 SMTP 端口，或者使用代理 IP 发送电子邮件吗？">
+
+由于 BrightData 十分看重我们的社区和对等点的质量，因此可用于发送垃圾邮件的 SMTP 请求会被屏蔽。 请注意，邮件域名也禁止访问，对邮件域名的请求将从超级代理服务器而不是对等点 IP 发送。
+
+</Accordion>
+
+<Accordion title="What is the cost for refreshing Datacenter IPs?">
+Refreshing data-center IPs will have a different cost depending on the type of IP.
+
+* Refreshing dedicated data-center IPs: $0.5/refresh/IP
+* Refreshing dedicated domain data-center IPs: $0.04/refresh/IP
+* Refreshing shared data-center IPs: $0.02/refresh/IP
+</Accordion>
+
+<Accordion title="Bright Data 支持 Socks5 协议吗？?">
+
+是的。 Bright data supports `SOCKS5` protocol, with a default port 22228 assigned for SOCKS5 communication. 
+
+See here for [full SOCKS5 configuration instructions](https://docs.brightdata.com/proxy-networks/socks5)
+
+</Accordion>
+
+<Accordion title="如何控制请求的执行地点？">
+
+* 您可以选择直接执行来自超级代理的请求，而不是对等点 IP。 在这种情况下，请求的 IP 将是超级代理的 IP。 您需要在请求授权字符串中添加 '-direct' 。
+`brd-customer-<customer_id>-zone-<zone_name>-direct`
+
+</Accordion>
+
+<Accordion title="如何刷新会话 (IP)？">
+长时间使用相同的 IP 可以使目标网站更容易将 IP 标记为代理，并且可以使目标网站检测到您的请求。 刷新您的 IP 将导致从 Bright Data 分配新的 IP，而不是资源池中的现有 IP，从而使您可以控制资源池并获得更高的成功率。
+</Accordion>
+<Accordion title="如何使用中国住宅 IP 浏览中文网站？">
+
+<Tabs>
+<Tab title="如果您在中国">
+您必须使用我们的中文超级代理：
+- 使用代理管理器时：位于“端口设置” > “IP 控制”：将超级代理的位置设置为“中国”。
+- 使用 API 命令时，使用 servercountry-cn.brd.superproxy.io  
+
+示例：
+
+```sh Shell
+curl "https://target-chinese-网站.com" --proxy servercountry-cn.brd.superproxy.io:33335 --proxy-user brd-customer-<custormer_name>-zone-<zone_name>-country-cn:<zone_password>
+```
+</Tab>
+<Tab title="如果您不在中国">
+No special settings required.
+</Tab>
+</Tabs>
+</Accordion>
+<Accordion title="如何在单个会话中长时间使用特定的住宅 IP？">
+<Note>
+住宅/移动 IP 是真实用户设备的 IP，因此只能在用户的设备处于闲置状态（即设备已连接到互联网、有足够的电池电量且用户当前未使用）时才能使用。
+</Note>
+
+如果该 IP 不可用，我们的系统将自动为您分配另一个与您使用相同类型和地理位置的可用住宅 IP。
+</Accordion>
+<Accordion title="什么是错误代码 502？">
+
+HTTP 错误代码 502 表示“网关错误”。当您向 URL 发送请求，但该 URL 的服务器收到来自另一台服务器的无效响应且依赖该服务器来完成请求时，就会出现此错误。
+
+
+**可能原因**
+
+* 我们目前没有匹配您的区域配置的对等点，因为它们可能已经在其他客户端上使用，或者由于其他原因不可用。
+* 由于没有活动，连接已超时。
+* 主机（目标 URL）端已关闭连接
+
+**示例错误 502 响应**
+
+```
+Request URL: SAMPLE_URL Request method: GET ***Status code: 502***  
+Super proxy IP: IP  
+Username: brd-customer-customer_id-zone-zone_name-country  
+Password: zone_password  
+Sent from: 127.0.0.1  
+Response headers  
+connection: keep-alive  
+date: Tue, 14 Feb 2023 08:49:16 GMT  
+keep-alive: timeout=5  
+transfer-encoding: chunked  
+x-lpm-port: 24000  
+x-luminati-error: waiting for selector ".price-container" failed: timeout 90000ms exceeded  
+***x-luminati-error-code: expect_element***  
+x-request-id2: REQUEST_ID  
+Request headers  
+user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36(KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36  
+host: SAMPLE_HOST  
+accept-encoding: gzip, deflate  
+Connection: keep-alive
+```
+
+</Accordion>
+<Accordion title="什么是错误代码 403？">
+
+HTTP 403 响应代码表示禁止您访问有效的网址。
+
+服务器可以理解请求，但由于客户端的问题，无法完成请求。
+
+**可能原因**
+
+* 您的机器 IP 未列入白名单。 要了解如何将 IP 列入白名单，请查阅以下文章。
+  https://docs.brightdata.com/api-reference/proxy-manager/whitelist_ips
+* 您尝试访问的域名被 Bright Data 屏蔽 。
+* 您的用例中未指定您尝试访问的域名。
+* 验证码响应失败（与 Web 解锁器和 SERP API 相关）。
+* 您尝试访问的域名已被您区域的目标主机设置禁止（请检查代理区域的访问参数）
+
+**示例错误 403 响应**
+
+```
+< HTTP/1.1 403 response status was rejected  
+< x-debug-req-id: SAMPLE_ID  
+< X-Luminati-Error: response status was rejected: 403 Forbidden  
+< X-Luminati-Error-Code: http_status  
+< Date: Wed, 22 Feb 2023 11:11:23 GMT  
+< Connection: keep-alive  
+< Keep-Alive: timeout=5  
+< Transfer-Encoding: chunked
+```
+  
+403 X-luminati-error（禁止）表明您的目标域名是 Bright Data 不允许的域名 
+
+这个问题可以通过联系 Bright 数据合规团队获得批准来解决。 
+当 Bright 数据合规团队审查您的用例并确认时，您将被告知访问权限已添加。
+为了更好地处理，建议将您的账户经理添加到工单中，并明确告知他您的要求 
+  
+出现错误消息时：
+
+```
+您试图定位<host>，但被屏蔽了
+```
+如果出现这种情况，请联系 Bright 数据合规团队 (compliance@brightdata.com) 或通过工单系统联系 
+  
+我们的合规团队将审查您获得特定域名访问权限的请求
+</Accordion>
+</AccordionGroup>
