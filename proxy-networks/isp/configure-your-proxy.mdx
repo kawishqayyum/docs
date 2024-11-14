@@ -1,0 +1,151 @@
+---
+title: "如何配置您的 互联网服务提供商 (互联网服务提供商 (ISP)) 代理"
+描述: "了解如何有效配置 互联网服务提供商 (互联网服务提供商 (ISP)) 代理设置、选择 IP 类型、启用缓存代理，并确保 100% 正常运行时间以实现最佳性能。"
+sidebarTitle: 配置
+---
+
+<Accordion title="首先：导航到“配置”选项卡">
+  创建代理后，您可以导航到配置选项卡来配置代理设置。
+  <Frame>
+    <img src="/images/proxy-networks/data-center/configuraton_tab.png" alt='配置'/>
+  </Frame>
+</Accordion>
+
+## IP 类型
+
+**为您的代理区域选择三种 IP 类型之一：**
+<CardGroup cols={2}>
+  <Card title="共享（按 IP 付费）" href="/proxy-networks/faqs#what-are-ip-types-for-isp" icon="square-1">
+    <Tip>选择 IP 数量和国家/地区。 按 IP 和使用量付费。</Tip>
+    当您需要具有成本效益的选项，并且不需要 IP 专用权时。
+    <Note>多个用户共享 IP</Note>
+  </Card>
+  <Card title="共享（按使用量付费）" href="/proxy-networks/faqs#what-are-ip-types-for-isp" icon="square-2">
+    <Tip>拥有来自所有国家/地区的 1 万个 IP 的固定资源池。 IP 免费。 按使用量付费。</Tip>
+    当您需要具有成本效益的选项，并且不需要 IP 专用权时。These proxies will rotate so every request you can get a new IP address ("Rotating proxies").
+
+    <Note>多个用户共享 IP</Note>
+  </Card>
+  <Card title="专用" href="/proxy-networks/faqs#what-are-ip-types-for-isp" icon="square-3">
+    当您需要使用专用 IP 地址访问网站时。
+    <Note>IP 仅供您使用。</Note>
+  </Card>
+</CardGroup>
+
+---
+## IP 数量
+作为可用 IP 资源池分配的 IP 数量。
+<Warning>请注意，增加数量会增加额外成本。</Warning>
+
+## 分配的 IP
+您可以查看或下载分配给您的 IP。
+<Frame>
+  <img src="/images/proxy-networks/data-center/allocated-ips.png" alt='地理位置定位'/>
+</Frame>
+---
+
+## 地理位置定位
+<Tip>
+  Common setup is to create a zone per each location, this way you can control your requests target on the zone level. 
+ 
+  For example: `ispshared-uk`, `ispshared-us`, `ispshared-de`. 
+</Tip>
+
+### 专用 and Pay per IP proxies
+地理位置定位允许您定位特定的国家/地区。
+从下拉菜单中选择首选国家/地区。
+
+If you select multiple countries, we assign proxies distributed  evenly across the countries you selected.
+
+<Frame>
+  <img src="/images/proxy-networks/data-center/geotargeting.png" alt='地理位置定位'/>
+</Frame>
+
+### Shared proxy
+In 互联网服务提供商 (互联网服务提供商 (ISP)) Shared proxies, you have access to 20,000 proxies around the globe. To target specific country, use the flag -country in the proxy user name parameter with an ISO-3166 country code. 
+
+[FAQ: Where can I see the list of country codes?](https://docs.brightdata.com/general/faqs#where-can-i-see-the-list-of-country-codes)
+
+---
+
+## 缓存代理
+Bright Data 的缓存代理是一项旨在减少目标站点不必要负载的功能，一方面允许客户缓存成功结果，另一方面，在可能的情况下根据请求接收缓存结果。
+<AccordionGroup>
+  <Accordion title="更健康的生态系统">
+    从技术上讲，通过消耗网站资源并在数据收集领域造成性能问题可能使网站过载。 Bright Data 除了安装系统以避免目标站点过载之外，还提供缓存代理功能，以避免在我们从另一位客户提出的相同请求中获得最新缓存记录的情况下，向目标站点提出冗余请求。
+  </Accordion>
+
+  <Accordion title="提高了性能">
+    从我们的缓存中收到的响应速度大约快了 20 倍！
+    This means that as our cache usage grows, performance will keep increasing.
+  </Accordion>
+
+  <Accordion title="经济利益">
+    为了促进我们维护健康生态系统的目标，对于通过选择使用缓存代理的代理区域中的任何使用量，我们将提供使用折扣。
+
+    虽然我们将提供的缓存记录可能只占代理区域总使用量的一小部分，但折扣将充分适用于代理区域。
+  </Accordion>
+
+</AccordionGroup>
+
+### 启用缓存代理
+只需切换缓存代理开关
+  <Frame>
+    <img src="/images/proxy-networks/residential/cache_proxy.png" alt='缓存代理'/>
+  </Frame>
+
+开启后，我们将引导您完成缓存代理工作所需的一些说明。
+
+**您有两个选项可供选择：**
+<AccordionGroup>
+  <Accordion title="安装证书">
+    <Frame>
+    <img src="/images/proxy-networks/residential/install_certificate.png" alt='安装证书'/>
+  </Frame>
+  </Accordion>
+
+</AccordionGroup>
+
+---
+
+## 高级选项：
+
+### 100% 正常运行时间
+100% 的正常运行时间通过免费提供 100% 的连接和持续的高性能水平带来立竿见影的价值。 此外，您无需对代码/工作流程进行任何更改。
+
+如果我们的系统检测到问题，例如连接问题或某个 IP 其中的 GEO 与您在购买该 IP 时要求的不完全相同，我们将自动通过与原始 IP 完全相同的其他 IP 处理您的路由请求。
+
+<Accordion title="无缝集成">
+  为了向我们的客户提供无缝体验，会产生一些例外情况：
+  * 如果您在请求中指定了 IP，我们不会分配回退 IP
+  * 100% 正常运行时间不会中断实时连接。 如果需要回退，它将在建立下一个连接后继续参与
+</Accordion>
+
+### 启用 100% 的正常运行时间
+只需切换 100% 正常运行时间开关
+<Frame>
+    <img src="/images/proxy-networks/data-center/100uptime.png" alt='100% 正常运行时间'/>
+</Frame>
+
+<Tip>您还可以通过 API开启/关闭 100% 正常运行时间功能。</Tip>
+
+### 端口
+默认情况下，端口 80 和 443 可用，支持 HTTP 和 HTTPS 协议。
+下表按端口显示了支持的协议：
+
+| 端口   | 协议              |
+|--------|-----------------------|
+| `80`   | HTTP 和 HTTP 连接 |
+| `443`  | HTTPS                 |
+
+<Accordion title="请求其他端口">
+  Bright Data 可以根据要求支持其他端口。 每一项支持新端口的请求将遵循专门的额外合规流程，由 Bright Data 的合规团队执行。
+  如果您需要额外的端口权限，可以联系 Bright Data 支持团队。
+  激活前需要 Bright Data 合规性审查的端口示例：
+  | 端口   | 协议 |
+  |--------|----------|
+  | `8443` | HTTP     |
+  | `8243` | HTTPS    |
+</Accordion>
+
+---
