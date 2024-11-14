@@ -1,0 +1,441 @@
+---
+title: "住宅产品常见问题解答"
+description: "Find answers to common questions about integrating, configuring, and using Bright Data's 住宅 proxy products, including IP types, geotargeting, and error codes."
+sidebarTitle: 常见问题解答
+---
+<AccordionGroup>
+<Accordion title="如何将新代理集成到代码中？">
+要将代理集成到代码中，请访问 API 示例页面，该页面可通过您的区域设置在“访问参数”下访问：
+
+![integrate-new-proxy.gif](/images/proxy-networks/faqs/integrate-new-proxy.gif)
+
+在该页面上，您可以选择大多数现代编码语言的集成示例，只需选择集成类型、代理区域、编码语言等，页面就会生成您可以立即使用的代码片段。
+
+</Accordion>
+<Accordion title="如何将代理集成到第三方软件中？">
+请查看上文提到的 API 示例页面中的一些示例（只需在“语言”下拉菜单中选择“其他软件”），或者查看我们的集成页面，其中提供了将我们的代理集成到当今业界最流行的工具中的具体指南。
+
+重要说明：如果您正在使用 Bright Data 的 Web Unlocker、住宅代理或 SERP API，您可能需要使用我们的 SSL 证书来启用端到端安全连接。:
+https://dashboard.mintlify.com/editor#how-to-integrate-a-proxy-into-3rd-party-software
+
+我们为最常用的工具准备了详细的指南。 您可以在下面的列表中找到这些指南的链接：
+
+BrowserScan 	https://brightdata.com/integration/browserscan
+
+XLogin 		https://brightdata.com/integration/xlogin
+
+GeeLark 	https://brightdata.com/integration/geelark
+
+Puppeteer 	https://brightdata.com/integration/puppeteer
+
+Playwright 	https://brightdata.com/integration/playwright
+
+Selenium 	https://brightdata.com/integration/selenium
+
+AdsPower 	https://brightdata.com/integration/adspower
+
+Dolphin Anty 	https://brightdata.com/integration/dolphin-anty
+
+Incogniton 	https://brightdata.com/integration/incogniton
+
+Marketerbrowser https://brightdata.com/integration/marketerbrowser
+
+SMLOGIN 	https://brightdata.com/integration/smlogin
+
+Hidemyacc 	https://brightdata.com/integration/hidemyacc
+
+OpenBullet	https://brightdata.com/integration/openbullet
+
+Switchyomega 	https://brightdata.com/integration/switchyomega
+
+PhantomBuster 	https://brightdata.com/integration/phantombuster
+
+BitBrowser 	https://brightdata.com/integration/bitbrowser
+
+Maskfog 	https://brightdata.com/integration/maskfog
+
+Ghost Browser 	https://brightdata.com/integration/ghost-browser
+
+Postman 	https://brightdata.com/integration/postman
+
+NGINX 		https://brightdata.com/integration/nginx
+
+StablerSOLO 	https://brightdata.com/integration/stablersolo
+
+VMLogin 	https://brightdata.com/integration/vmlogin
+
+GoLogin 	https://brightdata.com/integration/gologin
+
+Windows 	https://brightdata.com/integration/windows
+
+Scrapy 		https://brightdata.com/integration/scrapy
+
+AEZAKMI 	https://brightdata.com/integration/aezakmi
+
+Beautifulsoup 	https://brightdata.com/integration/beautifulsoup
+
+WebHarvy 	https://brightdata.com/integration/webharvy
+
+Ubuntu 		https://brightdata.com/integration/ubuntu
+
+Lalicat 	https://brightdata.com/integration/lalicat
+
+Multilogin 	https://brightdata.com/integration/multilogin
+
+Undetectable 	https://brightdata.com/integration/undetectable
+
+Apify 		https://brightdata.com/integration/apify
+
+iPhone 		https://brightdata.com/integration/iphone
+
+MuLogin 	https://brightdata.com/integration/mulogin
+
+Changedetection https://brightdata.com/integration/changedetection
+
+Morelogin 	https://brightdata.com/integration/morelogin
+
+Proxifier 	https://brightdata.com/integration/proxifier
+
+Texau 		https://brightdata.com/integration/texau
+
+Android 	https://brightdata.com/integration/android
+
+Kameleo 	https://brightdata.com/integration/kameleo
+
+Screaming Frog 	https://brightdata.com/integration/screaming-frog
+
+Foxy		https://brightdata.com/integration/foxyproxy
+
+SessionBox 	https://brightdata.com/integration/sessionbox
+
+Insomniac 	https://brightdata.com/integration/insomniac
+
+Helium Scraper 	https://brightdata.com/integration/heliumscraper
+
+SaleFreaks 	https://brightdata.com/integration/salefreaks
+
+Postern 	https://brightdata.com/integration/postern-proxy-integration
+
+Antik 		https://brightdata.com/integration/antik
+
+Easync 		https://brightdata.com/integration/easync
+
+ParseHub 	https://brightdata.com/integration/parsehub
+
+Sphere Browser 	https://brightdata.com/integration/sphere-browser
+
+Octoparse 	https://brightdata.com/integration/octoparse
+
+ixBrowser 	https://brightdata.com/integration/ixbrowser
+
+Shadowrocket 	https://brightdata.com/integration/shadowrocket
+
+Firefox 	https://brightdata.com/integration/firefox
+
+Chrome 		https://brightdata.com/integration/chrome
+
+MacOS 		https://brightdata.com/integration/macos
+
+ClonBrowser 	https://brightdata.com/integration/clonbrowser
+
+Octo Browser 	https://brightdata.com/integration/octobrowser
+
+Genlogin 	https://brightdata.com/integration/genlogin
+
+Web Scraper 	https://brightdata.com/integration/webscraper
+
+如果您使用的工具没有出现在列表中，而您又希望获得相关指南，请联系我们！
+
+
+</Accordion>
+<Accordion title="如何定位到特定国家/地区？">
+发送请求时，请在请求中的区域名称后添加-country标志，然后添加该国家/地区的 2 个字母 [ISO](https://www.nationsonline.org/oneworld/country_code_list.htm) 代码。
+
+在以下示例中：我们在请求中添加了 -country-us，因此我们将发送来自美国（“us”）的请求。
+
+```sh
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-us: <zone_password>
+```
+</Accordion>
+<Accordion title="如何定位到欧盟地区">
+<Note>欧盟内部的国家分配是随机的。</Note>
+
+<Info>与 DC、ISP 和 Web Unlocker/SERP API 相关</Info>
+
+您可以按照与上述“国家/地区”相同的方式定位到整个欧盟地区，在请求中的 “country” 之后添加 “eu”：-country-eu
+
+使用 -country-eu 发送的请求将使用来自以下一个国家/地区的 IP，这些国家/地区自动包含在 “eu” 中：
+
+```
+AL, AZ, KG, BA, UZ, BI, XK, SM, DE, AT, CH, UK, GB, IE, IM, FR, ES, NL, IT, PT, BE, AD, MT, MC, MA, LU, TN, DZ, GI, LI, SE, DK, FI, NO, AX, IS, GG, JE, EU, GL, VA, FX, FO
+```
+
+</Accordion>
+<Accordion title="如何定位到特定城市？">
+
+要定位到特定城市，您需要使用共享（按 IP 付费）或专用代理网络。
+
+在配置代理区域时，选择首选国家/地区后，您可以添加一个城市，以进一步指定您的地理定位。
+
+![add-city.png](/images/proxy-networks/faqs/add-city.png)
+
+点击“添加城市” 后，您将看到所选国家/地区的可用定位城市。要查看特定地理位置的可用 IP 数量 。
+
+配置完成后，就可以使用以下语法从所选城市发送请求了
+
+```sh
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-<country>-city-<city>: <zone_password>
+```
+<Note>
+选择两个字的城市时，它将被写成一个词。
+
+例如，要定位到布宜诺斯艾利斯，请求语法将是：
+
+`-country-ar-city-buenosaires`
+</Note>
+
+要查看更多地理定位示例，请访问我们的代理集成示例页面。  
+https://brightdata.com/cp/zones/proxy_examples
+
+</Accordion>
+<Accordion title="Bright Data 在哪些地方有代理服务器？">
+
+Bright Data 在全球所有国家/地区均提供代理服务，但以下国家除外：
+
+- 伊朗
+- 伊拉克
+- 叙利亚
+- 黎巴嫩
+- 巴勒斯坦
+- 朝鲜
+- 古巴
+- 苏丹
+- 俄罗斯克里米亚地区
+
+如果您需要这些国家/地区的代理，很遗憾，Bright Data 无法为您提供帮助。
+</Accordion>
+<Accordion title="如何查看代理事件日志？">
+事件日志（最多）将显示您的账户最近通过任何区域发出的 200 次请求。
+
+在您的 Bright Data 控制面板的代理页面中：https://brightdata.com/cp/zones
+
+转到“事件日志”选项卡：
+
+![event-log.png](/images/proxy-networks/faqs/event-log.png)
+
+提供的数据是：
+
+* **日期**：请求的时间和日期
+* **区域**：请求使用的区域
+* **源 IP**：请求来自哪个 IP
+* **URL**：请求的目标站点
+* **结果**：请求成功或失败
+
+![event-log-headers.png](/images/proxy-networks/faqs/event-log-headers.png)
+
+</Accordion>
+<Accordion title="如何在多个请求中使用同一个 IP？">
+
+* 可以通过在代理用户名中添加会话标志来实现：
+```sh
+brd.superproxy.io:33335 br-customer-<customer_id>-zone-<zone_name>-session-rand39484
+```
+在线程启动时生成随机数，并在要更改为线程连接分配的代理对等节点时进行更改。
+* 会话 ID 可以是任何随机字符串/计数器：具有相同会话字符串的请求将使用相同的代理对等节点（尽可能长）；具有不同会话字符串的请求将分配给不同的代理对等节点。
+* 要强制更改 IP，只需修改会话 ID 即可。
+* 如果分配的代理对等节点（出口节点 IP）不可用，超级代理将在第一次请求时返回错误信息 “502 - 没有可用的对等节点”，然后在第二次请求时，即使不更改会话 ID，超级代理也会分配一个新的对等节点。
+* 会话 IP 最长可在 1 分钟的空闲时间内保持不变。 一分钟后，如果没有请求，IP 就会被释放回池中。  
+要延长会话/IP 的持续时间，可每隔 30 秒发送一个微小的保活请求，以防止会话空闲超过一分钟。  
+该请求可以是任何小请求，如 /favicon.ico，甚至是返回 404 的请求（只要网络服务器不会因为该请求而断开套接字）。
+* 如果您有多个客户端，并希望忽略客户端的源 IP（它与您的会话 ID 一起用于创建会话），那么您需要使用全局会话，然后在会话中添加 glob_ 作为前缀：
+
+```sh
+brd-customer-<customer_id>-zone-<zone_name>-session-glob_rand39484
+```
+完整请求示例：
+```sh
+brd-customer-CXXXXX-zone-ZONE_X-session-glob_rand39484
+```
+
+在线程启动时生成随机数，并在要更改为线程连接分配的代理对等节点时进行更改。
+
+</Accordion>
+<Accordion title="如何定位到特定的操作系统？">
+
+Bright Data 允许定位到以下操作系统：
+
+<CodeGroup>
+```sh Windows
+curl --proxy-user brd-customer-<customer_id>-zone-<zone_name>-os-windows:<zone_password> --proxy brd.superproxy.io:33335 "<target_site>"
+```
+```sh macOS
+curl --proxy-user brd-customer-<customer_id>-zone-<zone_name>-os-osx:<zone_password> --proxy brd.superproxy.io:33335 "<target_site>"
+```
+```sh Android
+curl --proxy-user brd-customer-<customer_id>-zone-<zone_name>-os-android:<zone_password> --proxy brd.superproxy.io:33335 "<target_site>"
+```
+</CodeGroup>
+
+</Accordion>
+<Accordion title="如何使用特定 IP？">
+
+使用 Bright Data 的住宅代理网络时，您可能需要使用分配给您所在区域的特定 IP。
+
+1. 发送测试请求，并添加 “-verbose” 或 “-v” 选项（这将打开详细日志记录）
+
+```sh 
+curl "https://lumtest.com/myip.json" --verbose --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+```
+2. 找到 x-brd-ip 响应标头并复制其值
+![x-brd-ip.png](/images/proxy-networks/faqs/x-brd-ip.png)
+
+3. 在请求中的区域名称后添加 -ip- 标志，并使用上一步中复制的散列 IP 值
+4. 发送测试请求，然后查看响应
+
+```sh
+curl "https://lumtest.com/myip.json" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-ip-<hashed-ip>:<zone_password>
+```
+我们建议使用 https://lumtest.com/myip.json 作为目标域进行测试，并审查您的 IP 凭据。
+
+</Accordion>
+<Accordion title="如何定位到 ASN 特定 IP？">
+
+将 ASN 参数添加到地理位置定位下的区域配置中，即可启用此功能。
+
+![asn-targeting.png](/images/proxy-networks/faqs/asn-targeting.png)
+
+保存配置后，可将 ASN 标志添加到区域的凭据中，并在使用住宅代理时进行整合。
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-asn-<asn-number>:<zone_password> "<target_site>"
+```
+**注意**：ASN 编号的值可在此处找到:
+https://bgp.potaroo.net/cidr/autnums.html
+
+</Accordion>
+<Accordion title="如何定位到住宅 IP 组 (gIP)？">
+
+可以以 gIP 的形式选择专用住宅 IP。可通过在区域配置页面下选择“专用” IP 类型和选择 gip 数量来分配这些 IP。此外，还需要针对特定域名。
+
+![number-of-dedicated-gIPs.png](/images/proxy-networks/faqs/number-of-dedicated-gIPs.png)
+
+保存配置后，选择“显示已分配的专用住宅 IP” 将提供代表组 IP 的哈希值列表。
+![show-allocated-dedicated-ips.png](/images/proxy-networks/faqs/show-allocated-dedicated-ips.png)  
+  
+这些值可用于定位特定的 gip。 例如：
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-gip-<gip_hash_value>:<zone_password> "<target_site>"
+```
+
+</Accordion>
+<Accordion title="如何启用长会话对等节点">
+
+长会话对等节点可让您长期保持一个稳定的 IP 地址，确保无缝和一致的抓取操作。 与普通住宅 IP 不同的是，如果对等节点意外断开连接，IP 可能会随时轮换，而长会话对等节点可提供连续的会话。
+
+**启用长会话对等节点**
+
+只需转到现有的住宅区或打开一个新的住宅区，然后切换到“长会话对等节点”功能即可。 现在，您今后的请求将只通过已知的长期对等节点发送。   
+**Note:** This feature does add an extra cost for the zone when enabled
+
+![long-session-peers.png](/images/proxy-networks/faqs/long-session-peers.png)
+
+**这些节点来自哪里？**
+
+我们的住宅对等节点池由世界各地选择使用我们产品的真实用户组成。作为选择加入的一部分，我们利用这些真实用户在“停机”期间的 IP 作为我们符合职业道德的住宅网络的一部分。启用“长会话对等节点”后，您就可以确保您将通过已知的长期保持活跃的对等节点进行路由，与普通的住宅对等节点相比，这些对等节点可以在更长的时间内保持一个 IP 地址。
+
+**长会话对等节点的好处**
+
+一致的抓取操作：这种稳定性最大限度地减少了因 IP 变更而造成的中断，并最大限度地提高了抓取任务的效率。 您可以长期依赖一致的 IP 地址，进行长时间的抓取操作。 这一功能对于需要持续提取或监控数据的项目尤其有用。
+
+</Accordion>
+<Accordion title="如何使用中国住宅 IP 浏览中文网站">
+
+**在中国境外时**
+
+定位到中国住宅 IP 对等节点就足够了：
+
+```sh 
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-cn:<zone_password> "<target_site>"
+```
+在中国境内时除了定位到中国住宅 IP 对等节点外，还需要定位到我们的中国超级代理。
+
+
+* 使用 API 命令时，代理 DNS 服务器是 servercountry-cn.brd.superproxy.io
+```sh
+curl --proxy servercountry-cn.brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-country-cn:<zone_password> "<target_site>"
+```
+* 使用 Proxy Manager 时：
+	+ 点击端口，选择相关端口设置 
+	![port-row.png](/images/proxy-networks/faqs/port-row.png)
+	+ 选择“目标定位”并将中国设为定位国家
+	![target-china.png](/images/proxy-networks/faqs/target-china.png)
+	+ 选择 IP 控制：将超级代理服务器位置设置为“中国”。
+	![super-proxy-china.png](/images/proxy-networks/faqs/super-proxy-china.png)
+
+</Accordion>
+<Accordion title="运营商专属代理对等 IP">
+
+* 您可以选择使用以下列表中的特定运营商： 
+```
+a1, aircel, airtel, att, celcom, chinamobile, claro, comcast, cox, digi, 
+dt, docomo, dtac, etisalat, idea, kyivstar, meo, megafon, mtn, mtnza, mts,
+optus, orange, qwest, reliance_jio, robi, sprint, telefonica, telstra, 
+tmobile, tigo, tim, verizon, vimpelcom, vodacomza, vodafone, vivo, zain,
+vivabo, telenormyanmar, kcelljsc, swisscom, singtel, asiacell, windit, 
+cellc, ooredoo, drei, umobile, cableone, proximus,tele2, mobitel, o2, 
+bouygues, free, sfr, digicel
+ ```
+* 例如
+<CodeGroup>
+```sh Deutsche Telekom
+brd-customer-<customer_id>-zone-<zone_name>-carrier-dt
+```
+
+```sh Sprint
+brd-customer-<customer_id>-zone-<zone_name>-carrier-sprint
+```
+</CodeGroup>
+</Accordion>
+<Accordion title="关于地理位置数据库，以及如何检查代理 IP 信息？">
+地理位置数据库 (GeoDB) 被互联网网站用于查询用户使用的 IP 地址信息。 Bright Data 监控并维护当今使用的 4 个主要 GeoDB 的正确记录：Maxmind、ip2location、db-ip 和 Google。  
+  
+还有许多其他较小的 GeoDB，其中大多数使用的都是过时的记录或有缺陷的测试方法，因此它们提供的信息并不准确，或者是为了引诱浏览者从它们那里购买 VPN 或代理产品。 因此，我们强烈建议在测试 IP 时使用上述 GeoDB。
+
+要查看我们关于您正在使用的代理 IP 的信息，请浏览以下网站之一： 
+
+- https://lumtest.com/echo.json
+- https://www.iplocation.net
+- https://www.maxmind.com/en/geoip-demo
+</Accordion>
+<Accordion title="哪些 Bright Data 产品最适合用于抓取搜索引擎 (SERP)？">
+#### 对于单步抓取：
+SERP API 是针对 SERP 的理想产品，因为它具有主动解锁、自动选择最佳代理、自定义标头、指纹识别、获取验证码等功能，可保证成功率（成功才需付费）。 
+
+#### 对于多步抓取（playwright/puppeteer/selenium）：
+Scraping Browser 是一款理想的产品，因为它是我们完全云托管的浏览器，旨在帮助您轻松专注于多步骤数据收集，而我们则为您提供全面的代理和解锁基础架构，包括验证码获取方案。
+
+</Accordion>
+<Accordion title="能否从住宅、数据中心或 ISP 代理网络定位到 Google SERP？">
+
+住宅代理——可以。
+SERP API 是针对 SERP 的理想产品，因为它具有主动解锁、自动选择最佳代理、自定义标头、指纹识别、获取验证码等功能，可保证成功率（成功才需付费）。
+
+数据中心和 ISP 代理——不行。当尝试通过上述任一代理网络专门定位到 Google 时，您的请求将被拒绝，您将在响应标头中收到以下错误信息：
+
+```
+HTTP/1.1 403 搜索 engine host is not allowed
+X-Luminati-Error: Forbidden: This target URL isn't supported on proxy networks, use the SERP API product for targeting this URL. You may contact your account manager or open a support ticket for assistance
+```
+</Accordion>
+<Accordion title="住宅 & 移动 networks">
+通过住宅网络或移动网络定位搜索引擎时，请求不会通过住宅或移动对等节点发送，而是直接通过我们的超级代理发送。 这样做的原因是为了支持住宅网络和移动网络与浏览器的集成，因为浏览器可能需要从目标网站加载搜索引擎资源端点。
+
+**如果您使用住宅网络或移动网络定位搜索引擎域，请求将直接通过超级代理，以下响应标头将作为指示：**
+
+```sh
+x-luminati-ip: superproxy bypass
+```
+
+</Accordion>
+</AccordionGroup>

@@ -1,0 +1,162 @@
+---
+title: "如何配置您的住宅代理"
+description: "轻松配置您的 Bright Data 住宅代理设置。 了解如何设置 IP 类型、启用地理位置定位、管理高级选项，如长会话对等点等。"
+sidebarTitle: 配置
+---
+首先，转到要配置的代理的配置选项卡。
+
+## IP 类型
+
+**为您的代理区域选择两种 IP 类型之一：**
+<CardGroup cols={2}>
+  <Card title="共享" href="/proxy-networks/faqs#what-are-ip-types-for-residential-and-mobile-proxy" icon="square-1">
+    当您需要具有成本效益的选项，并且不需要 IP 专用权时。 These proxies will rotate, so in every request you can get a new IP address ("Rotating proxies").
+    <Note>多个用户共享 IP</Note>
+  </Card>
+  <Card title="专用 IP" href="/proxy-networks/faqs#what-are-ip-types-for-residential-and-mobile-proxy" icon="square-2">
+    当您需要使用专用 IP 地址访问网站时。
+    <Note>IP 仅供您使用。</Note>
+  </Card>
+</CardGroup>
+
+---
+
+## 地理位置定位
+<Tip>
+  由于您的 IP 是自动分配的，因此建议为每个需要定位的地理位置设置单独的住宅代理。
+</Tip>
+
+地理位置定位允许您根据城市、 州、 邮政编码或 ASN 来定位特定地点。从下拉菜单中选择所需的参数。 
+<Frame>
+  <img src="/images/proxy-networks/residential/geotargeting.png" alt='地理位置定位'/>
+</Frame>
+
+---
+
+## IP Groups `gIPs`
+<Warning>
+  仅适用于专用选项
+</Warning>
+gIP 在任何给定时刻均包含 6-90 个 IP，共享相同的属性，定位到区域“访问参数”部分中选定的专用域名。
+<Frame>
+  <img src="/images/proxy-networks/residential/gips.png" alt='地理位置定位'/>
+</Frame>
+
+---
+
+## 域名
+<Warning>
+  仅适用于专用选项
+</Warning>
+定义您希望代理拥有的专属域名。对该列表中某个域名的每个请求都将专门通过您的专用代理进行处理。 不允许其他人通过您的专用代理定位这些域名。 您可以使用此区域向其他目标域发送请求，但这些请求将通过我们数据中心托管的 Bright Data 代理进行处理。
+
+例如：如果在列表中您有两个域名：a.com 和 b.com，则向 a.com 和 b.com 发出的每个请求都通过您的专用代理路由，发送到 c.com 的请求将通过我们的数据中心托管代理路由。 他人向 a.com 和 b.com 发出的请求永远不会通过您的专用代理 。 
+<Frame>
+  <img src="/images/proxy-networks/residential/domains.png" alt='域名'/>
+</Frame>
+
+---
+
+## 缓存代理
+Bright Data 的缓存代理是一项旨在减少目标站点不必要负载的功能，一方面允许客户缓存成功结果，另一方面，在可能的情况下根据请求接收缓存结果。
+<AccordionGroup>
+  <Accordion title="更健康的生态系统">
+    从技术上讲，通过消耗网站资源并在数据收集领域造成性能问题可能使网站过载。 Bright Data 除了安装系统以避免目标站点过载之外，还提供缓存代理功能，以避免在我们从另一位客户提出的相同请求中获得最新缓存记录的情况下，向目标站点提出冗余请求。
+  </Accordion>
+
+  <Accordion title="提高了性能">
+    从我们的缓存中收到的响应速度大约快了 20 倍！
+    这意味着随着我们的缓存使用量的增长，性能将不断提高。
+  </Accordion>
+
+  <Accordion title="经济利益">
+    为了促进我们维护健康生态系统的目标，对于通过选择使用缓存代理的代理区域中的任何使用量，我们将提供使用折扣。
+
+    虽然我们将提供的缓存记录可能只占代理区域总使用量的一小部分，但折扣将充分适用于代理区域。
+  </Accordion>
+
+</AccordionGroup>
+
+### 启用缓存代理
+只需切换缓存代理开关
+  <Frame>
+    <img src="/images/proxy-networks/residential/cache_proxy.png" alt='缓存代理'/>
+  </Frame>
+
+开启后，我们将引导您完成缓存代理工作所需的一些说明。
+
+**您有两个选项可供选择：**
+<AccordionGroup>
+  <Accordion title="安装证书">
+    <Frame>
+    <img src="/images/proxy-networks/residential/install_certificate.png" alt='安装证书'/>
+  </Frame>
+  </Accordion>
+  <Accordion title="无需证书即可继续">
+    缺少我们证书或未使用“无证书”方法（忽略 SSL 错误）的计算机所发送的请求将导致失败。请确保您的系统符合这些要求才能成功缓存。
+  </Accordion>
+</AccordionGroup>
+### `robots.txt` in 缓存代理
+- 为了兑现我们尊重和合规使用网络资源的承诺，我们的缓存代理功能遵守 robots.txt 指令，并将其逻辑应用于我们的多种代理网络。选择在所选网络内使用缓存代理后，操作行为将根据 robots.txt 合规性和用户的 KYC 状态进行调整：
+  
+  当根据 `robots.txt` 访问终端节点时，无论是住宅、移动、数据中心还是 ISP，该服务通常在用户选择的代理网络内运行。
+
+- 如果终端节点由 `robots.txt` 规则封锁，或者请求类型为 `POST`、 `PUT`、 `PATCH`或 `DELETE`之一，则请求的处理取决于网络类型和用户验证：
+  - 对于住宅和移动网络用户，经过“了解您的客户”（KYC）验证的用户其请求将通过我们的超级代理重定向以进行直接处理。 未经验证的用户其请求将被屏蔽。
+  - 对于数据中心和 互联网服务提供商 (ISP) 网络用户，无论 KYC 状态如何，此类请求都将被屏蔽。
+---
+
+## 高级选项：
+### 使用托管浏览器启用 JavaScript 渲染
+<Tip> **无需额外费用！** </Tip>
+
+通过使用托管浏览器启用 JavaScript 渲染，您的代理请求还将通过 Bright Data 完全托管的基于 Chromium 的专用抓取浏览器运行。 这样，使用 Puppeteer、Playwright 或 Selenium 进行的动态抓取能够使用基于云的浏览器轻松进行扩展，并使用 HTTP 请求的预设进行优化，可以更快地解决验证码问题和实时故障排除。 
+
+<Accordion title="如何启用这项服务？">
+在您的住宅代理设置页面中，在“启用浏览器”部分的左侧，设置选择“启用”
+<Frame>
+![enable-browsers.png](/images/proxy-networks/residential/configure-your-proxy/enable-browsers.png)
+</Frame>
+</Accordion>
+
+### 启用自动解锁       
+
+通过启用自动解锁功能，代理请求将通过预设的 Bright Data 代理发送，该代理会自动处理您的 IP 级别管理和 HTTP 处理请求，从而提高成功率并简化抓取操作。
+
+<AccordionGroup>
+<Accordion title="运行机制：">
+自动解锁功能使用我们先进的人工智能解锁引擎来自动处理和克服反爬虫保护，从而优化您的代理请求：  
+1. 浏览器指纹识别 - 模拟真实用户的浏览器以模拟人工体验
+2. 验证码解决 - 分析和解决验证码问题并挑战响应测试
+3. JavaScript 渲染 - 从需要浏览器处理的网站提取数据
+4. 用户代理轮换 - 自动模仿不同类型的浏览器和设备
+5. 推荐标头 - 模拟来自热门或可信网站的流量
+6. Cookie 处理 - 防止 Cookie 相关因素造成的潜在封禁
+7. 自动重试和 IP 轮换 - 克服速率限制和 IP 封禁
+8. 全球覆盖 - 访问来自任何国家/地区、城市、州或 ASN 的本地化内容
+9. 数据验证 - 确保所提取数据的准确性、一致性和可靠性
+</Accordion>
+<Accordion title="如何启用这项服务？">
+在您的住宅代理设置页面中，在“自动解除封锁”部分的左侧，将开关设置为开（蓝色）
+<Frame>
+![automated-unlocking.png](/images/proxy-networks/residential/configure-your-proxy/automated-unlocking.png)
+</Frame>
+</Accordion>
+</AccordionGroup>
+
+### 端口
+默认情况下，以下端口处于打开状态： 80、 443、 8080、 8443、 5678、 1962、 2000、 4443、 4433、 4430， 4444 和 1969。
+
+如果您需要访问其他端口，请点击“添加端口”并填写表格。Bright Data 的合规团队将审查该请求并向您通报最新情况。
+
+### 长会话对等点: Deprecated
+
+<Warning> Long session peers option is now deprecated and no longer offerred </Warning>
+Long-Session Peers enable you to maintain a stable IP address for an extended period, ensuring seamless and consistent scraping operations. Unlike regular residential IPs, where the IP can rotate at any moment if the peer unexpectedly disconnects, Long-Session Peers provide continuous sessions.
+
+#### 启用长会话对等点: Deprecated
+~Simply, go to an existing 移动设备 zone or open a new one and toggle on the **长会话对等点** feature. 现在，您今后的请求将只通过已知的长期对等点进行路由。~ 
+
+<Frame>
+  <img src="/images/proxy-networks/residential/long_session_peers.png" alt='安装证书'/>
+</Frame>

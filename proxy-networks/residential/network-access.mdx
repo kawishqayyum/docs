@@ -1,0 +1,61 @@
+---
+title: "住宅代理网络政策"
+sidebarTitle: 网络访问
+description: "为保护 Bright Data 的住宅网络，监控规则适用于所有流量，以防止客户访问超出其使用案例和 Bright Data 网络政策的域名。"
+---
+
+## 快速入门，立即访问
+Bright Data 允许客户在我们的服务条款框架内立即使用其整个住宅网络。
+
+<Warning>
+要允许访问住宅网络，您必须执行此步骤。 否则，您的代码将收到错误信息，并且无法连接。
+
+要访问住宅网络，请按照以下说明操作:  
+https://docs.brightdata.com/general/account/ssl-certificate
+</Warning>
+
+<Tip>
+**不想安装证书？**
+
+在未认证的情况下查看我们的程序或进入 KYC 验证:  
+https://brightdata.com/cp/kyc
+
+Bright Data 将有权访问流量使用情况，即访问的网页、在这些网页上花费的时间、访问时间和日期。Bright Data 将在有限的时间内保存此信息，以便解决可能出现的任何性能问题，并允许我们的合规团队验证代理使用是否符合我们的道德准则。  
+https://brightdata.com/ethical
+
+To start your KYC verification process, click [here](https://brightdata.com/cp/kyc).
+
+Bright Data 不会与第三方共享此信息，但遵守适用法律所需的情况除外。 了解有关我们隐私政策的更多信息。https://brightdata.com/privacy
+
+
+</Tip>
+
+## `robots.txt` in Immediate Access 住宅
+为了兑现我们尊重和合规地使用网络资源的承诺，我们的住宅代理立即访问模式遵守 `robots.txt` 指令，在我们不同的代理网络中应用其逻辑。 选择进入立即访问模式后，操作行为会根据 `robots.txt` 合规性和用户的 KYC 状态进行调整：
+
+
+当端点可根据 robots.txt 进行访问时，服务会在用户选择的代理网络内正常运行，无论是住宅、移动、数据中心还是 ISP。
+
+如果端点被 robots.txt 规则阻止，或者请求类型为 POST、PUT、PATCH 或 DELETE，则此类请求将被阻止:  
+`502 住宅 Failed (bad_endpoint)` 
+
+要获得完整的住宅访问权限，请遵循我们的 KYC 验证流程。
+https://docs.brightdata.com/proxy-networks/residential/network-access#kyc-verification
+
+## KYC 验证
+了解您的客户（KYC）是针对每位希望在不安装 SSL 证书的情况下全面访问住宅代理，以及访问尚未获得我们合规团队预先批准网站的客户的一个流程。 在提交 KYC 时，系统会要求您陈述并阐明您的用例，以便使用住宅代理网络定位这些站点。
+
+To start your KYC verification process right now, click [here](https://brightdata.com/cp/kyc). 
+
+在任何时候，您都可以通过选择“完全访问需要身份验证”选项来提交 KYC。
+<Frame>
+<img src="/images/proxy-networks/residential/kyc-verification.png" alt="完全访问需要进行身份验证"/>
+</Frame>
+
+如果您想返回 SSL 认证选项，请转到“基本信息”，然后点击“安装我们的证书”：
+<Frame>
+<img src="/images/proxy-networks/residential/kyc-basic-information.png" alt="安装我们的证书"/>
+</Frame>
+<Warning>
+The KYC process is not available in [Playground](https://docs.brightdata.com/general/faqs#what-is-playground-mode)/[Limited Trial](https://docs.brightdata.com/general/faqs#what-is-limited-trial-mode) modes. The process can be started only after adding real funds to the account balance.
+</Warning>
