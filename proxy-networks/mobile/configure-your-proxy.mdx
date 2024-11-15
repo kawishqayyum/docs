@@ -1,0 +1,151 @@
+---
+title: "How to 配置 Your 互联网服务提供商 (ISP) 代理"
+description: "了解如何配置 Bright Data 移动代理设置，包括 IP 类型、地理位置定位、缓存代理和高级选项，以实现最佳性能。"
+sidebarTitle: 配置
+---
+
+<Accordion title="首先：导航到“配置”选项卡">
+  创建代理后，您可以导航到配置选项卡来配置代理设置。
+  <Frame>
+    <img src="/images/proxy-networks/data-center/configuraton_tab.png" alt='配置'/>
+  </Frame>
+</Accordion>
+
+## IP 类型
+
+**Choose one of three IP 类型s for your proxy zone:**
+<CardGroup cols={2}>
+  <Card title="共享 (Pay per IP)" href="/proxy-networks/faqs#what-are-ip-types-for-isp" icon="square-1">
+    <Tip>Select the number of IPs and country. Pay for IPs and usage.</Tip>
+    当您需要具有成本效益的选项，并且不需要 IP 专用权时。
+    <Note>多个用户共享 IP</Note>
+  </Card>
+  <Card title="共享 (Pay per Usage)" href="/proxy-networks/faqs#what-are-ip-types-for-isp" icon="square-2">
+    <Tip>Fixed pool of 10,000 IPs from all countries. IPs are free. Pay for use.</Tip>
+    当您需要具有成本效益的选项，并且不需要 IP 专用权时。 These proxies will rotate so every request you can get a new IP address ("Rotating proxies").
+
+    <Note>IPs shared across **multiple** users</Note>
+  </Card>
+  <Card title="Dedicated" href="/proxy-networks/faqs#what-are-ip-types-for-isp" icon="square-3">
+    当您需要使用专用 IP 地址访问网站时。
+    <Note>IPs are **for your use only**.</Note>
+  </Card>
+</CardGroup>
+
+---
+## Number of IPs
+Number of IPs to be allocated as your pool of available IPs.
+<Warning>Be aware increasing the number adds additional cost.</Warning>
+
+## Allocated IPs
+You can view or download the IPs allocated to you.
+<Frame>
+  <img src="/images/proxy-networks/data-center/allocated-ips.png" alt='地理位置定位'/>
+</Frame>
+---
+
+## 地理位置定位
+<Tip>
+  Common setup is to create a zone per each location, this way you can control your requests target on the zone level. 
+ 
+  For example: ispshared-uk, ispshared-us, ispshared-de. 
+</Tip>
+
+### Dedicated and Pay per IP proxies
+地理位置定位 allows you to target specific `Country`.
+Select the prefered countries from the drop-down menu. 
+
+If you select multiple countries, we assign proxies distributed  evenly across the countries you selected.
+
+<Frame>
+  <img src="/images/proxy-networks/data-center/geotargeting.png" alt='地理位置定位'/>
+</Frame>
+
+### 共享 proxy
+In 互联网服务提供商 (ISP) 共享 proxies, you have access to 20,000 proxies around the globe. To target specific country, use the flag -country in the proxy user name parameter with an ISO-3166 country code. 
+
+[FAQ: Where can I see the list of country codes?](https://docs.brightdata.com/general/faqs#where-can-i-see-the-list-of-country-codes)
+
+---
+
+## 缓存代理
+Bright Data's cache proxy is a feature that aims to reduce the unneeded load from target sites by allowing customers to have their successful results cached on the one hand and, on the other hand, to receive cached results to their requests when possible.
+<AccordionGroup>
+  <Accordion title="更健康的生态系统">
+    从技术上讲，通过消耗网站资源并在数据收集领域造成性能问题可能使网站过载。 Bright Data 除了安装系统以避免目标站点过载之外，还提供缓存代理功能，以避免在我们从另一位客户提出的相同请求中获得最新缓存记录的情况下，向目标站点提出冗余请求。
+  </Accordion>
+
+  <Accordion title="提高了性能">
+    从我们的缓存中收到的响应速度大约快了 20 倍！
+    This means that as our cache usage grows, performance will keep increasing.
+  </Accordion>
+
+  <Accordion title="经济利益">
+    为了促进我们维护健康生态系统的目标，对于通过选择使用缓存代理的代理区域中的任何使用量，我们将提供使用折扣。
+
+    虽然我们将提供的缓存记录可能只占代理区域总使用量的一小部分，但折扣将充分适用于代理区域。
+  </Accordion>
+
+</AccordionGroup>
+
+### 启用缓存代理
+只需切换缓存代理开关
+  <Frame>
+    <img src="/images/proxy-networks/residential/cache_proxy.png" alt='缓存代理'/>
+  </Frame>
+
+开启后，我们将引导您完成缓存代理工作所需的一些说明。
+
+**您有两个选项可供选择：**
+<AccordionGroup>
+  <Accordion title="安装证书">
+    <Frame>
+    <img src="/images/proxy-networks/residential/install_certificate.png" alt='安装证书'/>
+  </Frame>
+  </Accordion>
+
+</AccordionGroup>
+
+---
+
+## 高级选项：
+
+### 100% uptime
+The 100% uptime brings immediate value by providing 100% connectivity and continuous high-performance level, free of charge. Plus you don't have to make any changes in your code/workflow.
+
+If our system detects a problem, like a connectivity issue or an IP where the GEO isn't exactly what you asked for when buying that IP, we will automatically route your requests through other IPs which are exactly the same as the original IPs.
+
+<Accordion title="Seamless integration">
+  To provide our customers a seamless experience, so we made some exceptions:
+  * We will not assign a fallback IP if you have specified an IP in your request
+  * 100% uptime will not interrupt a live connection. If the fallback is needed, it will play in once the next connection is established
+</Accordion>
+
+### Enable 100% uptime
+Simply toggle the 100% uptime switch
+<Frame>
+    <img src="/images/proxy-networks/data-center/100uptime.png" alt='100% uptime'/>
+</Frame>
+
+<Tip>You can also turn on/off 100% uptime feature via the API.</Tip>
+
+### 端口
+端口 `80` and `443` are available by default, supporting HTTP and HTTPS protocols.
+The below table shows supported protocols by port:
+
+| Port   | Protocol              |
+|--------|-----------------------|
+| `80`   | HTTP and HTTP CONNECT |
+| `443`  | HTTPS                 |
+
+<Accordion title="Request Additional ports">
+  Bright Data can support additional ports by request. A dedicated and additional compliance process with the Bright Data compliance team will follow every request to support a new port.
+  If you would like additional port permissions, you can contact Bright Data Support.
+  Examples of ports that require Bright Data compliance review before activation:
+  | Port   | Protocol |
+  |--------|----------|
+  | `8443` | HTTP     |
+  | `8243` | HTTPS    |
+</Accordion>
+
+---
