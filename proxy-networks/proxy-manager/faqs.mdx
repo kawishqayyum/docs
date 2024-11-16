@@ -1,0 +1,528 @@
+---
+title: "Proxy Manager常见问题解答"
+description: "查找Proxy Manager常见问题的详细解答，包括访问限制、端口倍增、IP定位等。"
+sidebarTitle: 常见问题解答
+---
+{/*tags:pmgr*/}
+
+<AccordionGroup>
+<Accordion title="可以限制对本地Proxy Manager的远程访问吗？">
+为了保护您的账户并防止对Proxy Manager的未经授权访问，有3种主要工作流程可以使用：
+1. 将IP列入白名单
+2. 使用令牌进行的验证
+3. 使用Bright Data扩展程序，通过电子邮件授予权限
+</Accordion>
+<Accordion title="如何通过HTTPS连接到超级代理？">
+
+Proxy Manager可以使用HTTP或HTTPS与Bright Data主基础设施连接。
+
+<Note>
+请勿混淆：这不是连接到目标URL的连接类型。
+要确保连接安全，只需将与超级代理的连接保持为默认值（HTTP）即可，因为HTTPS请求无论如何都会与目标网站建立端到端加密连接。
+</Note>
+
+在大多数情况下，您甚至不需要碰这个配置。但是，当从一些被禁訪问某些域的地区进行连接时，这个配置可能会很有用。 在这些情况下，您需要将其设置为HTTPS ，以防止全局防火墙看到您的代理流量的内容，并根据目标域将其过滤掉。
+</Accordion>
+<Accordion title="如何倍增端口？">
+
+转到“一般信息”选项卡，然后在“倍增代理端口”下拉列表中选择端口要增加的倍数
+
+设置所需的倍增端口数量后，Proxy Manager就会生成与您配置的端口相同的顺序端口。
+
+这是非常强大的功能，当您需要创建多个具有相同设置的端口时，只需设置一次即可。
+</Accordion>
+<Accordion title="如何获取特定位置的IP？">
+使用Bright Data，您可以指定用于发送流量的IP的地理位置和其他参数。 在Proxy Manager中，这特别简单，只需点击几下即可。
+
+您可以只请求特定国家的IP（如果您使用住宅或数据中心网络），或者请求额外的特定运营商IP（如果您使用移动网络）IP，这取决于您使用的区域。
+
+**如何在Proxy Manager中设置定位？**
+
+要获取特定位置的IP，请按照以下步骤操作：
+
+- 点击您要使用特定位置IP的代理端口
+- 转到定位选项卡
+- 选择国家、州、城市，以选择特定地理位置的对等点
+- 选择ASN或运营商名称（仅适用于移动对等点）
+
+<Note>
+每个定位选项都需要在您的区域中获得适当的权限。
+</Note>
+
+<Accordion title="如何在不创建多个端口的情况下使用多个国家/地区的IP？">
+如果您想使用多个国家/地区的IP，但又不想为每个国家/地区创建单独的代理端口，也可以动态控制定位。
+</Accordion>
+
+</Accordion>
+<Accordion title="如何动态控制定位？">
+
+您无需提前在用户界面中使用定位选项卡指定国家、州或城市定位。在请求时，可以同时动态（“即时”）传递额外的定位选项。
+
+```sh
+curl -x lum-country-br@127.0.0.1:24001 http://lumtest.com/myip.json
+```
+
+请求的结构如下：
+
+```sh
+curl -x lum-country-<country_iso_code>@<ip>:<port> <destination_url>
+```
+
+动态控制定位的另一种选项是添加特殊标头。
+
+```sh
+"x-lpm-country: <country_code>"
+```
+
+请求示例如下：
+```sh
+curl --proxy http://127.0.0.1:24000 -H "x-lpm-country: us" http://lumtest.com/myip.json
+```
+
+您还可以使用标头来控制州和城市：
+- 州: `x-lpm-state: <state>`
+- 城市: `x-lpm-city: <city_name>`
+
+</Accordion>
+<Accordion title="How to override the port's country?">
+
+To override the country selected in the port, you can send the 'x-lpm-country' header with the chosen country code.
+
+```sh
+curl --proxy [LPM_DOMAIN]:[PORT] -H "x-lpm-country: il" "http://lumtest.com/myip.json"
+```
+
+</Accordion>
+<Accordion title="如何设置自动跟随重定向？">
+
+跟随重定向是Proxy Manager中的一项重要功能，可以增强您对30X（重定向）错误处理的控制。 此功能位于端口设置中的一般信息选项卡里。 此功能让您在遇到30X错误时可以自动发送新请求，新请求的目标URL源自位置响应标头。 本文档会指导您启用和使用此功能。
+
+**访问跟随重定向：**
+
+1. 打开要激活跟随重定向功能的端口
+2. 转到一般信息选项卡：在端口设置中，点击一般信息选项卡。在这里，您可以找到有关代理如何处理请求和响应的各种设置。
+3. 切换跟随重定向功能：在一般信息选项卡中，可以看到跟随重定向功能。此功能以切换按钮的形态呈现，您可以根据需要将其启用或禁用。
+
+**跟随重定向如何工作：**
+
+- 跟随重定向功能启用后，将会指示Proxy Manager在遇到30X错误时自动发送新的请求。
+- 新请求的URL是根据在30X错误响应中收到的位置响应标头确定的。
+- 这可让您的代理无缝地跟随重定向，确保将请求发送到位置标头指定的正确目的地。
+
+**跟随重定向的好处：**
+
+在不支持或不希望进行自动重定向的环境中，您可以完全控制跟随重定向功能。
+</Accordion>
+<Accordion title="如何使用会话标头控制会话一致性？">
+
+您可以使用Proxy Manager发送x-lpm-session标头，以控制会话。
+
+- 添加带有任意随机会话ID“x-lpm-session: random_session”的标头
+- 当使用相同的会话时，Proxy Manager将尝试连接到相同的出口节点（对等点/IP）
+- 当您更改会话值时，Proxy Manager将连接到不同的出口节点（新的对等点/IP）
+- 要使一节会话保持活动状态，必须至少每60秒发送一次请求。
+- 请注意，要将其用于HTTPS请求，您需要启用SSL分析并安装证书
+
+示例如下：
+
+```sh
+curl --proxy http://127.0.0.1:24000 -H "x-lpm-session: rand123" http://lumtest.com/myip
+```
+</Accordion>
+<Accordion title="如何在云Proxy Manager上刷新会话？">
+
+您可以使用以下curl请求，在云Proxy Manager上刷新会话：
+
+```sh
+curl -X POST "https://pmgr-customer-<customer_id>.brd.superproxy.io:22999/api/refresh_sessions/<port>"
+```
+</Accordion>
+<Accordion title="如何从Proxy Manager导出日志？">
+
+在Proxy Manager中，我们为用户提供了一系列的选项，用于将日志导出到外部存储和日志监控系统。 这些导出选项让您可以高效地集中和分析日志。 在本文档文章中，我们将概述可用的日志导出选项，并指导您如何通过Proxy Manager设置进行配置。
+
+**日志导出选项：**
+
+Proxy Manager提供以下日志导出选项：
+
+**Logz.io**
+
+在Proxy Manager设置中指定Logz.io 令牌、主机和其他必需的参数，以配置Logz.io集成。
+
+**AWS S3:**
+
+要将日志导出到AWS S3，请在Proxy Manager设置中设置S3集成。 您需要指定AWS访问密钥、密钥、S3存储桶名称和其他相关详细信息。
+
+**Webhook:**
+
+要开始通过webhook导出日志，请在Proxy Manager设置中配置webhook端点以及所需的验证详细信息和URL。
+
+**Datadog:**
+
+要将日志导出到Datadog，请提供您的Datadog API密钥和其他相关信息，在Proxy Manager设置中设置 Datadog 集成。
+
+**配置日志导出：**
+
+要在Proxy Manager中配置日志导出，请按照以下一般步骤操作：
+
+1. 访问Proxy Manager设置：
+2. 导航到设置或配置部分。
+3. 选择启用请求日志中的日志设置选项
+4. 开启使用远程日志聚合器
+5. 选择所需的日志导出选项（Webhook、Datadog、Logz.io或AWS S3）。
+6. 提供配置详细信息：您通常需要为所选的导出选项提供特定的配置详细信息。 这可能包括端点URL、API 密钥、验证凭据和存储设置。
+7. 点击测试以检查配置
+8. 点击确定并保存更改
+
+![logs-settings.png](/images/proxy-networks/proxy-manager/faqs/logs-settings.png)
+
+按照这些步骤操作，就可以有效地配置Proxy Manager，以将日志导出到所选的外部存储或监控系统，从而增强有效监控和管理网络及应用程序的能力。
+</Accordion>
+<Accordion title="如何解锁错误代码？">
+
+要使错误代码响应能够根据Proxy Manager规则触发IP刷新或尝试使用新 IP，請按照以下步骤操作：
+
+- 在Proxy Manager的规则选项卡中添加新规则
+- 选择“状态码”作为规则类型
+- 选择要扫描的相关状态码（如501、402、301等），以触发规则
+- 选择所需的结果，例如“刷新IP” 或“尝试使用新IP”
+
+观看视频：错误代码解锁: https://brightdata.com/video/unblock_error_codes
+</Accordion>
+<Accordion title="如何在HTTPS上运行用户界面（控制面板）">
+
+**需要什么？**
+
+要使用HTTPS协议访问用户界面（控制面板），您需要向Proxy Manager提供域的SSL证书和私钥。
+
+证书和私钥应专为您的域而生成，并已安装在服务器上。 这通常是通过服务器和域提供商完成的
+
+**如何操作？**
+
+运行Proxy Manager，并设置指向相应证书文件的环境变量（SSL_CERT和SSL_KEY ）。在终端中运行的命令示例：
+
+```sh
+SSL_CERT=/path/to/ca.crt SSL_KEY=/path/to/ca.key pmgr
+```
+
+启动后，您就可以使用https://your-domain.com:22999/访问用户界面
+</Accordion>
+<Accordion title="如何保存请求/响应历史记录？">
+
+只需启用--history标志即可。启用历史记录模式后，请求和响应标头都会被保存到本地数据库中。 可以在“代理”部分中查阅这些信息。历史记录选项还可以跟踪HTTPS，只需启用“—ssl”标志即可。请参阅Bright Data Proxy Manager GitHub页面，了解详情: https://github.com/luminati-io/luminati-proxy#installation
+
+另一个方法是转到Proxy Manager控制面版，在一般设置部分中启用日志请求历史记录，并启用SSL嗅探。
+</Accordion>
+<Accordion title="How to use SOCKS5 with Bright Data's Proxy Manager">
+SOCKS 服务器是一种代理服务器，适用于任何类型的网络协议，可通过任何端口为用户与服务器建立连接，然后在用户与服务器之间传输流量。
+
+为什么要在 Bright Data 中使用 SOCKS5？
+
+当您在Bright Data中使用SOCKS5时，Proxy Manager会将发送到80或443端口的任何请求转换为HTTP和HTTPS请求，因此您无需为目标网站接受哪种格式而担心。如为其他端口，流量会按原样在用户和主机之间传输。
+
+SOCKS5使用指南：
+
+- 打开Proxy Manager
+- 点击端口，然后点击“编辑代理”
+- 在“一般信息”下添加SOCKS端口号
+- 转到“性能” - 设置反向解析：DNS
+- 添加解析文件
+  - 在程序代码中添加 “—resolve PATH”
+  - 遵循主机文件格式: https://en.wikipedia.org/wiki/Hosts_(file)
+  - 列出您要使用的域名及其IP
+  - "在Proxy Manager的“工具”页面中使用解析文件编辑器添加域名和 IP
+   
+  <Note> 要允许SOCKS5连接，您需要完成此链接中所示的KYC流程： https://brightdata.com/cp/kyc ，并向我们的合规部门申请批准。 如果您需要有关此程序的帮助，请联系您的客户经理。 </Note>
+</Accordion>
+<Accordion title="在Proxy Manager中使用SOCKS5协议时，如何定义代理IP国家？">
+<Warning>此选项仅对启用了 dropin 端口的客户开放。</Warning>
+
+SOCKS5协议使用加密的base64字符串进行验证。
+
+因此，在使用SOCKS5时，如果您需要定义代理IP国家（-country-&lt;COUNTRY_CODE&gt;），则必须将您的基本验证信息转换为base64令牌：
+
+- 浏览 https://www.base64encode.org
+将brd-customer-&lt;customer_id&gt;-zone-&lt;zone_name&gt;-country-&lt;COUNTRY&gt;:&lt;zone_password&gt;转换为Base64格式的令牌
+- 将 `brd-customer-<customer_id>-zone-<zone_name>-country-<COUNTRY>:<zone_password>` 转换为Base64 格式的令牌
+- 在发送到Proxy Manager端口的SOCKS5请求中，使用您生成的“基本授权令牌”标头：
+
+
+```sh
+curl -v "http://lumtest.com/myip.json" --socks5 127.0.0.1:24000 -H "Proxy-Authorization: Basic <Basic authorization token>"
+```
+</Accordion>
+<Accordion title="如何从API切换到Proxy Manager">
+使用Proxy Manager，可以获得在API中无法提供的高级功能。 只需在Proxy Manager中点击一个按钮，就能完成尽可能长时间地保留IP或在每次请求后轮换IP等任务，无需手动编写机制代码。
+
+从API切换到Proxy Manager的指南：
+
+1. 在此处安装Proxy Manager: https://github.com/luminati-io/luminati-proxy#installation/
+2. <Tooltip tip="Port 33335 replacing port 22225 deprecated on Sep 2026, click to read more">[`33335`](https://docs.brightdata.com/general/faqs#which-port-shall-i-use-22225-or-33335) </Tooltip>
+3. 通过Proxy Manager控制面板配置自定义代理和区域的设置。 无需在请求中发送用户参数（brd-customer-customer_name-zone-zone_name…），因为所有必要的数据都包含在手动代理配置中。
+</Accordion>
+<Accordion title="如何模拟真人用户？">
+将所有标头和cookie行为包含在内。 参见使用Bright Data Proxy Manager的bash示例：
+
+```sh
+curl -v "http://lumtest.com/myip.json" -H 'pragma: no-cache' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.8' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp, image/apng,\*/\*;q=0.8' -H 'cache-control: no-cache' -H 'cookie: bcookie="v=somekindofcookiexxx";' --proxy http://127.0.0.1:PORT_NUM
+```
+
+<Note>
+使用Web Unlocker时，默认禁用附加标头，要附加标头，请联系支持部门要求批准。
+</Note>
+</Accordion>
+<Accordion title="如何将Proxy Manager设置为系统服务？">
+<Steps>
+<Step title="Sign in as 'root' to the remote server (running Ubuntu)">
+</Step>
+
+<Step title="创建服务">
+在以下位置创建新的服务文件：
+```sh
+/etc/systemd/system/pmgr.service
+```
+
+```sh
+[Unit]
+Description=Proxy Manager
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/pmgr
+User=root
+StandardOutput=null
+StandardError=null
+
+[Install]
+WantedBy=multi-user.target
+```
+</Step>
+
+<Step title="重新加载服务文件">
+```sh
+systemctl daemon-reload
+```
+
+</Step>
+
+<Step title="启动Proxy Manager服务">
+```sh
+systemctl start pmgr
+```
+</Step>
+
+<Step title="检查状态：">
+```sh
+systemctl status pmgr.service
+```
+</Step>
+
+<Step title="完成！">
+您已将Proxy Manager设置为服务。 您现在可以控制您的新服务：  
+```sh
+service pmgr [stop|start|restart]
+```
+</Step>
+</Steps>
+</Accordion>
+<Accordion title="如何查看请求详情？">
+
+在“一般设置”中启用“请求详情”，即可添加以下的响应标头，让您可以获得更详尽、更具体的请求视图。此功能与使用-debug标志的功能相同。
+
+- `x-luminati-ip-destination` - 目标主机的IP
+- `x-luminati-ip` - 分配给请求的IP。
+- `x-luminati-timeline` - 分配给请求的IP。
+
+<Note>
+- 在云proxy manager中默认关闭此功能，如有需要，请确保将其启用。
+- 要在规则中执行“封禁IP” 操作，必须启用“请求详情”。
+</Note>
+
+要查看这些标头，可以通过以下其中一种（或多种）方法
+<Tabs>
+<Tab title="通过详细标志（-v）">
+使用-v标志，以详细模式发送请求
+</Tab>
+<Tab title="查看您的Proxy Manager日志">
+1.  Click on the specific request you want to examine
+2.  Click on 'Headers'
+</Tab>
+<Tab title="Viewing it on your browser's 'Network' tab">
+1.  Open 'devtools' by clicking F12
+2.  Go to the 'Network' tab
+3.  Navigate to the target URL
+4.  Click on the relevant request
+5.  The relevant headers would be under 'Response Headers'
+</Tab>
+</Tabs>
+</Accordion>
+<Accordion title="如何减少响应中的数据量？">
+
+- 转到“一般信息”选项卡=
+- 在“SSL分析”中选择“开启”
+- 转到“规则”选项卡
+- 在“规则类型”下拉列表中选择“URL”
+- 选择任何文件类型来应用正则表达式
+- 在“操作类型”下拉列表中选择“空响应”
+
+在以下示例中，Proxy Manager将为所有以.jpg|.png|.gif等任何文件类型结尾的请求返回空响应（0kb，状态码仍为200）。
+
+当您想减少在响应中获得的数据量时，请使用此选项。
+</Accordion>
+<Accordion title="如何提高我的网页抓取速度？">
+
+如果您通过单个IP发送的请求数量高于目标网站允许的数量，则目标网站将会识别您的IP，并将其屏蔽，或使用虚假信息误导您。 这意味着您的信息收集速度可能比平时慢得多。
+
+**我能做些什么？**
+
+假设您正在使用1000个数据中心IP运行1000万个请求，即每个IP每秒1个请求，您的操作可能需要大约3个小时。如果使用1000万个住宅 IP，则您的操作可能只需要1秒钟。
+
+通过Bright Data的住宅网络轮换多个并行会话的指南：
+
+1. 打开Proxy Manager
+2. 转到“概览”菜单
+3. 点击您的住宅区域的端口
+4. 在端口设置中将“预设”编辑为“轮换（IP）”
+5. 将您的请求发送到127.0.0.1:&lt;portnum&gt;，其中的portnum是住宅区域的端口
+</Accordion>
+<Accordion title="我怎么知道自己是否被伪装欺骗？">
+
+被伪装欺骗意味着您从正在抓取的网站上获得是误导性信息。
+
+示例：如果您正在收集竞争价格比较信息以供自动定价算法使用，目标网站可能会向您的请求返回人为压低的价格，以对您的定价和利润产生不利的影响。
+
+**我能做些什么？**
+
+使用传统代理网络（基于数据中心的IP）时，您的目标网站可能会很容易识别您的活动，并对您的请求做出伪装欺骗。 因此，要确保您不会被伪装欺骗的唯一方法，就是通过住宅IP轮流发送请求。
+
+通过数百万个住宅IP轮流发送请求的指南：
+
+1. 打开Proxy Manager
+2. 转到“概览”选项卡
+3. 点击您的住宅区域的端口
+4. 在端口设置中将“预设”编辑为“轮换（IP）”
+5. 将您的请求发送到`127.0.0.1:<portnum>` 其中的`portnum`是住宅区域的端口
+</Accordion>
+<Accordion title="使用Proxy Manager时如何设置长时间单会话">
+
+在端口设置下拉列表中选择“长时间单会话”，工具就会自动ping IP，以保持会话处于活动状态：
+
+![long-single-session.png](/images/proxy-networks/proxy-manager/faqs/long-single-session.png)
+</Accordion>
+<Accordion title="如何使用远程DNS？">
+远程DNS为您提供与代理对等点（代理IP的来源）类似的DNS解析服务器。这使您的请求看起来更可信，因为解析服务器通常位于靠近IP的地理位置，而如果不使用远程DNS，解析服务器将是Bright Data的超级代理之一，可能位于另一个国家/地区。使用远程DNS的方法：
+<Tabs>
+<Tab title="通过Proxy Manager">
+转到编辑端口 > IP控制 > 将“DNS查询”设置为“远程 - 由对等点解析”
+</Tab>
+<Tab title="通过API">
+Simply add it to your username string. 
+
+For example:
+
+```sh Shell
+brd-customer-<customer_id>-zone-<zone_name>-dns-remote
+```
+</Tab>
+</Tabs>
+</Accordion>
+<Accordion title="如何使用多个并行Proxy Manager实例来实现高性能？">
+
+如果不想让一个Proxy Manager处理过多请求，您可以在不同的服务器上创建多个Proxy Manager实例。
+
+最好的方法是按照以下步骤操作：
+
+- 在本地安装Proxy Manager，并根据需要设置所有端口
+- 保存配置文件
+- 开启同步配置，让所有更改都自动同步到所有机器
+- 在要使用的服务器上安装Proxy Manager
+- 将配置文件导入到服务器的proxy_manager目录中
+
+将您的流量分配到不同的服务器
+
+```js
+request 1 -> {FIRST SERVER IP}:24000
+request 2 -> {SECOND SERVER IP}:24000
+```
+
+以此方法使用Proxy Manager，可以确保不会有Proxy Manager实例超载，并且可以帮助您在所有实例上保持相同的配置。
+
+这意味着您可以在每个实例上从相同端口同时发送来自相同国家/地区的请求。
+
+如果您在自己设置负载平衡时遇到问题，您可以使用我们已实施负载平衡功能的云服务 。您只需要使用1个用户界面，使用共享配置控制所有实例，然后针对相同的URL即可，我们会负责整个负载平衡过程。
+</Accordion>
+<Accordion title="我无法登录本地Proxy Manager">
+
+如果您无法登录您的Proxy Manager（PM），请按以下步骤操作：
+
+- 确保运行PM的计算机没有使用VPN。  
+  <Note>请注意，在运行PM时使用VPN，可能会导致登录问题，还会减慢与代理的连接速度</Note>
+- 关闭PM（运行PM的终端黑屏）
+- 删除浏览器上的cookie
+- 再次打开PM（加载PM大约需要1-2分钟）
+- 尝试使用与之前相同的方法登录（使用 Google，或使用您的注册邮箱和密码）
+
+或者，您可以将Proxy Manager的托管切换到我们的云服务。我们将负责托管，甚至在多个Proxy Manager实例之间实施负载平衡。
+
+P.S. PM加载后，默认浏览器应会自动打开PM的登录页面。如果没有，请打开浏览器，浏览127.0.0.1:22999，然后尝试登录。
+</Accordion>
+<Accordion title='Proxy Manager connection error (port status is not "ok")'>
+
+如果您无法登录Proxy Manager，或者Proxy Manager无法连接到超级代理（即端口状态不是OK），请检查以下各项：
+
+- 确保VPN未开启
+- 确保没有防病毒软件或任何其他安全软件（如360、Norton 等）阻止Proxy Manager发送的流量
+- 确保防火墙（操作系统/服务器/任何其他安全软件的防火墙）允许TCP流量通过端口22000-25000
+- 如果Proxy Manager软件是安装在macOS/ Linux服务器上，请确认：
+  - Node.js版本是在12.18.3和14.18.1之间
+  - NPM版本是在6.14.6和8.1.3之间
+  - 如果NPM和Nodejs的版本不是我们支持的版本，请将其移除，然后安装我们指定的版本。要了解更多Linux/Mac的安装信息，请访问我们的GitHub页面: https://github.com/luminati-io/luminati-proxy/#linuxmacos---manual-install
+</Accordion>
+<Accordion title="为什么我会收到错误'400 Proxy Error: ip_requested_not_allocated_by_customer'?">
+
+使用数据中心/ISP或gIP产品时，如果您的区域下的IP已刷新、移除或只是因系统更新而发生变化，就可能会出现错误代码400
+
+<Note>
+This error typically arises after your BrightData account has been recently suspended. 
+An automatic suspension occurs if your account balance becomes negative.
+If the suspension extends beyond 48 hours, the static allocated IPs will be released from your account.
+Upon reactivation, the reallocated IPs may differ from the original ones, thus if the previously allocated IPs are still being targeted - this error is thrown.
+</Note>
+
+每当出现此错误时，您都应转到Bright Data区域页面，下载与该区域相关的新IP列表。
+
+如果您使用的是带有IP端口设置前缀的proxy manager工具，请务必也更新IP列表。
+
+示例：
+
+```sh Shell
+curl --v "http://lumtest.com/myip.json" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-ip-1.1.1.1:<zone_password>
+```
+
+![shell-example.png](/images/proxy-networks/proxy-manager/faqs/shell-example.png)
+</Accordion>
+
+<Accordion title="如何获取特定位置的IP？">
+使用Bright Data，您可以指定用于发送流量的IP的地理位置和其他参数。 在Proxy Manager中，这特别简单，只需点击几下即可。
+
+您可以只请求特定国家的IP（如果您使用住宅或数据中心网络），或者请求额外的特定运营商IP（如果您使用移动网络）IP，这取决于您使用的区域。
+
+**如何在Proxy Manager中设置定位？**
+
+要获取特定位置的IP，请按照以下步骤操作：
+
+- 点击您要使用特定位置IP的代理端口
+- Go to **Targeting** tab
+- 选择国家、州、城市，以选择特定地理位置的对等点
+- 选择ASN或运营商名称（仅适用于移动对等点）
+
+</Accordion>
+
+</AccordionGroup>
+
+{/*tags:pmgr*/}

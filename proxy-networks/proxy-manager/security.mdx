@@ -1,0 +1,72 @@
+---
+title: "保护您的 Proxy Manager 设置"
+description: "执行保护 Proxy Manager 安全的最佳做法，包括 IP 白名单、管理员访问控制和基于令牌的身份验证。"
+sidebarTitle: 安全
+---
+{/*tags:pmgr*/}
+
+确保我们产品的安全性至关重要，同时也是我们的首要任务。 我们采用最先进的架构，可为您提供完全可靠和安全的云托管 Proxy Manager，并向所有客户推荐这一选项。  
+
+对于需要预置 Proxy Manager 选项（不由 Bright Data 托管）的用户，我们在下文中概述了我们推荐的安全措施以及采取这些措施的最佳做法。
+
+阻止不需要的来源使用 Proxy Manager 的端口
+--------------------------------------
+
+将代理管理器中所有端口上的 IP 列入白名单，以确保只有被允许和需要的来源才可以使用这些端口。 启用此功能后，只有被列入白名单的 IP 才允许通过此配置的端口发送请求。 使用此功能可确保您支付的带宽仅被可信来源使用。
+
+
+阻止不需要的用户编辑 Proxy Manager 设置
+------------------------------------
+
+将管理员访问权限列入白名单，确保只有经过授权的 IP 才能更改您的 Proxy Manager 设置。当从服务器（Proxy Manager 托管地）外部访问管理员页面和 Proxy Manager 的 API 时，这将阻止未列入白名单的 IP 访问该页面和 API。
+
+
+使用令牌进行身份验证
+--------------------------
+
+如果使用 IP 不断变化的多个爬虫向远程 Proxy Manager 服务器发送请求，则需要生成一个令牌，用于在 Proxy Manager 上进行身份验证：
+
+* 从服务器内部运行 Bright Data 进程
+* From the Proxy Manager's server run in terminal/command line:
+
+```sh  
+curl -X GET "http://127.0.0.1:22999/api/gen_token" -H "accept: application/json"
+```
+
+* 您应该会看到令牌响应：  
+```js
+"token": "TOKEN STRING"
+```
+
+生成令牌后，您有两个选择：要么在设置爬虫服务器时使用该令牌将新 IP 列入白名单，要么在每次请求的代理身份验证中包含该令牌：
+
+要在代理验证中使用令牌，可以使用用户名 “token” 和实际令牌作为密码，例如：
+
+```sh
+curl -x token:TOKEN_STRING@127.0.0.1:24000 "http://lumtest.com/myip.json"
+```
+要将新服务器 IP 列入白名单，以便无需在代理身份验证中发送该 IP，请执行以下操作：
+
+* 将令牌从代理管理器服务器复制到新的爬虫服务器
+* 从您的新服务器发出这个请求：  
+  
+```sh
+curl [REMOTE_SERVER_IP]:22999/api/add_wip -X POST -H "Content-Type: application/json" -H "Authorization:[TOKEN_STRING]" -d '{"ip":"[CRAWLER_IP]"}'
+```
+
+* 您的爬虫 IP 现已列入 Proxy Manager 白名单
+
+<Info>
+这不会允许访问 Proxy Manager 的管理面板，而只能通过端口发送请求。
+</Info>
+
+本地网络
+-------------
+
+如果您想从许多人共享同一 IP 的网络访问 Proxy Manager，那么将 IP 列入白名单对您来说还不足够。 通过将您的 IP 列入白名单，您就向来自同一个本地网络的所有人员授予了访问权限（企业环境通常就是这样）。
+
+使用 `local_login` 标志，Proxy Manager 将要求每个浏览器分别进行身份验证，并在 cookie 中存储新生成的令牌。
+
+```sh 示例
+pmgr --local_login
+```
