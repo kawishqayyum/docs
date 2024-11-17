@@ -1,0 +1,100 @@
+---
+title: "Proxy errors troubleshooting"
+description: "浏览Bright Data HTTP错误目录，包括错误代码、描述和解决常见代理问题的操作。"
+---
+# Bright Data HTTP错误
+## HTTP标头字段
+HTTP或HTTPS请求将返回以下字段：
+
+| 字段   | 描述          |  示例 |
+|--------|-----------------------|------------
+| `HTTP错误`   | 协议错误编号 | `404` or `502`
+| `x-brd-err-code`  | Bright Data模块和错误代码编号  | `client_10001` 
+| `x-brd-error` | Bright data主错误消息 | 验证失败
+| `x-brd-err-msg` | Bright Data详细消息和操作建议 | 验证失败。 请到 https://brightdata.com/cp/settings/billing`检查您的凭据或账户状态
+
+
+### 获取HTTP标头字段
+#### 从命令行进行测试
+要查看和测试您的设置或解决问题，您可以在shell提示符下运行curl命令，并添加选项标志-v 。此标志将以详细模式运行curl并打印出标头字段，包括自定义错误代码和消息。 
+
+```
+curl-v [其他curl命令选项]
+```
+
+To see a more compact view with the header fields response only use the `-i` option for curl: 
+
+```
+curl -i [rest of curl command options]
+```
+或者，您可以使用nc命令将字段打印到屏幕上：
+
+```
+echo "[tcp nc inputs]" | nc -C -v brd.superproxy.io 33335
+```
+<Note> nc inputs may include "empty" lines, those are essential for correct testing using nc command </Note>
+
+#### `curl` Command snippet
+`curl` command snippet, with all required zone parameters is available in the **Overview** tab in Bright Data control panel for the zone you are working on. 
+
+#### 通过编程语言访问 
+Bright Data HTTP标头字段就像任何其他HTTP标头字段一样，可以通过您的编程语言访问。 
+
+
+
+## 错误目录
+
+### HTTP错误 400
+
+When Using the Data center/ISP or gIPs products with the `-ip-x.x.x.x` targeting flag, the error code `400` can appear in case the IPs under your zone has been refreshed, removed, or simply changed due to system updates
+
+<Note>
+This error typically arises after your BrightData account has been recently suspended. 
+An automatic suspension occurs if your account balance becomes negative.
+If the suspension extends beyond 24 hours, the static allocated IPs will be released from your account.
+Upon reactivation, the reallocated IPs may differ from the original ones, thus if the previously allocated IPs are still being targeted - this error is thrown.
+</Note>
+
+Whenever this error appears, you should go to your Bright Data Zones page, and view the updated list of IPs relevant to this zone.
+
+| x-brd-err-code       | x-brd-error          |  x-brd-err-msg
+|----------------------|----------------------|--------------------
+| `client_10060` | Proxy Error: ip_requested_not_allocated_by_customer | Requested IP `##.##.##.##` is not allocated to this zone. Select an IP that is allocated to this zone or skip the -ip parameter in proxy username| 
+
+### HTTP错误407
+
+If you get HTTP error 407, this implies there is an error in authentication. This can be due to incorrect credentials or due to your account being suspended. 
+
+| x-brd-err-code       | x-brd-error          |  x-brd-err-msg
+|----------------------|----------------------|--------------------
+|`client_10000`     | 验证失败 | 验证无效：检查凭据并重试. Bright Data credentials include your account ID, zone name and password
+| `client_10001`       | 验证无效         |  验证无效：检查凭据并重试
+| `client_10010` 		| 需要代理验证 | 未提供代理凭据。 请添加凭据，然后重试。
+| `client_10020`	|	账户已被暂停。 请登录brightdata.com/cp/setting/billing激活您的账户 | 账户已被暂停。 请登录https://brightdata.com/cp/setting/billing激活您的账户
+| `client_10030` | 验证失败 | 您无法通过此IP访问我们的API。 请检查您的设置，或将此IP列入白名单。
+| `client_10040` | 需要 KYC。 请访问http://brighdata.com/cp/kyc并确保您已通过验证 | 需要 KYC。 请访问http://brighdata.com/cp/kyc并确保您已通过验证
+
+### HTTP错误401
+
+| x-brd-err-code       | x-brd-error          |  x-brd-err-msg
+|----------------------|----------------------|--------------------
+| `client_10050` | 验证失败：IP被列入黑名单 [IP] | 验证失败，IP被列入黑名单 [IP] 请查看https://brightdata.com/faq#remove-blacklist_ips以解决问题| 
+
+### HTTP错误403
+
+| x-brd-err-code       | x-brd-error          |  x-brd-err-msg
+|----------------------|----------------------|--------------------
+| `client_10070` | 没有协议 | 原始请求中缺少协议。 请添加HTTP或HTTPS，然后重试。 | 
+| `client_10080` | 没有目标主机 | 没有目标主机。 目标主机缺失或不正确。 请检查您的请求参数，然后重试
+| `client_10090` | 您正在尝试将Scraping Browser区域用作常规代理 | 您正在尝试将Scraping Browser区域用作常规代理。 此区域应通过浏览器访问。详见 请参阅https://docs.brightdata.com/scraping-automation/scraping-browser/introduction，了解如何访问您的scraping browser区域。 | 
+| `policy_20010` | 协议错误 | 您使用的协议不受支持。 Bright data supports HTTP, HTTPS & SOCKS5 upon special approval. 请纠正您的协议，然后重试 | 
+| `policy_20020` | 端口错误 | 使用了错误的端口。 我们支持的端口：https://docs.brightdata.com/proxy-networks/faqs#how-to-see-supported-ports-and-protocols
+| `policy_20130` | 住宅 Failed (bad_endpoint) - Requested site is not available for immediate residential (no KYC) access mode due to the fact that %HTTP_METHOD% requests are not allowed. To get full residential access for targeting this site, Fill in the KYC form: https://brightdata.com/cp/kyc | 住宅 Failed (bad_endpoint) - Requested site is not available for immediate residential (no KYC) access mode due to the fact that %HTTP_METHOD% requests are not allowed. To get full residential access for targeting this site, Fill in the KYC form: https://brightdata.com/cp/kyc |
+| `policy_20140` | 住宅 Failed (bad_endpoint) - Requested site is not available for immediate residential (no KYC) access mode in accordance with robots.txt. To get full residential access for targeting this site, Fill in the KYC form: https://brightdata.com/cp/kyc | 住宅 Failed (bad_endpoint) - Requested site is not available for immediate residential (no KYC) access mode in accordance with robots.txt. To get full residential access for targeting this site, Fill in the KYC form: https://brightdata.com/cp/kyc |
+
+### HTTP错误 429
+
+| x-brd-err-code       | x-brd-error          |  x-brd-err-msg
+|----------------------|----------------------|--------------------
+| `client_10110` | Your limited trial mode account exceeded the allowed rate limits. Add payment method to receive $5 credit and remove rate limits. You will not be charged | Your limited trial mode account exceeded the allowed rate limits. Add payment method to receive $5 credit and remove rate limits. You will not be charged | 
+---
