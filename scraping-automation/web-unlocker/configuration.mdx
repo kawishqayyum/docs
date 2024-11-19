@@ -1,0 +1,70 @@
+---
+title: "网络解锁器 配置"
+description: "Configure 网络解锁器 with 高级域, Geolocation, and advanced settings for custom headers, cookies, and auto-throttling."
+sidebarTitle: 配置
+---
+
+## 高级域
+
+有些域比其他域更难解锁，因此我们为这些域提供单独的高价定价等级:  
+https://docs.brightdata.com/scraping-automation/web-unlocker/features#current-list-of-premium-domains  
+
+启用后，高价将反映在 “预计成本” 部分。  
+<Note>即使启用后，只有针对这些域的特定请求的定价才会有所不同。 对其他域的请求将保持默认的较低级别。</Note>
+
+## 高级选项
+
+### 异步请求
+请求在后台无缝处理，使您能够在以后更方便的时间通过指定的端点采集响应，从而提高稳定性、灵活性和效率。
+
+<Tip>
+### 将我们的 webhook IP 列入白名单
+
+我们的异步 webhook 交付会从一对稳定的 IP 地址发送通知：
+1. `100.27.150.189`
+2. `18.214.10.85`
+
+客户可能需要在其一侧将这些 IP 列入白名单。
+</Tip>
+
+### Custom 网络解锁器
+覆盖自动标头/Cookie，发送您自己的自定义值，以定位网站的特定版本。
+
+<Note>
+    启用 自定义标头和 Cookie会产生以下结果 
+  <AccordionGroup>
+  <Accordion title="访问预先批准的标头/Cookie 列表">
+  您将获得预先批准的标头和 Cookie 列表的访问权限。您可以浏览此列表，验证目标网站所需的标头和 Cookie 是否已获得批准。
+  </Accordion>
+  <Accordion title="发送新标头/Cookie 请求">
+  如果您所需的标头或 Cookie 不在预先批准的列表中，您可以向我们的合规团队提交表单以供批准。 此流程涉及提供有关标头/Cookie 及其必要性的信息。 在简短的批准流程完成后，我们的合规团队将会通知您。
+  </Accordion>
+  <Accordion title="对所有请求收费">
+  与常规的网络解锁器逻辑（仅对成功的请求收费）不同，启用此功能意味着您将为 100％ 的请求（包括成功和失败的请求）付费。这种变化是由于 Bright Data 无法完全控制其流程和性能。
+  </Accordion>
+  </AccordionGroup>
+</Note>
+
+
+#### 允许自定义标头和 Cookie
+1.	访问您的控制面板：登录到您的 Bright Data 控制面板。
+2.	选择您的区域：选择需要启用此功能的特定区域。
+3.	启用功能：在 高级选项下，在区域设置中找到并激活 “自定义标头和 Cookie” 权限。
+
+#### 控制自动节流
+网络解锁器包括自动节流机制，旨在保持高效的抓取和性能。 此系统的运行方式如下：
+<Tabs>
+<Tab title="自动调整">
+系统会自动搜索并实现性能更好的配置。
+</Tab>
+
+<Tab title="成功率低时">
+If the success rate for any given target site falls below a certain percentage, the system will begin to throttle requests. This is to avoid wasting resources on configurations that are failing.
+</Tab>
+
+<Tab title="可自定义阈值">
+The default threshold for this mechanism is set at 70%. 
+
+However, with the 'Custom headers & cookies' permission enabled, you have the flexibility to adjust this threshold to any percentage you prefer, especially since you'll be charged for all requests regardless of their success.
+</Tab>
+</Tabs>

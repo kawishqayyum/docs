@@ -1,0 +1,403 @@
+---
+title: "Send Your First Request with Bright Data's 网络解锁器"
+description: "Learn how to send your first API request using Bright Data's 网络解锁器 with easy-to-follow code examples in multiple programming languages."
+sidebarTitle: Send Your First Request
+
+---
+
+## Getting access to 网络解锁器
+
+Bright data offers two methods to use web unlocker in your scraping task:
+
+1. Use an HTTPS proxy access point
+
+2. `New: Beta Release`: Use an HTTPS Web API access point
+
+### Accessing 网络解锁器 as HTTPS proxy
+
+In order to access the web unlocker you will need to provide credentials which are comprised of:
+
+1. Your customer ID
+
+2. Your web unlocker zone name
+
+3. Your web unlocker password
+
+4. Bright Data SSL certificate
+
+#### Customer ID
+
+Customer ID can be found in the welcome email you received, or by clicking your account initial letter on the top right screen of your control panel, or by clicking here: [Account settings](https://brightdata.com/cp/setting/customer_details) .
+
+#### Zone name and password
+
+You zone name and password can be found in the overview tab of your unlocker zone in control panel.
+
+#### Bright Data SSL Certificate
+
+<Warning> Prevent SSL errors by setting up Bright Data SSL certificate </Warning>
+
+SSL Certificate can be found by clicking "SSL certificate" wizard on your zone's overview top menu. See further instructions here:  [SSL certificate](/general/account/ssl-certificate#how-to-download-the-ssl-certificate).
+
+Alternatively, you can  [ignore SSL errors](/general/account/ssl-certificate#how-to-ignore-ssl-errors).
+
+#### 网络解锁器: HTTPS Proxy code examples
+
+Once you have your credentials, use the following code to send your first request:
+
+<Accordion title="Expand for code examples">
+  <CodeGroup>
+    ```sh cURL
+
+    curl  "http://lumtest.com/myip.json"  --proxy brd.superproxy.io:33335  --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+
+    ```
+
+    ```javascript Node.js
+
+    #!/usr/bin/env node
+
+      
+
+    require('request-promise')({
+
+    url: 'http://lumtest.com/myip.json',
+
+    proxy: 'http://brd-customer-<customer_id>-zone-<zone_name>:<zone_password>@brd.superproxy.io:33335',
+
+    })
+
+    .then(function (data) {
+
+    console.log(data);
+
+    },
+
+    function (err) {
+
+    console.error(err);
+
+    });
+
+    ```
+
+    ```python Python
+
+    import pprint
+
+    import requests
+
+      
+      
+
+    host = 'brd.superproxy.io'
+
+    port = 33335
+
+      
+
+    username = 'brd-customer-<customer_id>-zone-<zone_name>'
+
+    password = '<zone_password>'
+
+      
+
+    proxy_url = f'http://{username}:{password}@{host}:{port}'
+
+      
+
+    proxies = {
+
+    'http': proxy_url,
+
+    'https': proxy_url
+
+    }
+
+      
+      
+
+    url = "http://lumtest.com/myip.json"
+
+    response = requests.get(url, proxies=proxies)
+
+    pprint.pprint(response.json())
+
+      
+
+    ```
+
+    ```php PHP
+
+      
+
+    <?php
+
+    echo  'To enable your free eval account and get CUSTOMER, YOURZONE and '
+
+    .'YOURPASS, please contact sales@brightdata.com';
+
+    $curl = curl_init('http://lumtest.com/myip.json');
+
+    curl_setopt($curl, CURLOPT_PROXY, 'http://brd.superproxy.io:33335');
+
+    curl_setopt($curl, CURLOPT_PROXYUSERPWD, 'brd-customer-<customer_id>-zone-<zone_name>:<zone_password>');
+
+    curl_exec($curl);
+
+    ?>
+
+      
+
+    ```
+
+    ```ruby Ruby
+
+    #!/usr/bin/ruby
+
+      
+
+    require 'uri'
+
+    require 'net/http'
+
+    require 'net/https'
+
+      
+
+    puts 'To enable your free eval account and get CUSTOMER, YOURZONE and YOURPASS, please contact sales@brightdata.com'
+
+      
+
+    uri = URI.parse('http://lumtest.com/myip.json')
+
+    proxy = Net::HTTP::Proxy('brd.superproxy.io', 33335, 'brd-customer-<customer_id>-zone-<zone_name>', '<zone_password>')
+
+      
+
+    req = Net::HTTP::Get.new(uri)
+
+      
+
+    result = proxy.start(uri.host,uri.port, :use_ssl  => uri.scheme == 'https') do |http|
+
+    http.request(req)
+
+    end
+
+      
+
+    puts result.body
+
+    ```
+
+    ```cs C#
+
+    using System;
+
+    using System.Net;
+
+      
+
+    class Example {
+
+    static void Main() {
+
+    var client = new WebClient();
+
+    client.Proxy = new WebProxy("brd.superproxy.io:33335");
+
+    client.Proxy.Credentials = new NetworkCredential(
+
+    "brd-customer-<customer_id>-zone-<zone_name>",
+
+    "<zone_password>"
+
+    );
+
+    Console.WriteLine(client.DownloadString("http://lumtest.com/myip.json"));
+
+    }
+
+    ```
+
+    ```java Java
+
+    package example;
+
+      
+
+    import org.apache.http.HttpHost;
+
+    import org.apache.http.client.fluent.*;
+
+      
+
+    public  class Example {
+
+    public  static  void main(String[] args) throws Exception {
+
+    System.out.println("To enable your free eval account and get "
+
+    +"CUSTOMER, YOURZONE and YOURPASS, please contact "
+
+    +"sales@brightdata.com");
+
+    HttpHost proxy = new HttpHost("brd.superproxy.io", 33335);
+
+    String res = Executor.newInstance()
+
+    .auth(proxy, "brd-customer-<customer_id>-zone-<zone_name>", "<zone_password>")
+
+    .execute(Request.Get("http://lumtest.com/myip.json").viaProxy(proxy))
+
+    .returnContent().asString();
+
+    System.out.println(res);
+
+    }
+
+    }
+
+    ```
+
+    ```perl Perl
+
+    #!/usr/bin/perl
+
+      
+
+    print  'To enable your free eval account and get CUSTOMER, YOURZONE and '
+
+    .'YOURPASS, please contact sales@brightdata.com';
+
+    use LWP::UserAgent;
+
+    my  $agent = LWP::UserAgent->new();
+
+    $agent->proxy(['http', 'https'], "http://brd-customer-<customer_id>-zone-<zone_name>:<zone_password>\@brd.superproxy.io:33335");
+
+    print  $agent->get('http://lumtest.com/myip.json')->content();
+
+    ```
+
+    ```vb VBA
+
+    Imports System.Net
+
+      
+
+    Module Module1
+
+    Sub Main()
+
+    Console.WriteLine("To enable your free eval account and get " &
+
+    "CUSTOMER, YOURZONE and YOURPASS, please contact " &
+
+    "sales@brightdata.com")
+
+    Dim Client As  New WebClient
+
+    Client.Proxy = New WebProxy("http://brd.superproxy.io:33335")
+
+    Client.Proxy.Credentials = New NetworkCredential("brd-customer-<customer_id>-zone-<zone_name>", "<zone_password>")
+
+    Console.WriteLine(Client.DownloadString("http://lumtest.com/myip.json"))
+
+    End Sub
+
+    End Module
+
+    ```
+  </CodeGroup>
+
+  上面的代码使用住宅代理向 http://lumtest.com/myip.json发送请求。 它以 JSON 格式返回您的 IP 信息：
+
+  ```json 输出
+
+  {
+
+  "ip": "ALLOCATED_IP",
+
+  "country": "PK",
+
+  "asn": {
+
+  "asnum": 203020,
+
+  "org_name": "HostRoyale Technologies Pvt Ltd"
+
+  },
+
+  "geo": {
+
+  "city": "Islamabad",
+
+  "region": "IS",
+
+  "region_name": "Islamabad",
+
+  "postal_code": "44040",
+
+  "latitude": 33.7233,
+
+  "longitude": 73.0435,
+
+  "tz": "Asia/Karachi",
+
+  "lum_city": "islamabad",
+
+  "lum_region": "is"
+
+  }
+
+  }
+
+  ```
+
+  Now, replace “https://lumtest.com/myip.json” with the website of your choice.
+</Accordion>
+
+### Accessing 网络解锁器 as API endpoint - `Beta release`
+
+<Note> Access via API endpoint is a new feature, released as beta </Note>
+
+In order to access the web unlocker you will need to provide credentials which are comprised of:
+
+1. Your web unlocker zone name
+
+2. A Bright Data API key
+
+#### Zone name
+
+You zone name can be found in the overview tab of your unlocker zone in control panel.
+
+#### Bright Data API Key
+
+Bright Data API key is a generated secret hash which is used to authenticate your access to the web unlocker service via the web API endpoint.
+To generate the API key click here to get to [Account settings](https://brightdata.com/cp/setting/users) , scroll down and click the "Add token" button, and follow the instructions on screen.
+
+We strongly recommend to have an expiration date set on your token for increased security.
+
+<Warning> The token will be shown to you on the screen **only** so make sure you copy and store it in a safe location per your organization's policies </Warning>
+
+#### 网络解锁器: API Endpoint code examples
+
+To use 网络解锁器 via the API endpoint you should use the following parameters:
+
+1. API Endpoint: [`https://api.brightdata.com/request`](https://api.brightdata.com/request)
+
+2. API Key
+
+3. 网络解锁器 zone name
+
+4. Target URL
+
+5. Response format: `raw`
+
+```sh cURL
+
+curl -H "Content-Type: application/json" -H "Authorization: Bearer [my API key]" -d '{"zone": "[my_webunlocker_zone]","url": "[target URL]", "format": "raw"}' https://api.brightdata.com/request
+
+```

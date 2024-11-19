@@ -1,0 +1,288 @@
+---
+title: "网络解锁器 功能"
+description: "Explore 网络解锁器's advanced features like CAPTCHA solving, Premium Domains, Headers & Cookies management, and Browser Rendering for efficient web scraping."
+sidebarTitle: 功能
+---
+## 禁用验证码解决功能
+
+默认情况下，作为我们完整代理解锁解决方案的一部分，网络解锁器还会解决在返回您的代理请求时遇到的验证码。 
+
+禁用验证码解决器时，我们的智能算法仍然会负责寻找最佳代理网络、自定义标头、指纹识别等整个不断变化的流程，但故意不自动解决验证码，从而为您的团队提供轻量级、简化的解决方案，扩大潜在抓取机会的范围。 
+
+**最适合：**
+
+* 在不被屏蔽的情况下从网站抓取数据
+* 模拟真实用户的网络行为
+* 内部没有解锁基础架构且不希望其抓取工具自动解决验证码的团队
+
+<Accordion title="如何开始使用？">
+要禁用验证码解决功能，只需打开相关区域，转到“配置”选项卡并打开高级设置，您将在其中找到“自动验证码解决”控制器。 要禁用验证码解决功能，只需关闭开关。
+
+<Frame>
+    ![automatic-captcha-solving.png](/images/scraping-automation/web-unlocker/features/automatic-captcha-solving.png)
+</Frame>
+
+</Accordion>
+
+网络解锁器优质域
+----------------------------
+优质域是 Bright Data 两层网站分类系统的一部分，这些网站比其他网站更难解锁，需要额外的网络解锁器资源。  
+  
+在本文中，我们将看到当前的优质域列表，了解如何定位它们，并了解特惠定价。 
+
+### 当前的优质域列表
+<div id="premium_domains">Loading...</div>
+
+<Note>
+根据我们的网站分类逻辑，此列表经常发生变化。 您可以在代理区域内看到最新的列表.
+</Note>
+
+### 启用优质域
+当您创建网络解锁器区域时，勾选“特殊功能”下的“优质域”复选框
+
+<Frame>
+![启用优质域](/images/scraping-automation/web-unlocker/features/premium-domains.png)
+</Frame>
+
+### 定价
+
+Once enabled, the premium price will be reflected in the "Estimated cost" section. Check out the [pricing page](https://brightdata.com/pricing) to see exact numbers, but keep in mind these prices are usually for "Pay as you go" plans and you can enjoy significant discounts if you sign up to a package or talk to our sales people!   
+
+<Note>
+即使启用后，也只有针对这些域的特定请求才会按更高的费率定价。 对其他域的请求将按默认的较低层级定价。 
+</Note>
+
+Geolocation Targeting `-country-country_code`
+-------------------
+<Tip>
+  网络解锁器 automatically selects the optimal IP location for targeting your domain, eliminating the need for manual selection in most cases.
+</Tip>
+
+If you want to target from a specific **country** in 网络解锁器 refer to [geolocation targeting](https://docs.brightdata.com/api-reference/proxy/geolocation-targeting).
+
+Mobile User-agent Targeting `-ua-mobile`
+-------------------
+
+By default, 网络解锁器 uses desktop-specific user agents for your requests. To use a **mobile** user agent instead, simply append `-ua-mobile` to your request. 
+
+Custom 网络解锁器
+----------------------------
+Gain enhanced control over your requests with flexible options to fine-tune 网站 behavior and optimize request handling.
+
+By default, 网络解锁器 automatically manages all request headers, cookies, expect elements etc., to get the best known results and any extra elements that are sent along with the request are disregarded. 
+
+Custom 网络解锁器 allows you to override the automated parameters and send your own custom values specific to your needs. 
+
+#### Custom features:
+- [Manual headers & cookies](/scraping-automation/web-unlocker/features#manual-headers-and-cookies)
+- [Manual ‘expect’ elements](/scraping-automation/web-unlocker/features#manual-expect-elements)
+
+#### How to enable
+
+In the Control Panel, go to your specific **网络解锁器** zone -> 配置 -> Advanced Settings, and enable the Custom 网络解锁器 feature you want to use.
+
+![启用优质域](/images/scraping-automation/web-unlocker/features/custom-expect.png)
+
+Once enabled, you can now send Custom 网络解锁器 requests in accordance with each [custom feature's](/scraping-automation/web-unlocker/features#custom-features) procedure.
+
+#### Billing
+
+Unlike the regular 网络解锁器 billing logic, which only charges for successful requests, when any of the above Custom 网络解锁器 features are **enabled**, you'll be billed for 100% of the requests (both successful and failed). 
+
+Since you are now in control of certain request paramaters, Bright Data can no longer take full responsibility for the unlocking process and its performance.
+
+<Warning>
+**请注意：**
+* 我们不允许 Cookie 用于登录/身份验证目的
+* Adding custom paramaters to your request may result in blocking and a drop in the success rate.
+</Warning>
+
+### Manual headers & cookies
+Override automated headers/cookies and send your own custom values in order to target specific versions of a 网站.
+
+<Note>
+    Enabling **Custom Headers & Cookies** results in the following 
+  <AccordionGroup>
+  <Accordion title="Access to Pre-approved List of Headers/Cookies">
+  You'll gain access to a pre-approved list of headers and cookies. You can browse through this list to verify that the required headers and cookies are approved for your target site.
+  </Accordion>
+  <Accordion title="Send Request for New Headers/Cookies">
+  If your required headers or cookies are not on the pre-approved list, you can submit a form to our compliance team for approval. This process involves providing information about the headers/cookies and their necessity. After a short approval process is completed, you will be notified by our compliance team.
+  </Accordion>
+  <Accordion title="Charging for All 请求">
+  Unlike the regular 网络解锁器 billing logic, which only charges for successful requests, enabling this feature means you'll be charged for 100% of the requests (both successful and failed). This change is due to Bright Data not having full control over the process and its performance.
+  </Accordion>
+  </AccordionGroup>
+</Note>
+
+### Manual ‘expect’ elements
+
+Gives you the ability to pass an ‘expect’ parameter along with your request to wait for specific elements or text on the page (i.e. expect.element, text, body). 
+
+You can configure this per request with the `x-unblock-expect` header seen below.
+
+**Add `x-unblock-expect` header**
+<CodeGroup>
+```shell Element must exist
+curl -vk \
+    -x brd-customer-$CUSTOMER_ID-zone-$ZONE:$PASSWORD@brd.superproxy.io:33335 \
+    -H 'x-unblock-expect: {"element": ".some-css-selector"}' \
+    https://example.com
+```
+```shell Page must include text
+curl -vk \
+    -x brd-customer-$CUSTOMER_ID-zone-$ZONE:$PASSWORD@brd.superproxy.io:33335 \
+    -H 'x-unblock-expect: {"text": "items in stock"}' \
+    https://example.com
+```
+</CodeGroup>
+
+监控网络解锁器的使用情况
+--------------------------
+
+To review your current 网络解锁器 CPM, navigate to [My Proxies](https://brightdata.com/cp/zones) page, and review the **Traffic** column.
+
+<Frame>
+![](/images/scraping-automation/web-unlocker/features/Traffic.png)
+</Frame>
+
+### 了解使用情况
+
+上方流量列中显示的数字是成功请求的次数。在上面的例子中，115000个请求等于 115 CPM，因此将按照该计费周期内 10 CPM 的费率向您计费。
+
+### 使用量是如何计算的？
+
+您的网络解锁器使用量采用 CPM 衡量。 CPM 是1000次成功请求的费用，表示只有成功的网络解锁器请求才会计入您的账单。
+
+请参阅我们的账单和定价页面以了解更多信息:
+https://docs.brightdata.com/general/account/billing-and-pricing/payment
+
+## 网络解锁器目标域层级
+网络解锁器允许您在两种模式之间进行选择：
+- 默认模式“所有域”，在该模式下可以定位任何网站
+- 电子商务模式，您能够以低于标准网络解锁器定价30%的折扣价定位热门电子商务网站的封闭列表。
+
+<Frame>    
+<img src="/images/scraping-automation/web-unlocker/features/target-domain-tiers.png" width="500"/>
+</Frame>
+
+<Note>
+### 定位未包含在层级中的域
+选择电子商务层级时，您可以定位任何包含的域，而尝试定位其他域将导致错误：
+
+`[domain_name 不是电子商务层级的一部分]`
+</Note>
+### 运行机制
+打开网络解锁器区域时，您可以离开默认的“所有域”模式，也可以切换到电子商务模式，在这种情况下，您的定价将降低30%，并且您将仅限于该模式中包含的网站。 点击“查看可用站点”链接浏览所有包含的网站。
+
+Debugging 网络解锁器
+----------------------
+
+Sometimes it's useful to extract some debug info about your requests to understand what happened inside them in more detail.
+
+We provide the `x-brd-debug` header for this purpose.
+
+To activate the headers, add `-debug-full` to your proxy username.
+
+```shell Enabling debug headers in your request
+curl -vk \
+    -x brd-customer-$CUSTOMER_ID-zone-$ZONE-debug-full:$PASSWORD@brd.superproxy.io:33335 \
+    https://example.com
+```
+
+The format of the `x-brd-debug` header looks like this:
+
+```
+req_id=hl_d09913c7_a1lw123bkcg; bytes_up=2842; bytes_down=562418; billed=false; destination_ip=162.219.225.118; used_req_headers=accept-language,accept; peer_ip=r868133f79d0c3fa9d7c7ccca0151af2e; peer_country=us; render=false
+```
+
+| Field | 描述 |
+|-------|-------------|
+| req_id | The internal ID of your request into our system. Providing this can be helpful in bug reports as it will help us see details on what happened in your specific request. |
+| bytes_up | The amount of outgoing traffic our system recorded while processing this request |
+| bytes_down | The amount of incoming traffic our system recorded while processing this request |
+| billed | Whether our system considers this a billable request or not |
+| destination_ip | The IP address of the remote server used to fetch this data |
+| used_req_headers | Which request headers (if any) were used in the final request. This mainly applies when using Custom 网络解锁器 |
+| peer_ip | A unique identifier for the IP address used to make the request. This is mainly useful to validate IP rotation is working as you expect |
+| peer_country | The country of the peer that was used for the request |
+| render | Shows whether the returned page is the result after a browser rendered the HTML or the response body of a single HTTP request |
+
+常见错误代码
+------------------
+
+有时，由于多种原因，您可能会在响应网络解锁器请求时收到意外的错误代码。 
+
+以下列表将帮助您更深入地了解问题的根源。
+
+| 错误                         | 描述 |
+|-------------------------------|-------------|
+| `404`                         | 找不到页面。 URL 无效，这表明 URL 可能已损坏或失效。 |
+| [403](/proxy-networks/faqs#what-is-error-code-403) | 您尝试访问的 URL 有效，但您被禁止访问该 URL。|
+| [502](/proxy-networks/faqs#what-is-error-code-502) | 错误代码502是网络解锁器用户最常见的错误，描述部分位于 `x-luminati-error-code` 下。|
+| `407`                         | 此错误代码表明您的某个账户凭据不正确（密码或区域名称）。|
+| `429`                         | 此错误代码表示速率限制（罕见）。 在这种情况下，如果响应如下所示，则 Bright Data 正在对请求应用自动限制，您应该创建工单或发送电子邮件至 support@brightdata.com 寻求帮助（您可以在此处查阅有关自动限制的更多信息）|
+| `401`<br />`411`<br />`444`             | 错误的请求，通常发生在 API 请求中，当标头或 Cookie 缺失时。 |
+| `503`                         | HTTP 错误代码503表示“服务不可用”。浏览器检查失败或浏览器检查未完成|
+
+
+```js
+< HTTP/1.1 429 The request was auto-throttled due to low success rate  
+< x-luminati-error-code: sr_rate_limit
+< x-luminati-error: The request was auto-throttled due to low success rate
+< x-brd-error-code: sr_rate_limit
+< x-brd-error: The request was auto-throttled due to low success rate
+< date: Tue, 23 Jan 2024 17:07:19 GMT
+< connection: keep-alive
+< keep-alive: timeout=5
+< transfer-encoding: chunked
+< 
+* Connection #0 to host brd.superproxy.io left intact
+```
+
+<Accordion title="联系支持部门以获得更多帮助">
+如果您在使用网络解锁器时遇到问题，在向我们报告之前，请按照以下说明和提示进行测试：
+
+1. 在控制面板中打开“API 和示例”: https://brightdata.com/cp/zones/proxy_examples
+2. 选择 `curl` 和您的网络解锁器区域
+3. 将您的目标 URL 粘贴到“URL”框中
+4. 用右边的按钮复制
+5. 将 -v-o test 添加到您的命令中（这将开启详细日志记录，并创建一个名为“test”的输出文件供您与我们的支持代理共享）
+6. 运行命令并检查输出（确保也检查数据的静态源 HTML）
+
+如果此测试重现了您的问题，请发邮件至 support@brightdata.com 并在电子邮件正文中分享以下内容：
+
+
+1. 您为生成结果而发送的 `curl` 请求
+2. 运行命令的完整详细输出
+3. 运行后返回的响应（“test’”文件）
+4. 您是否使用浏览器自动化工具（除了您的代码外，网络解锁器不支持它们或任何第三方集成）。
+</Accordion>
+
+Get Success Rate Statistics Per Domain
+--------------------------------------
+The following API endpoint will provide 网络解锁器 success rate statistics from the past 7 days.
+
+The statistics can be obtained per single domain like `example.com` or for a wildcard domain like `example.*` in order to get statistics for all top-level domains.
+
+**Note**: calling this API endpoint requires using your 
+[API token](https://docs.brightdata.com/general/account/api-token#bright-datas-api-token)
+
+**How to get statistics for a single domain?**
+<CodeGroup>
+```shell Request
+    curl "https://api.brightdata.com/unblocker/success_rate/example.com" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN"
+```
+```shell Response
+    {"amazon.com":0.9835556363554884} 
+```
+</CodeGroup>
+**How to get statistics for all monitored top level domains?**
+<CodeGroup>
+```shell Request
+    curl "https://api.brightdata.com/unblocker/success_rate/example.*" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN"
+```
+```shell Response
+    {{"example.com":0.9835548316870116,"example.fr":0.987469724604454,"example.co.uk":0.9503769840916476,"example.ca":0.9904893224078992,"example.de":0.9864620859972142,"example.es":0.9845641506811664,"example.in":0.8558596797075156,"example.it":0.9890758071645432,"example.co.jp":0.996804161764218,"example.com.mx":0.9710054259117241,"example.com.au":0.9969920926297628,"example.ae":0.617948700199661,"example.nl":0.9872124916314797,"example.pl":0.9899010819017637,"example.com.br":0.9804172881460471,"example.com.be":0.9928999059667324,"example.se":0.9888455998636585,"example.sa":0.9939472688535012,"example.com.tr":0.7967697653998838,"example.eg":0.9990248073774932}} 
+```
+</CodeGroup>
