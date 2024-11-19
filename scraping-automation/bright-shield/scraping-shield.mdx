@@ -1,0 +1,78 @@
+---
+title: "Bright Data's Scraping Shield"
+描述: "使用抓取盾牌控制传出的代理流量，对域进行分类，设置规则，阻止请求，接收警报以增强数据安全性。"
+---
+
+抓取盾牌提供有关客户传出代理流量的数据，以使他们能够更好地控制流量；此外，它还允许在满足某些条件时触发预定义的操作，例如：发送电子邮件警报，阻止请求等。
+
+## 抓取盾牌功能
+### 域分类
+域分类功能将来自客户代理操作的传出流量分为购物、社交媒体和旅行等组别。客户可以查看每个类别的流量，向下钻取以查看特定的域名。 他们还可以设置规则，阻止特定类别或域使用代理，并在有人尝试访问时提醒指定用户。
+
+<Accordion title="我可以在域分类页面看到什么？">
+
+在域分类页面，您可以查看显示您账户中所有传出代理流量的图表。 此图表可以按分类、域或区域进行细分。 
+
+<Frame>
+<img src="/images/scraping-automation/bright-shield/scraping-shield/traffic-chat.png" alt="流量图"/>
+</Frame>
+ 
+此外，还有一个表格显示按分类细分的所有流量。 客户可以展开此表的每一行，查看所使用的特定域或区域，以及请求数量和这些域/区域的流量。
+
+<Frame>
+<img src="/images/scraping-automation/bright-shield/scraping-shield/classification-table.png" alt="分类表"/>
+</Frame>
+客户还可以添加规则，在针对特定类别/域时执行特定操作。
+</Accordion>
+
+### 添加和使用规则
+
+规则可使客户能够根据传出流量的分类或域设置特定的操作或警报。 这些规则包括阻止对某些分类或域的请求以及在针对特定类别或域时设置警报的功能。
+
+有两种添加规则的方法：
+
+<Tabs>
+<Tab title="从头开始创建规则">
+- 登录您的账户，转到域分类页面。
+- 选择页面顶部的 “规则” 选项卡。
+- 点击 “添加规则”
+- 选择规则应适用于整个分类还是特定域
+- 启用“阻止请求”复选框后，将会阻止对所选分类/域的所有请求。
+- 当向所选分类/域发送最少数量的请求时，“通知...” 复选框将允许您向指定用户发送警报。
+
+<Frame>
+<img src="/images/scraping-automation/bright-shield/scraping-shield/create-rule-from-scratch.gif" alt="从头开始创建规则"/>
+</Frame>
+
+</Tab>
+
+<Tab title="根据统计表创建规则">
+- 登录您的账户，转到域分类页面。
+- Review the table below the graph, and choose a classification or domain you want to add a rule to
+- Hover the mouse over the rules cell in the chosen class/domain and click the + icon
+- 启用“阻止请求”复选框后，将会阻止对所选分类/域的所有请求。
+- 当向所选分类/域发送最少数量的请求时，“通知...” 复选框将允许您向指定用户发送警报。
+<Frame>
+<img src="/images/scraping-automation/bright-shield/scraping-shield/create-rule-from-table.gif" alt="根据统计表创建规则"/>
+</Frame>
+</Tab>
+</Tabs>
+
+---
+
+<Accordion title="正在下载示例请求">
+您可以查看从您的账户发送到所选域的示例请求，其中包括请求的时间戳、源 IP、区域、带宽（以字节为单位）和请求的总持续时间。
+</Accordion>
+
+## 抓取盾牌 - 计费 
+
+抓取盾牌的定价最低为每月 1 万美元。而对于每月使用成本超过 20 万美元的客户，价格将会使其使用成本增加 5％。（实际使用成本，而非月度承诺本身）。
+
+例如，使用成本为每月 15 万美元的客户每月支付最低 1 万美元，而每月使用成本为 22 万美元的客户每月支付 1.1 万美元。
+
+使用成本是使用服务所花费的总金额，仅考虑与抓取盾牌使用相关的产品：所有代理产品、网页抓取工具 IDE和自定义数据集。（除市场数据集之外的所有产品）
+
+<Tip>
+点击这里，了解抓取盾牌 API 参考信息:  
+https://docs.brightdata.com/api-reference/scraping-shield-api/all-classification-data
+</Tip>

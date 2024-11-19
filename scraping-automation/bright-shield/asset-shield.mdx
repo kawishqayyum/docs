@@ -1,0 +1,103 @@
+---
+title: "Bright Data's Asset Shield"
+description: "使用 Bright Data 的资产盾保护您的域，监控流量，设置规则并接收警报以保护您的在线资产。"
+---
+资产盾牌产品提供有关传入客户域的 brightdata 流量的数据，以便：
+- 成功将自然流量和代理流量拆分到他们的域
+- 监控特定端点，确保不访问禁用端点
+- 为结果中的站点路径/特定模式定义速率限制
+- 根据人们从我的网站抓取的内容了解趋势
+
+## 资产盾牌功能
+若要使用资产盾牌功能，客户需要添加域并验证其是否拥有该域。  
+
+### 添加域
+- 登录您的账户并导航到资产盾牌页面。
+- 添加新域
+    - 如果您还没有域，请点击 “添加域” 按钮
+    - 如果您有域，请点击域下拉列表并选择 “添加域” 选项
+-  按照表格
+中的说明进行操作    - 输入您的域
+    - 将记录复制到您的域的 DNS 配置中
+    - 点击验证
+
+<Note>
+DNS 更改可能需要一些时间才能生效。 如果我们无法立即找到记录，请等待一天并尝试再次验证。
+</Note>
+
+### 数据监控器
+数据监控器功能允许客户查看其他 Bright Data 客户在所选时间范围内进入其域的流量，根据其路径或自定义模式监控其网站中的特定端点，并在对这些端点的请求量超过他们定义的阈值时收到警报。
+
+<Accordion title="我能在“数据监控器”页面看到什么？">
+在数据监控器页面，您可以访问一个图表，其将所有传入您的域的代理流量可视化。 此图表提供基于 IP 类型（台式设备/移动设备）、代理 IP 国家/地区和网络爬虫所在国家/地区（请求来源）的筛选选项。
+
+<Frame>
+<img src="/images/scraping-automation/bright-shield/asset-shield/requests-count.png" alt="请求数"/>
+
+<img src="/images/scraping-automation/bright-shield/asset-shield/filters.png" alt="筛选工具"/>
+</Frame>
+
+在图表下方，您将找到规则表以供进一步查看。
+
+</Accordion>
+
+### 添加和使用规则
+资产盾牌使客户能够为自己域内的特定路径或模式制定规则。 设置规则后，将在表中创建一个新条目，显示对指定路径或模式的请求数。 客户还可以设置每小时请求的阈值，超过时触发警报。
+
+若要添加规则：
+<Steps>
+<Step title="登录">
+登录并导航到资产盾牌页面。
+</Step>
+
+<Step title="选择域">
+<Note>
+如果您没有任何域，请先按照 “如何添加域” 指南进行操作。
+</Note>
+</Step>
+
+<Step title="打开数据监控器">
+- 点击“数据监控器”旁的 “管理”。
+- 点击 “添加规则”。
+</Step>
+
+<Step title="选择规则类型">
+- 在预设选项下选择“新增”。
+- 在路径规则或模式规则之间进行选择。
+<Tabs>
+<Tab title="路径规则">
+使用正则表达式输入所需的路径。 
+
+示例：`/path1/path2/`* 将跟踪所有以 `/path1/path2/` 开头的路径的请求。
+
+</Tab>
+<Tab title="模式规则">
+Specify a pattern or content to track using regex. 
+
+Example: entering "electronics" will track requests containing the word "electronics."
+
+
+</Tab>
+</Tabs>
+
+
+</Step>
+
+
+<Step title="设置警报（可选）">
+- 添加指定用户的电子邮件地址，以便在每小时请求金额超过自定义阈值时收到提醒。
+- 选择警报的阈值。
+</Step>
+
+</Steps>
+
+<Frame>
+<img src="/images/scraping-automation/bright-shield/asset-shield/add-rules.gif" alt="添加和使用规则"/>
+</Frame>
+
+## 资产盾牌计费
+资产盾牌的定价基于所选域的带宽，起价为每千兆字节 0.2 美元，最低月度承诺为 10,000 美元。此承诺与账户可能会有的任何其他月度承诺是分开的。
+
+<Tip>
+对于带宽速率较低的较大套餐，请联系您的客户经理了解更多详情。
+</Tip>

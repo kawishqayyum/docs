@@ -1,0 +1,34 @@
+---
+title: "抓取自动化产品常见问题解答"
+description: "查找有关集成、配置和使用 Bright Data 自动化搜索的常见问题的解答，包括 IP 类型、地理定位和错误代码。"
+sidebarTitle: FAQs
+---
+<AccordionGroup>
+
+<Accordion title="怎样才能避免被 Cloudflare 屏蔽？">
+
+要从使用 Cloudflare 的网站上抓取数据，我们建议使用我们的 [Web Unlocker](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction) 或 [Scraping Browser](https://docs.brightdata.com/scraping-automation/scraping-browser/introduction) 解决方案。
+
+这两种解决方案使用不同的方法（如验证码解密、自定义指纹和标头），可以轻松突破 Cloudflare。 
+
+如果只需从网站获取 HTML，而无需在页面上进行任何交互，建议使用 [Web Unlocker](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction)。
+
+如果需要与页面进行交互（例如，填写表格、点击按钮等），则推荐使用 [Scraping Browser](https://docs.brightdata.com/scraping-automation/scraping-browser/introduction)。
+
+在这两种情况下，即使页面使用了 Cloudflare，您也可以访问页面上所需的信息。
+</Accordion>
+
+<Accordion title="How can I avoid getting blocked by Datadome?">
+
+To scrape data from sites that use Datadome, we recommend using our [Web Unlocker](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction) or [Scraping Browser](https://docs.brightdata.com/scraping-automation/scraping-browser/introduction) solutions.
+
+这两种解决方案使用不同的方法（如验证码解密、自定义指纹和标头），可以轻松突破 Cloudflare。 
+
+[Web Unlocker](https://docs.brightdata.com/scraping-automation/web-unlocker/introduction) is recommended if you simply need to `GET` HTML from a website, without doing any interactions on the page.
+
+[Scraping Browser](https://docs.brightdata.com/scraping-automation/scraping-browser/introduction) is recommended if you need to interact with the page (for example, fill forms, click buttons et cetera)
+
+In both cases, you will be able to access the information you need on the page, even if it uses Datadome.
+</Accordion>
+
+</AccordionGroup>
