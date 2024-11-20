@@ -1,0 +1,115 @@
+---
+title: "分析抓取浏览器流量和资源"
+description: "通过抓取浏览器分析资源类型和数据使用情况，从而优化您的网页抓取。 使用控制面板统计信息或自定义 CDP 指令深入了解情况。"
+sidebarTitle: 流量分析
+---
+使用抓取浏览器抓取网页时，每次加载页面都会加载各种不同的资源（就像任何浏览器一样）。 了解这种流量对于优化浏览和管理数据使用至关重要。 您可以使用控制面板 UI 或通过自定义 Bright Data CDP 指令分析这些资源。
+
+<AccordionGroup>
+<Accordion title="方法 1 - 控制面板 - 区域统计选项卡">
+控制面板提供一个用户友好的界面，用于查看浏览器会话的资源类型和数据使用情况。 在您的特定抓取浏览器区域中，点击统计信息选项卡。
+![]()
+</Accordion>
+<Accordion title="方法 2 - network.getResourceTypeStats (CDP)">
+此自定义 CDP 指令允许您在浏览器会话期间实时监控资源类型和数据使用情况：
+
+```js NodeJS - 示例
+  // Create a new page
+  const page = await browser.newPage();
+  
+  // Establish a new CDP session
+  const client = await page.createCDPSession();
+  
+  // Navigate to the desired webpage
+  await page.goto('https://google.com', { waitUntil: 'networkidle2' });
+  
+  // Custom CDP command to get resource type statistics
+  const { stats } = await client.send('Network.getResourceTypeStats');
+  
+  // Output the statistics
+  console.log(stats);
+```
+`Network.getResourceTypeStats`指令返回一个对象数组，每个对象代表一个网页加载的不同类型的资源。 
+
+```js 输出示例
+[
+  { "resourceType": "Document", "data": 77776 },
+  { "resourceType": "Stylesheet", "data": 2721 },
+  { "resourceType": "Script", "data": 742028 },
+  { "resourceType": "Image", "data": 33540 },
+  { "resourceType": "XHR", "data": 4244 },
+  { "resourceType": "Fetch", "data": 97329 },
+  { "resourceType": "Font", "data": 68304 },
+  { "resourceType": "其他", "data": 1918 }
+]
+```
+</Accordion>
+</AccordionGroup>
+
+## 资源类型说明
+检索到的资源可以分为以下几类：
+
+<AccordionGroup>
+<Accordion title="文件">
+**描述** \
+浏览器加载各种文档类型。
+
+**示例** \
+HTML、XML、Document、JSON、PDF、SVG、Markdown、TXT、CSV、DOC、DOCX、ODT 等
+
+**重要性** \
+对于呈现网页的主要结构和内容至关重要。在大小方面通常极小，但对页面功能至关重要。
+</Accordion>
+<Accordion title="下载">
+**描述** \
+您在会话期间下载的文件。
+
+**示例** \
+下载
+
+**重要性** \
+在大小方面可能很大，直接影响数据消耗。
+
+</Accordion>
+<Accordion title="JavaScript">
+**描述** \
+用于动态内容的脚本和资源。
+
+**示例** \
+XHR、Fetch、Script、Manifest、Module、Worker 等
+
+**重要性** \
+在大小方面通常很大，尤其是在复杂的网页应用中。
+</Accordion>
+<Accordion title="媒体">
+**描述** \
+网页上显示的多媒体内容。
+
+**示例** \
+Image（JPEG、PNG、GIF、WebP、APNG、ICO、TIFF、BMP）、Video、Audio、Font 等
+
+**重要性** \
+通常是数据使用的最大贡献者之一。
+</Accordion>
+<Accordion title="样式表">
+**描述** \
+用于设置网页样式的 CSS 文件。
+
+**示例** \
+Stylesheet
+
+**重要性** \
+通常较小，但对用户体验和视觉一致性至关重要。
+
+</Accordion>
+<Accordion title="其他">
+**描述** \
+其他资源和数据交换。
+
+**示例** \
+TextTrack、Prefetch、EventSource、WebSocket、SignedExchange、Ping、CSPViolationReport、Preflight、ServiceWorker、Beacon、Other 等
+
+**重要性** \
+在大小方面通常较小，但对各种功能和优化十分重要。对于监控任何意外的数据使用情况非常有用。
+</Accordion>
+</AccordionGroup>

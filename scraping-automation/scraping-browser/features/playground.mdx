@@ -1,0 +1,31 @@
+---
+title: "Scraping Browser Playground"
+description: "使用 Playground 试用 Scraping Browser。运行或编辑脚本，查看实时日志和浏览器交互。目前支持 Puppeteer 和 JavaScript。"
+sidebarTitle: Playground
+---
+
+Playground 是一个代码编辑器，用于试用 Scraping Browser。您可以使用该工具运行现成的示例脚本，或编辑脚本并运行自己的脚本进行测试。
+Playground 支持的库、语言和功能
+
+虽然 Scraping Browser 支持所有常见的库和语言，但当前版本的 Playground 只能支持 Puppeteer 和 JavaScript。我们保证很快会添加其他功能！
+
+请注意，任何涉及与用户端基础设施连接的功能将在生产环境中得到支持，但在测试环境中不支持。例如，保存文件到用户的文件系统或使用像 Cheerio 这样的预安装库。要全面测试 Scraping Browser 的功能，请使用您常用的编码环境。
+
+### Playground 功能
+- 代码编辑器：
+    - 默认情况下，代码编辑器将托管一个示例抓取工具脚本。
+    - 可自由编辑脚本示例，也可完全删除示例，并从头开始创建任何自定义脚本，以便与 Scraping Browser 一起运行。
+    - 重置按钮可还原到原始示例脚本。
+- 控制台日志视图
+- 网络交互和结果视图：显示通过浏览器的原始 HTML 或可视化浏览器交互。
+
+<Frame>
+![playground-features.png](/images/scraping-automation/scraping-browser/features/playground/playground-features.png)
+</Frame>
+
+### 现成的示例
+运行现有的示例脚本，即时查看产品的运行情况。示例脚本演示了对真实目标网站的抓取。您可以看到完整的脚本、控制台日志以及浏览器与目标网站交互的可视化效果。
+
+### 代码编辑
+使用代码编辑器编辑默认示例脚本，或用自己的脚本完全替换它们，并运行任何自定义脚本来查看结果或调试代码。
+如有需要，您可以随时点击重置按钮，返回到原始示例脚本。

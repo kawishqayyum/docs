@@ -1,0 +1,338 @@
+---
+title: "如何配置抓取浏览器"
+description: "了解如何使用您的凭据设置和配置 Bright Data 的抓取浏览器、运行示例脚本以及浏览实时浏览器会话。使用我们的详细说明确保高效的网页抓取。"
+---
+首先，获取您的凭据——您的用户名和密码。您可以在你刚刚创建的抓取浏览器区域中找到它们。我们假设您已经安装了首选的网络自动化工具。 如果尚未安装，请安装它。
+
+## 示例代码
+运行以下基本示例，检查您的抓取浏览器是否正常运行（记得换入您的凭据和目标 URL）：
+
+<Tabs>
+
+<Tab title="NodeJS">
+<CodeGroup>
+```js Puppeteer
+const puppeteer = require('puppeteer-core');  
+// Enter your zone name and password below
+const AUTH = 'USER:PASS';  
+const SBR_WS_ENDPOINT = `wss://${AUTH}@brd.superproxy.io:9222`;  
+  
+async function main() {  
+    console.log('Connecting to 抓取浏览器...');  
+    const browser = await puppeteer.connect({  
+        browserWSEndpoint: SBR_WS_ENDPOINT,  
+   });  
+    try {  
+        console.log('Connected! Navigating...');  
+        const page = await browser.newPage();  
+        // Enter your test URL below
+        await page.goto('https://example.com', { timeout: 2 * 60 * 1000 });  
+        console.log('Taking screenshot to page.png');  
+        await page.screenshot({ path: './page.png', fullPage: true });  
+   console.log('Navigated! Scraping page content...');  
+ const html = await page.content();  
+ console.log(html)  
+ // CAPTCHA solving: If you know you are likely to encounter a CAPTCHA on your target page, add the following few lines of code to get the status of 抓取浏览器's automatic CAPTCHA solver   
+ // Note 1: If no captcha was found it will return not_detected status after detectTimeout   
+ // Note 2: Once a CAPTCHA is solved, if there is a form to submit, it will be submitted by default   
+ // const client = await page.target().createCDPSession();  
+ // const {status} = await client.send('Captcha.solve', {detectTimeout: 30*1000});   
+ // console.log(`Captcha solve status: ${status}`)   
+    } finally {  
+        await browser.close();  
+   }  
+}  
+  
+if (require.main === module) {  
+    main().catch(err => {  
+        console.error(err.stack || err);  
+        process.exit(1);  
+   });  
+}
+```
+```js Playwright
+const pw = require('playwright');
+
+// Enter your zone name and password below
+const AUTH = 'USER:PASS';  
+const SBR_CDP = `wss://${AUTH}@brd.superproxy.io:9222`;  
+  
+async function main() {  
+    console.log('Connecting to 抓取浏览器...');  
+    const browser = await pw.chromium.connectOverCDP(SBR_CDP);  
+    try {  
+        console.log('Connected! Navigating...');  
+        const page = await browser.newPage();
+        // Enter your test URL below
+        await page.goto('https://example.com', { timeout: 2 * 60 * 1000 });  
+        console.log('Taking screenshot to page.png');  
+        await page.screenshot({ path: './page.png', fullPage: true });  
+ console.log('Navigated! Scraping page content...');  
+ const html = await page.content();  
+ console.log(html);  
+    } finally {  
+        await browser.close();  
+   }  
+}  
+  
+if (require.main === module) {  
+    main().catch(err => {  
+        console.error(err.stack || err);  
+        process.exit(1);  
+   });  
+}
+```
+```js Selenium
+const fs = require('fs/promises');  
+const { Builder, Browser, By } = require('selenium-webdriver');  
+
+// Enter your zone name and password below 
+const AUTH = 'USER:PASS';  
+const SBR_WEBDRIVER = `https://${AUTH}@zproxy.lum-superproxy.io:9515`;  
+  
+async function main() {  
+   const driver = await new Builder()  
+       .forBrowser(Browser.CHROME)  
+       .usingServer(SBR_WEBDRIVER)  
+       .build();  
+   try {  
+ console.log('Connected! Navigating...');
+       // Enter your test URL below
+       await driver.get('https://example.com');  
+        console.log('Taking page screenshot to file page.png');  
+       const screenshot = await driver.takeScreenshot();  
+       await fs.writeFile('./page.png', Buffer.from(screenshot, 'base64'));  
+ console.log('Navigated! Scraping page content...');  
+ const html = await driver.getPageSource();  
+ console.log(html);          
+   } finally {  
+       driver.quit();  
+   }  
+}  
+  
+if (require.main == module) {  
+   main().catch(err => {  
+       console.error(err.stack || err);  
+       process.exit(1);  
+   });  
+}
+```
+</CodeGroup>
+</Tab>
+
+<Tab title="Python">
+<CodeGroup>
+```python Playwright
+import asyncio  
+from playwright.async_api import async_playwright  
+  
+AUTH = 'USER:PASS'  
+SBR_WS_CDP = f'wss://{AUTH}@brd.superproxy.io:9222'  
+  
+async def run(pw):  
+    print('Connecting to 抓取浏览器...')  
+    browser = await pw.chromium.connect_over_cdp(SBR_WS_CDP)  
+    try:  
+        print('Connected! Navigating...')  
+        page = await browser.new_page()  
+        await page.goto('https://example.com', timeout=2*60*1000)  
+        print('Taking page screenshot to file page.png')  
+        await page.screenshot(path='./page.png', full_page=True)  
+ print('Navigated! Scraping page content...')  
+ html = await page.content()  
+ print(html)  
+ # CAPTCHA solving: If you know you are likely to encounter a CAPTCHA on your target page, add the following few lines of code to get the status of 抓取浏览器's automatic CAPTCHA solver   
+ # Note 1: If no captcha was found it will return not_detected status after detectTimeout   
+ # Note 2: Once a CAPTCHA is solved, if there is a form to submit, it will be submitted by default  
+ # client = await page.context.new_cdp_session(page)  
+ # solve_result = await client.send('Captcha.solve', { 'detectTimeout': 30*1000 })   
+ # status = solve_result['status']   
+ # print(f'Captcha solve status: {status}')   
+     finally:  
+ await browser.close()  
+   
+async def main():  
+    async with async_playwright() as playwright:  
+        await run(playwright)  
+  
+if _name_ == '_main_':  
+ asyncio.run(main())
+```
+```python Selenium
+from selenium.webdriver import Remote, ChromeOptions  
+from selenium.webdriver.chromium.remote_connection import ChromiumRemoteConnection  
+from selenium.webdriver.common.by import By  
+
+# Enter your credentials - the zone name and password  
+AUTH = 'USER:PASS'  
+
+SBR_WEBDRIVER = f'https://{AUTH}@zproxy.lum-superproxy.io:9515'  
+  
+def main():  
+    print('Connecting to 抓取浏览器...')  
+    sbr_connection = ChromiumRemoteConnection(SBR_WEBDRIVER, 'goog', 'chrome')  
+    with Remote(sbr_connection, options=ChromeOptions()) as driver:  
+        print('Connected! Navigating...')  
+        driver.get('https://example.com')  # use this, or replace with URL of your choice
+        print('Taking page screenshot to file page.png')  
+        driver.get_screenshot_as_file('./page.png')  
+        print('Navigated! Scraping page content...')  
+        html = driver.page_source  
+        print(html)  
+  
+if __name__ == '__main__':  
+   main()
+```
+</CodeGroup>
+</Tab>
+
+<Tab title="C#">
+<CodeGroup>
+```cs PuppeteerSharp
+using PuppeteerSharp;  
+using System.Net.WebSockets;  
+using System.Text;  
+  
+var AUTH = "USER:PASS";  
+var SBR_WS_ENDPOINT = $"wss://{AUTH}@brd.superproxy.io:9222";  
+  
+var Connect = (string ws) => Puppeteer.ConnectAsync(new ()  
+{  
+    BrowserWSEndpoint = ws,  
+    WebSocketFactory = async (url, options, cToken)=>{  
+        var socket = new ClientWebSocket();  
+        var authBytes = Encoding.UTF8.GetBytes(new Uri(ws).UserInfo);  
+        var authHeader = "Basic " + Convert.ToBase64String(authBytes);  
+        socket.Options.SetRequestHeader("Authorization", authHeader);  
+        socket.Options.KeepAliveInterval = TimeSpan.Zero;  
+        await socket.ConnectAsync(url, cToken);  
+        return socket;  
+   },  
+});  
+  
+Console.WriteLine("Connecting to 抓取浏览器...");  
+using var browser = await Connect(SBR_WS_ENDPOINT);  
+Console.WriteLine("Connected! Navigating...");  
+var page = await browser.NewPageAsync();  
+await page.GoToAsync("https://example.com", new 导航Options()  
+{  
+    Timeout = 2 * 60 * 1000,  
+});  
+Console.WriteLine("Taking page screenshot to file page.png");  
+await page.ScreenshotAsync("./page.png", new ()  
+{  
+    FullPage = true,  
+});  
+Console.WriteLine("Navigated! Scraping page content...");  
+var html = await page.GetContentAsync();   
+Console.WriteLine(html);
+```
+
+```cs Playwright
+var AUTH = "USER:PASS";  
+var SBR_CDP = $"wss://{AUTH}@brd.superproxy.io:9222";  
+  
+Console.WriteLine("Connecting to 抓取浏览器...");  
+using var pw = await Playwright.CreateAsync();  
+await using var browser = await pw.Chromium.ConnectOverCDPAsync(SBR_CDP);  
+Console.WriteLine("Connected! Navigating...");  
+var page = await browser.NewPageAsync();  
+await page.GotoAsync("https://example.com", new()  
+{  
+    Timeout = 2 * 60 * 1000,  
+});  
+Console.WriteLine("Taking page screenshot to file page.png");  
+await page.ScreenshotAsync(new ()  
+{  
+    Path = "./page.png",  
+    FullPage = true,  
+});  
+Console.WriteLine("Navigated! Scraping page content...");   
+var html = await page.ContentAsync();   
+Console.WriteLine(html);  
+```
+
+```cs Selenium
+using OpenQA.Selenium;  
+using OpenQA.Selenium.Chrome;  
+using OpenQA.Selenium.Remote;  
+var AUTH = "USER:PASS";  
+var SBR_WEBDRIVER = "https://{AUTH}@brd.superproxy.io:9515";  
+  
+Console.WriteLine("Connecting to 抓取浏览器...");  
+var options = new ChromeOptions();  
+using var driver = new RemoteWebDriver(new Uri(SBR_WEBDRIVER), options);  
+Console.WriteLine("Connected! Navigating to https://example.com...");  
+driver.Navigate().GoToUrl("https://example.com");  
+  
+Console.WriteLine("Taking page screenshot to file page.png");  
+var screenshot = driver.GetScreenshot();  
+screenshot.SaveAsFile("./page.png");  
+  
+Console.WriteLine("Navigated! Scraping page content...");  
+var html = driver.PageSource;  
+Console.WriteLine(html);
+```
+</CodeGroup>
+</Tab>
+</Tabs>
+
+## 运行脚本
+
+<Tabs>
+<Tab title="NodeJS">
+将以上代码另存为 script.js（别忘了输入您的凭据！），然后使用此命令运行它：
+```sh
+node script.js
+```
+</Tab>
+<Tab title="Python">
+将以上代码另存为 main.py（别忘了输入您的凭据！），然后使用此命令运行它：
+
+```sh
+python main.py
+```
+</Tab>
+<Tab title="C#">
+</Tab>
+</Tabs>
+
+## 查看实时浏览器会话
+
+抓取浏览器 Debugger 使开发人员能够与 Chrome 开发者工具一起检查、分析和微调代码，从而实现更好的控制、可见性和效率。 您可以集成以下代码片段，为每个会话自动启动开发者工具：
+
+```js
+// Node.js Puppeteer - launch devtools locally  
+  
+const { exec } = require('child_process');  
+const chromeExecutable = 'google-chrome';  
+  
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));  
+const openDevtools = async (page, client) => {  
+    // get current frameId  
+    const frameId = page.mainFrame()._id;  
+    // get URL for devtools from scraping browser  
+    const { url: inspectUrl } = await client.send('Page.inspect', { frameId });  
+    // open devtools URL in local chrome  
+    exec(`"${chromeExecutable}" "${inspectUrl}"`, error => {  
+        if (error)  
+            throw new Error('Unable to open devtools: ' + error);  
+    });  
+    // wait for devtools ui to load  
+    await delay(5000);  
+};  
+  
+const page = await browser.newPage();  
+const client = await page.target().createCDPSession();  
+await openDevtools(page, client);  
+await page.goto('http://example.com');
+```
+
+## 每个会话单次导航
+抓取浏览器会话被构建为允许每个会话进行一次初始导航。 此初始导航指的是加载要从中提取数据的目标站点的第一个实例。 之后，用户可以在同一会话中使用点击、滚动和其他交互式操作自由浏览网站。 然而，要从初始导航阶段开始新的抓取作业（无论是在同一个站点还是不同的站点），都必须开始一个新的会话。
+
+## 会话时间限制
+抓取浏览器有两种超时设置，旨在使我们的客户不会进行不受控制的使用。
+
+1. 空闲会话超时：如果浏览器会话在空闲模式下保持打开状态5分钟及以上，这意味着没有使用该会话，抓取浏览器将自动使会话超时。
+2. 最大会话长度超时：抓取浏览器会话最多可持续30分钟。 一旦达到最长会话时间，会话将自动超时。

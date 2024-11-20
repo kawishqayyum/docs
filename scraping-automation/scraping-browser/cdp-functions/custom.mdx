@@ -1,0 +1,350 @@
+---
+title: 自定义 CDP 函数
+sidebarTitle: 自定义
+描述: 除了 [标准 CDP 函数]（/scraping-automation/scraping-browser/cdp-functions/standard）之外，抓取浏览器还提供一些强大的自定义 CDP 函数。
+---
+
+## 验证码解算器
+使用抓取浏览器浏览页面时，默认情况下，我们的集成验证码解算器会自动解算所有验证码 。您可以使用以下自定义 CDP 函数在代码中监控此自动解算过程。
+
+<Note>
+  如果您想通过控制面板完全禁用验证码解算器，请参阅我们的禁用验证码解算器功能:  
+  https://docs.brightdata.com/scraping-automation/scraping-browser/features/captcha-solver
+</Note>
+
+<Note>
+    验证码解算后，如有表单需要提交，则默认情况下会提交。
+</Note>
+
+## 验证码解算器 - 自动解算
+<AccordionGroup>
+<Accordion title="Captcha.Solve">
+使用此指令返回验证码已解算、失败或未检测到之后的状态。
+使用此指令返回验证码已解算、失败或未检测到之后的状态。 
+
+<CodeGroup>
+```js Captcha.Solve
+Captcha.Solve({
+    detectTimeout?: number // Detect timeout in millisecond for solver to detect captcha  
+    options?: CaptchaOptions[] // Configuration options for captcha solving  
+}) : SolveResult
+```
+
+```js SolveResult
+SolveResult : {  
+  status: SolveStatus // Detect and solve status  
+  type?: string // Detected captcha type  
+  error?: string // Error if captcha was not solved  
+}
+```
+
+```js SolveStatus
+SolveStatus : string enum {  
+  "not_detected" // Captcha was not detected  
+  "solve_finished" // Captcha successfully solved  
+  "solve_failed" // Captcha detected, but was not solved  
+  "invalid" // Something goes wrong  
+}
+```
+</CodeGroup>
+
+**示例**
+<CodeGroup>
+```js NodeJS - Puppeteer
+const page = await browser.newPage();
+const client = await page.target().createCDPSession();
+await page.goto('[https://site-with-captcha.com](https://site-with-captcha.com/)');  
+
+// Note 1: If no captcha was found it will return not_detected status after detectTimeout   
+// Note 2: Once a CAPTCHA is solved, if there is a form to submit, it will be submitted by default   
+
+const client = await page.target().createCDPSession();  
+const {status} = await client.send('Captcha.Solve', {detectTimeout: 30*1000});   
+console.log(`Captcha solve status: ${status}`)
+```
+
+```python Python - Playwright
+page = await browser.new_page()   
+client = await page.context.new_cdp_session(page)   
+await page.goto('[https://site-with-captcha.com](https://site-with-captcha.com/)')  
+# Note 1: If no captcha was found it will return not_detected status after detectTimeout   
+# Note 2: Once a CAPTCHA is solved, if there is a form to submit, it will be submitted by default  
+client = await page.context.new_cdp_session(page)  
+solve_result = await client.send('Captcha.Solve', { 'detectTimeout': 30*1000 })   
+status = solve_result['status']   
+print(f'Captcha solve status: {status}') 
+```
+</CodeGroup>
+
+<Note>
+如果验证码解算失败，请重新尝试。 如果问题仍然存在，请提交支持请求 ，详细说明您遇到的具体问题。
+</Note> 
+
+</Accordion>
+<Accordion title="用于验证码状态的自定义 CDP 指令">
+使用以下指令查明验证码解算流程中更具体的阶段：
+
+
+|  |  |
+| --- | --- |
+| `Captcha.detected` | 抓取浏览器遇到验证码并开始解算 |
+| `Captcha.SolveFinished` | 抓取浏览器成功解算验证码 |
+| `Captcha.SolveFailed` | 抓取浏览器未能解算验证码 |
+| `Captcha.waitForSolve` | 抓取浏览器等待验证码解算器完成 |
+
+**示例**
+
+<Tabs>
+<Tab title="异步">
+以下代码设置 CDP 会话、监听 CAPTCHA 事件并处理超时：
+
+<CodeGroup>
+```js NodeJS - Puppeteer
+// Node.js - Puppeteer - waiting for CAPTCHA solving events  
+const client = await page.target().createCDPSession();   
+await new Promise((resolve, reject)=>{   
+  client.on('Captcha.SolveFinished', resolve);   
+  client.on('Captcha.SolveFailed', ()=>reject(new Error('Captcha failed')));   
+  setTimeout(reject, 5 * 60 * 1000, new Error('Captcha solve timeout'));  
+});
+```
+
+```python Python - Playwright
+# Python - Playwright - waiting for CAPTCHA solving events  
+client = await page.context.new_cdp_session(page)  
+client.on('Captcha.detected', lambda c: print('Captcha detected', c))   
+client.on('Captcha.SolveFinished', lambda _: print('Captcha solved!'))   
+client.on('Captcha.SolveFailed', lambda _: print('Captcha failed!'))
+```
+</CodeGroup>
+</Tab>
+<Tab title="同步">
+<Warning>
+Selenium doesn't support asynchronous server-driven events like Puppeteer and Playwright.
+</Warning>
+
+The `Captcha.waitForSolve` command waits for 抓取浏览器's CAPTCHA solver to finish.
+
+```python Python - Selenium
+# Python Selenium - Waiting for Captcha to auto-solve after navigate  
+driver.execute('executeCdpCommand', {  
+    'cmd': 'Captcha.waitForSolve',  
+    'params': {},  
+})
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+</AccordionGroup>
+
+
+## 验证码解算器 - 手动控制
+
+如果您想手动配置或完全禁用我们的默认验证码解算器，请改为手动调用解算器或自己解算，请参阅以下 CDP 指令和功能。
+
+<AccordionGroup>
+<Accordion title="Captcha.setAutoSolve">
+此指令用于控制验证码的自动解算。 您可以禁用自动解算或为不同的验证码类型配置算法，然后手动触发此操作：
+
+<CodeGroup>
+```js Captcha.setAutoSolve
+Captcha.setAutoSolve({  
+  autoSolve: boolean // Whether to automatically solve captcha after navigate  
+  options?: CaptchaOptions[] // Configuration options for captcha auto-solving  
+}) : void
+```
+
+```js CaptchaOptions
+CaptchaOptions : {  
+  type: string // Captcha type  
+  disabled?: boolean // Disable detect and solve for specified captcha  
+  ... // additinal options related to captcha type  
+}
+```
+</CodeGroup>
+在会话中完全禁用自动解算器的 CDP 指令示例：
+<CodeGroup>
+```js NodeJS - Puppeteer
+// Node.js Puppeteer - Disable Captcha auto-solver completely  
+const page = await browser.newPage();  
+const client = await page.target().createCDPSession();  
+await client.send('Captcha.setAutoSolve', { autoSolve: false })
+```
+
+```python Python - Playwright
+# Python Playwright - Disable Captcha auto-solver completely  
+page = await browser.new_page()  
+client = await page.context.new_cdp_session(page)  
+await client.send('Captcha.setAutoSolve', {'autoSolve': False}):
+```
+
+```python - Selenium
+# Python Selenium - Disable Captcha auto-solver completely  
+driver.execute('executeCdpCommand', {  
+    'cmd': 'Captcha.setAutoSolve',  
+    'params': {'autoSolve': False},  
+})
+```
+</CodeGroup>
+</Accordion>
+
+<Accordion title="仅针对特定验证码类型禁用自动解算器 - 示例">
+<CodeGroup>
+```js NodeJS - Puppeteer
+// Node.js Puppeteer - Disable Captcha auto-solver for ReCaptcha only  
+const page = await browser.newPage();  
+const client = await page.target().createCDPSession();  
+await client.send('Captcha.setAutoSolve', {  
+    autoSolve: true,  
+    options: [{  
+        type: 'usercaptcha',  
+        disabled: true,  
+    }],  
+});
+```
+
+```python Python - Playwright
+# Python Playwright - Disable Captcha auto-solver for ReCaptcha only  
+page = await browser.new_page()  
+client = await page.context.new_cdp_session(page)  
+await client.send('Captcha.setAutoSolve', {  
+    'autoSolve': True,  
+    'options': [{  
+        'type': 'usercaptcha',  
+        'disabled': True,  
+    }],  
+})
+```
+</CodeGroup>
+</Accordion>
+<Accordion title="手动解算验证码 - 示例">
+<CodeGroup>
+```js NodeJS - Puppeteer
+// Node.js Puppeteer - manually solving CAPTCHA after navigation  
+const page = await browser.newPage();  
+const client = await page.target().createCDPSession();  
+await client.send('Captcha.setAutoSolve', { autoSolve: false });  
+await page.goto('https://site-with-captcha.com', { timeout: 2*60*1000 });  
+const {status} = await client.send('Captcha.Solve', { detectTimeout: 30*1000 });  
+console.log('Captcha solve status:', status);
+```
+
+```python Python - Playwright
+# Python Playwright- manually solving CAPTCHA after navigation  
+page = await browser.new_page()  
+client = await page.context.new_cdp_session(page)  
+await client.send('Captcha.setAutoSolve', {'autoSolve': False})  
+await page.goto('https://site-with-captcha.com', timeout=2*60_000)  
+solve_result = await client.send('Captcha.Solve', {'detectTimeout': 30_000})  
+print('Captcha solve status:', solve_result['status'])
+```
+
+```python Python - Selenium
+# Python Selenium - manually solving CAPTCHA after navigation  
+driver.execute('executeCdpCommand', {  
+    'cmd': 'Captcha.setAutoSolve',  
+    'params': {'autoSolve': False},  
+})  
+driver.get('https://site-with-captcha.com')  
+solve_result = driver.execute('executeCdpCommand', {  
+    'cmd': 'Captcha.Solve',  
+    'params': {'detectTimeout': 30_000},  
+})  
+print('Captcha solve status:', solve_result['value']['status'])
+```
+</CodeGroup>
+</Accordion>
+<Accordion title="其他验证码类型的 CaptchaOptions">
+对于以下三种验证码类型，我们支持以下附加选项，以控制和配置我们的自动解算算法。 
+
+<Tabs>
+<Tab title="CF Challenge">
+```js CF Challenge
+timeout: 40000  
+selector: '#challenge-body-text, .challenge-form'  
+check_timeout: 300  
+error_selector: '#challenge-error-title'  
+success_selector: '#challenge-success[style*=inline]'  
+check_success_timeout: 300  
+btn_selector: '#challenge-stage input[type=button]'  
+cloudflare_checkbox_frame_selector: '#turnstile-wrapper iframe'  
+checkbox_area_selector: '.ctp-checkbox-label .mark'  
+wait_timeout_after_solve: 500  
+wait_networkidle: {timeout: 500}
+```
+</Tab>
+
+<Tab title="HCaptcha">
+```js HCaptcha
+detect_selector:  
+  '#cf-hcaptcha-container, #challenge-hcaptcha-wrapper .hcaptcha-box, .h-captcha'  
+pass_proxy: true  
+submit_form: true  
+submit_selector: '#challenge-form body > form[action*="internalcaptcha/captchasubmit"]  
+value_selector: '.h-captcha textarea[id^="h-captcha-response"]'  
+  
+```
+</Tab>
+
+<Tab title="usercaptcha (reCAPTCHA)">
+```js UserCaptcha (reCAPTCHA)
+{ // configuration keys and default values for reCAPTCHA (type=usercaptcha)  
+  type: 'usercaptcha',  
+  // selector to retrieve sitekey and/or action  
+  selector: '.g-recaptcha, .recaptcha',  
+  // attributes to search for sitekey  
+  sitekey_attributes: ['data-sitekey', 'data-key'],  
+  // attributes to search for action  
+  action_attributes: ['data-action'],  
+  // detect selectors  
+  detect_selector: `  
+    .g-recaptcha[data-sitekey] > *,  
+    .recaptcha > *,  
+    iframe[src*="[www.google.com/recaptcha/api2](http://www.google.com/recaptcha/api2)"],  
+    iframe[src*="[www.recaptcha.net/recaptcha/api2](http://www.recaptcha.net/recaptcha/api2)"],  
+    iframe[src*="[www.google.com/recaptcha/enterprise](http://www.google.com/recaptcha/enterprise)"]`,  
+  // element to type response code into  
+  reponse_selector: '#g-recaptcha-response, .g-recaptcha-response',  
+  // should solver submit form automatically after captcha solved  
+  submit_form: true,  
+  // selector for submit button  
+  submit_selector: '[type=submit]',  
+}
+```
+</Tab>
+</Tabs>
+</Accordion>
+</AccordionGroup>
+
+## 仿真函数
+<AccordionGroup>
+<Accordion title="Emulation.getSupportedDevices">
+使用此指令获取所有可仿真的设备列表。 此方法返回可与 setDevice 指令一起使用的设备选项阵列。
+
+```js 示例
+Emulation.getSupportedDevices().then(devices => { console.log(devices);});
+```
+
+</Accordion>
+<Accordion title="Emulation.setDevice">
+收到上面的支持设备列表后，您可以使用 Emulation.setDevice 指令模拟特定设备。此指令更改屏幕宽度、高度、userAgent 和 devicePixelRatio 以匹配指定的设备。
+
+<CodeGroup>
+```js Usage
+Emulation.setDevice({device: '[device_name]'});
+```
+```js 示例
+Emulation.setDevice({device: 'iPhone X'});
+``` 
+</CodeGroup>
+## 横向模式
+
+如果您想将方向更改为横向（适用于支持横向的设备），可在device_name 之后添加字符串landscape。
+
+```js 示例
+Emulation.setDevice({device: 'iPhone X landscape'});
+```
+</Accordion>
+
+</AccordionGroup>
