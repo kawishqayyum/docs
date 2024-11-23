@@ -1,0 +1,163 @@
+---
+title: "发送您的第一个请求"
+description: ""
+---
+
+要开始使用，您需要 API 凭据、用户名和密码以及主机名。您可以在代理产品的访问参数选项卡中找到这些凭据。
+
+## 代码示例
+获得 API 凭据后，使用以下代码发送您的第一个请求：
+<Warning>
+
+为确保 SERP API 区域内请求的安全性，请使用我们的 SSL 证书或忽略 SSL 错误。
+
+[SSL certificate](/general/account/ssl-certificate#how-to-download-the-ssl-certificate), [ignore SSL errors](/general/account/ssl-certificate#how-to-ignore-ssl-errors)
+</Warning>
+<CodeGroup>
+```sh cURL
+curl "https://www.google.com/search?q=pizza" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+```
+
+```js Node.js
+#!/usr/bin/env node
+
+require('request-promise')({
+    url: 'https://www.google.com/search?q=pizza',
+    proxy: 'http://brd-customer-<customer_id>-zone-<zone_name>:<zone_password>@brd.superproxy.io:33335',
+  })
+  .then(function (data) {
+      console.log(data);
+    },
+    function (err) {
+      console.error(err);
+    });
+```
+
+```python Python
+import pprint
+import requests
+
+
+host = 'brd.superproxy.io'
+port = 33335
+
+username = 'brd-customer-<customer_id>-zone-<zone_name>'
+password = '<zone_password>'
+
+proxy_url = f'http://{username}:{password}@{host}:{port}'
+
+proxies = {
+    'http': proxy_url,
+    'https': proxy_url
+}
+
+
+url = "https://www.google.com/search?q=pizza"
+response = requests.get(url, proxies=proxies)
+pprint.pprint(response.json())
+
+```
+
+```php PHP
+
+<?php
+echo 'To enable your free eval account and get CUSTOMER, YOURZONE and '
+    .'YOURPASS, please contact sales@brightdata.com';
+$curl = curl_init('https://www.google.com/search?q=pizza');
+curl_setopt($curl, CURLOPT_PROXY, 'http://brd.superproxy.io:33335');
+curl_setopt($curl, CURLOPT_PROXYUSERPWD, 'brd-customer-<customer_id>-zone-<zone_name>:<zone_password>');
+curl_exec($curl);
+?>
+
+```
+
+```ruby Ruby
+#!/usr/bin/ruby
+
+require 'uri'
+require 'net/http'
+require 'net/https'
+
+puts 'To enable your free eval account and get CUSTOMER, YOURZONE and YOURPASS, please contact sales@brightdata.com'
+
+uri = URI.parse('https://www.google.com/search?q=pizza')
+proxy = Net::HTTP::Proxy('brd.superproxy.io', 33335, 'brd-customer-<customer_id>-zone-<zone_name>', '<zone_password>')
+
+req = Net::HTTP::Get.new(uri)
+
+result = proxy.start(uri.host,uri.port, :use_ssl => uri.scheme == 'https') do |http|
+    http.request(req)
+end
+
+puts result.body
+```
+
+```cs C#
+using System;
+using System.Net;
+
+class Example {
+  static void Main() {
+    var client = new WebClient();
+    client.Proxy = new WebProxy("brd.superproxy.io:33335");
+    client.Proxy.Credentials = new NetworkCredential(
+      "brd-customer-<customer_id>-zone-<zone_name>",
+      "<zone_password>"
+    );
+    Console.WriteLine(client.DownloadString("https://www.google.com/search?q=pizza"));
+  }
+```
+
+```java Java
+package example;
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+
+public class Example {
+    public static void main(String[] args) throws Exception {
+        System.out.println("To enable your free eval account and get "
+            +"CUSTOMER, YOURZONE and YOURPASS, please contact "
+            +"sales@brightdata.com");
+        HttpHost proxy = new HttpHost("brd.superproxy.io", 33335);
+        String res = Executor.newInstance()
+            .auth(proxy, "brd-customer-<customer_id>-zone-<zone_name>", "<zone_password>")
+            .execute(Request.Get("https://www.google.com/search?q=pizza").viaProxy(proxy))
+            .returnContent().asString();
+        System.out.println(res);
+    }
+}
+```
+
+```perl Perl
+#!/usr/bin/perl
+
+print 'To enable your free eval account and get CUSTOMER, YOURZONE and '
+    .'YOURPASS, please contact sales@brightdata.com';
+use LWP::UserAgent;
+my $agent = LWP::UserAgent->new();
+$agent->proxy(['http', 'https'], "http://brd-customer-<customer_id>-zone-<zone_name>:<zone_password>\@brd.superproxy.io:33335");
+print $agent->get('https://www.google.com/search?q=pizza')->content();
+```
+
+```vb VBA
+Imports System.Net
+
+Module Module1
+    Sub Main()
+        Console.WriteLine("To enable your free eval account and get " & 
+            "CUSTOMER, YOURZONE and YOURPASS, please contact " &
+            "sales@brightdata.com")
+        Dim Client As New WebClient
+        Client.Proxy = New WebProxy("http://brd.superproxy.io:33335")
+        Client.Proxy.Credentials = New NetworkCredential("brd-customer-<customer_id>-zone-<zone_name>", "<zone_password>")
+        Console.WriteLine(Client.DownloadString("https://www.google.com/search?q=pizza"))
+    End Sub
+End Module
+```
+
+</CodeGroup>
+
+转到下一节解析搜索结果，了解如何解析搜索结果。
+
+[解析搜索结果](/scraping-automation/serp-api/parsing-search-results)

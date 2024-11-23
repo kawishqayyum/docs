@@ -1,0 +1,86 @@
+---
+title: "SERP API Yandex 查询参数"
+description: "探索用于 SERP API 的 Yandex 查询参数，包括本地化、分页、时间范围和设备定位，以有效优化您的搜索结果。"
+sidebarTitle: Yandex
+---
+## 搜索
+<AccordionGroup>
+<Accordion title="本地化" icon="flag">
+### `lr`
+要搜索的地区或国家。
+> #### 示例：
+> `1` -莫斯科 \
+> `2` -圣彼得堡 \
+> `84` -美国 \
+> `95` -加拿大 \
+> `134` -中国
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://www.yandex.com/search/?text=pizza&lr=84"
+```
+
+### `lang`
+用于定义页面语言的双字母语言代码
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://www.yandex.com/search/?text=pizza&lang=en"
+```
+</Accordion>
+<Accordion title="分页" icon="file">
+### `p`
+定义结果页——结果从所选值开始。 用于管理分页。
+> #### 示例：
+> `p=1` （默认）- 结果的第一页 \
+> `p=2` - 结果的第二页 \
+> `p=4` - 结果的第四页，以此类推
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://www.yandex.com/search/?text=pizza&p=1"
+```
+</Accordion>
+<Accordion title="时间范围" icon="calendar">
+### `within`
+搜索时间范围。
+
+> **可用值如下：** \
+> `77` - 过去 24 小时  
+> `1` - 过去 2 周  \
+> `[%pm]` - 过去一个月
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://www.yandex.com/search/?text=pizza&within=1"
+```
+</Accordion>
+<Accordion title="设备" icon="mobile-screen-button">
+### `brd_mobile`
+定义要在用户代理中表示的设备类型
+
+默认或 `brd_mobile=0` 时将提供随机桌面用户代理，而 `brd_mobile=1` 时将提供随机移动用户代理。
+
+> **对于特定的移动平台，提供以下值之一：** \
+> `brd_mobile=ios` - iPhone 用户代理（别名 `brd_mobile=iphone`） \
+> `brd_mobile=ipad` - iPad 用户代理（别名 `brd_mobile=ios_tablet`） \
+> `brd_mobile=android` - 安卓手机 \
+> `brd_mobile=android_tablet` - 安卓平板
+
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://www.yandex.com/search/?text=pizza&brd_mobile=1"
+```
+
+</Accordion>
+<Accordion title="Browser" icon="table-columns">
+### `brd_browser`
+Define what browser to be represented in user-agent. \
+Can be combined with `brd_mobile` to get according mobile browser. \
+Default will provide random browser.
+
+> **For specific browser provide one of the following values:** \
+> `brd_browser=chrome` - 谷歌 Chrome \
+> `brd_browser=safari` - Safari \
+> `brd_browser=firefox` - Mozilla Firefox (not compatible with `brd_mobile=1`)
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://www.yandex.com/search/?text=pizza&brd_browser=chrome"
+```
+</Accordion>
+</AccordionGroup>

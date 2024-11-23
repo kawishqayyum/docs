@@ -1,0 +1,146 @@
+---
+title: 异步请求
+description: "在本文中，我们将解释同步和异步请求之间的区别，重点介绍异步 API 的好处，并通过示例描述关键参数。
+"
+---
+
+发送异步请求
+--------------------------
+我们有两种方式处理您的 SERP API 请求：
+
+* **同步请求 默认** - 发送请求并在几秒钟内按需获得响应
+* **异步请求** - 无需等待实时完整响应即可发送请求，然后通过指定的端点 API 采集您的响应。在高峰时段，异步模式的回调时间可能需要长达 8 小时，但通常会更短。 自请求发送之时起，我们会将响应存储长达 24 小时。
+
+<Tip>异步请求推荐那些请求量大、不需要在单一层级提供即时响应并且可以等待几分钟即可一次性检索所有响应的用户。</Tip>
+
+### 为何使用异步
+* 99.99% 的成功率
+* 稳定性
+* 灵活性 - 能够在您选择的之后时间检索您的请求（无需在发送请求后立即等待响应）
+* 使用异步模式，应用任何 SERP API 区域均将额外获得 5% 的折扣
+
+
+### 如何运行
+使用异步模式发送请求和接收响应分为两个步骤：
+
++ **发送请求** - 此请求包含搜索参数，返回`response_ID`，其为直接请求（即您将为此请求付费）。
++ **采集响应** - 此请求包含response_ID ，其为免费（即不会为此请求向您收费）。如您需要response_ID ，但其仍在处理中，您将会收到 102 状态码。
+
+<Note>自请求发送之时起，我们会将响应存储长达 24 小时。</Note>
+
+### 开始使用
+<Steps>
+<Step title='启用 “异步请求”'>
+在您的特定 SERP API 区域中，启用 “异步请求” 开关。
+</Step>
+
+<Step title='可选设置 webhook（POST 或 GET）'>
+在这里，您将收到有关未来请求状态的通知
+<Note>也可以为每个请求设置 webhook （参见下面的 “初始请求参数”）</Note>
+</Step>
+
+<Step title="发送 SERP API 异步请求">
+请求语法与同步请求的语法略有不同，需要一个 API 令牌以进行身份验证。参见下面的基本示例（更多请求参数见下文）：  
+
+```sh
+curl -i --silent --compressed "https://api.brightdata.com/serp/req?customer=[ACCOUNT_ID]&zone=[zone_name]" -H "Content-Type: application/json" -H "Authorization: Bearer [API_TOKEN]" -d '{"country":"us","query":{"q":"pizza","num":"100","hl":"en","gl":"au"}}'
+```
+
+您将收到对上述请求的响应，其中包含`x-response-id`标头，内含您的请求的 ID。这是此请求的RESPONSE_ID ，您将在下一步采集结果时用到。  
+
+<Note>
+如果您想接收 JSON 格式的已解析的响应，则需要在初始请求中使用可选的brd_json参数（请参阅下面的 “初始请求参数”）对其进行配置。
+</Note>
+</Step>
+
+<Step title="Webhook 通知">
+如果您已设置 webhook，则在请求准备就绪后，您将立即收到包含以下参数的通知： 状态、 response_id、 request_url 和 hook_data （可选 - 如果您在请求中使用了webhook_data 参数）。
+</Step>
+
+<Step title="采集您的结果">
+使用步骤 3 中收到的RESPONSE_ID发送以下内容： 
+
+```sh
+curl -i --silent --compressed "https://api.brightdata.com/serp/get_result?customer=[ACCOUNT_ID]&zone=[zone_name]&response_id=${[RESPONSE_ID]}" -H "Authorization: Bearer [API_TOKEN]"
+```
+<Note>
+
+在上述步骤 3（发送初始请求）中，您可以轻松地将RESPONSE_ID 与您的请求一起初始化，从而将其保存在脚本中，如下所示：
+```js
+RESPONSE_ID=$(
+	curl -i --silent --compressed "[https://api.brightdata.com/serp/req?customer=[ACCOUNT_ID]&zone=[zone_name]](https://api.brightdata.com/serp/req?customer=%5BACCOUNT_ID%5D&zone=%5BZONE_NAME%5D)" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN" -d '{"country":"us","query":{"q":"pizza","num":"100","hl":"en","gl":"au"}}' | sed -En 's/^x-response-id: (.*)/\1/p' | tr -d '\r'
+)
+```
+</Note>
+</Step>
+</Steps>
+
+
+初始请求参数
+--------------------------
+<Note>所有这些参数均为可选</Note>
+
+|                  |      |
+| ---------------- | ---- |
+| `webhook_url`    | 定义将向其发送任务状态通知的 URL。如果您不想设置默认 webhook（上文），或者希望每个请求的 URL 不同，则可用此参数。|
+| `webhook_method` | `POST` or `GET` (Default). 定义传送任务状态通知的方法。|
+| `webhook_data`   | 定义将随任务状态通知一起发送的数据|
+| `query`          | 定义请求的查询对象并支持各种SERP API 参数 （例如国家）|
+| `brd_json`       | 启用和配置 解析。默认情况下，SERP API 请求返回定向 SERP 的 未解析 结构化的 HTML。如您希望收到已解析的 JSON 响应，则可添加以下参数值中的一个- brd_json=1 - 返回单个已解析的 JSON（而非原始 HTML）- brd_json=html - 返回单个包含额外 “html” 字段的已解析的 JSON（含原始字段 HTML）以及 其他已解析字段
+<Note> query.brd_json 可以用来代替这个参数</Note>|
+| `multi`          | 在同一个请求中运行多个查询（见下文）|
+
+```sh brd_json=1
+curl -i --silent --compressed "https://api.brightdata.com/serp/req?customer=[ACCOUNT_ID]&zone=[zone_name]" -H "Content-Type: application/json" -H "Authorization: Bearer [API_TOKEN]" -d '{"country":"us","query":{"q":"pizza","num":"100","hl":"en","gl":"au"},"brd_json":"1"}'
+```
+
+响应/采集参数
+-----------
+<Warning>此参数为 必要项</Warning>
+
+|               |     |
+| ------------- | --- |
+| `response_id` |定义任务 ID。 在对您的初始异步请求的响应中收到。|
+
+
+单个请求中的多个查询
+------------------------------------
+SERP API 支持使用 multi 参数通过一个 API 请求发送 2 个并行查询请求。   
+
+这些并行请求使用相同的对等 IP 和会话，可用于采集其他数据、比较测试等，例如，发出一对具有不同参数/值的请求。 它们使用相同的 IP 和会话。
+
+**条件：**
+1. 仅支持已启用异步请求的区域: https://docs.brightdata.com/scraping-automation/serp-api/asynchronous-requests
+2. 仅支持 Google 搜索
+3. 仅限 2 个请求
+4. 按 2 个请求计费
+
+**`multi`参数使用：**
+
+<CodeGroup>
+```js Same Keyword
+multi: [
+  {"keyword":"pizza","num":20},
+  {"keyword":"pizza","num":100}
+]
+```
+```js Different Keyword
+multi: [
+  {"keyword":"pizza"},
+  {"keyword":"burger"}
+]
+```
+</CodeGroup>
+
+**`multi`请求示例：**
+
+```sh 样本请求
+curl -v --compressed "https://brightdata.com/api/serp/req" -H "Content-Type: application/json" -H "Authorization: Bearer {API_TOKEN}" -d "{\"country\":\"us\",\"multi\":[{\"keyword\":\"pizza\",\"num\":20},{\"keyword\":\"pizza\",\"num\":100}]}"
+```
+
+### 采集结果
+使用上面返回的`x-response-id`中的响应 ID 采集结果：
+
+```sh
+curl -k -v --compressed "https://brightdata.com/api/serp/get_result?customer={ACCOUNT_ID&zone={ASYNC_ZONE}&response_id={response_id}" -H "Authorization: Bearer {API_Token}" -o {Your_result_output_file}
+```

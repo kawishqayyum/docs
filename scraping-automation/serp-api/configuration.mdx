@@ -1,0 +1,31 @@
+---
+title: "SERP API 配置"
+description: "配置 SERP API 以最大限度地提高异步请求的效率，访问酒店和增强型广告数据，并通过示例了解关键参数。"
+sidebarTitle: 配置
+---
+
+## 增强型广告（仅限谷歌）
+<Card>
+<CardGroup>
+<Card title="关闭（默认）">
+同时抓取自然搜索结果和广告，涵盖广泛的地理范围。
+</Card>
+<Card title="开启">
+抓取更大范围、更多样化的搜索结果和广告，模拟没有 cookie 的隐身浏览场景。
+</Card>
+</CardGroup>
+</Card>
+
+## 异步请求
+请求在后台无缝处理，允许您在稍后更方便的时间通过指定端点收集响应，从而提高稳定性、灵活性和效率。
+[Learn more](/scraping-automation/serp-api/asynchronous-requests)
+
+<Tip>
+### 将我们的 webhook IP 列入白名单
+
+我们的异步 webhook 交付会从一对稳定的 IP 地址发送通知：
+1. `100.27.150.189`
+2. `18.214.10.85`
+
+客户可能需要在其一侧将这些 IP 列入白名单。
+</Tip>

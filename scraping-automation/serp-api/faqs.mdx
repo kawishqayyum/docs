@@ -1,0 +1,387 @@
+---
+title: "SERP API 常见问题解答"
+description: "通过有关设置、故障排除和高级搜索技术（包括 Google Image 和酒店数据抓取）的详细常见问题解答，了解如何有效使用 Bright Data 的 SERP API。"
+sidebarTitle: 常见问题解答
+---
+
+<AccordionGroup>
+<Accordion title="为什么要选择 Bright Data 的 SERP API？">
+
+Bright Data SERP API 解决方案可让您专注于最重要的数据。它为您提供了一个三合一代理解锁解决方案，可自主处理代理管理（使用哪个代理以及何时使用）、解锁逻辑（验证码解密、指纹识别、重试、最佳标头等）和抓取功能。
+
+<Tab title="易于集成"> 
+在您的代码中，只需将常规代理网络请求中的一行替换为 SERP API 请求中的一行即可。
+<br/>
+</Tab>
+<Tab title="只有操作成功之后才需付费"> 
+您只需为成功的请求付费。
+<br/>
+
+</Tab>
+<Tab title="稳定且可预测的账单"> 
+CPM 定价 （每 1k 个请求的价格）允许这样做，因此您的请求带宽与此无关。
+<br/>
+
+</Tab>
+<Tab title="准确度"> 
+使用真实用户设备和激光聚焦地理定位（包括城市级别），以真实用户的身份从主要搜索引擎收集准确的搜索引擎结果页面（SERP）。
+<br/>
+
+</Tab>
+<Tab title="专为数量和规模而打造"> 
+无论您的请求量有多大，Bright Data 都能以较高的成功率和卓越的响应时间（5 秒以内）支持您不断增长的流量需求和高峰期。
+<br/>
+
+</Tab>
+<Tab title="降低成本"> 
+节省数据提取工程师和 IT 专业人员的费用，无需担心服务器维护。
+<br/>
+
+</Tab>
+<Tab title="避免操作上的麻烦"> 
+每个请求都从不同的 IP 发送，确保没有 IP 被标记或封禁。
+<br/>
+
+</Tab>
+<Tab title="结构化数据响应"> 
+以 JSON 或 HTML 格式获取已解析或未解析的响应，以便与任何系统轻松集成。
+<br/>
+
+</Tab>
+<Tab title="高度自定义"> 
+Bright Data 支持各种定制参数，以满足您的搜索要求，包括不同的搜索类型、不同的设备、每页的结果等。
+<br/>
+
+</Tab>
+<Tab title="真实住宅 IP"> 
+可访问所有地理位置的超过 7200 万个真实用户的 IP。
+<br/>
+
+</Tab>
+</Accordion>
+<Accordion title='如何使用 SERP API 进行“谷歌按图搜索（Google Search By Image）”？'>
+
+利用 Bright Data 的 SERP API，可以轻松收集谷歌按图搜索数据。
+
+谷歌反向图片搜索（正式名称为“谷歌按图搜索”）是谷歌提供的一项服务，允许用户以图搜图，而不是通过书面或口头搜索查询。
+
+<Note>
+JSON 响应包含 base64 编码的图片。
+</Note>
+
+<CodeGroup>
+```sh 搜索 by image URL
+curl -v --compressed --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password> "https://www.google.com/searchbyimage?image_url={TARGET_IMAGE_URL}"
+``` 
+
+```sh 搜索 by an image stored locally
+curl -v --compressed --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password> 'http://www.google.com/searchbyimage/upload' -o results_page.html -F 'encoded_image=@{FULL_IMAGE_FILE_PATH}'
+```
+```sh Adding a query to the image
+<insert-code-here>
+```
+</CodeGroup>
+
+查看我们谷歌图片 SERP 的其余功能:  
+https://docs.brightdata.com/api-reference/serp/images
+
+</Accordion>
+<Accordion title="如何使用 SERP API 收集酒店数据？">
+
+Bright Data 的 SERP API 可轻松收集酒店数据，如价格、空房情况、评论等。
+
+**有两种酒店数据收集方式：**
+
+<Tabs>
+<Tab title="谷歌搜索酒店知识">
+**为每家酒店提供有关价格和日期的有限信息**
+
+当您使用“谷歌搜索”搜索特定酒店时，其详细信息和评论会出现在下面右侧的知识图谱/小工具中：
+
+  ![hotels-html.png](/images/scraping-automation/serp-api/parsing-search-results/hotels-html.png)
+
+  您可以设置到店和离店日期、入住数量，还可以比价…… 
+
+  通过 SERP API，请参阅我们 API 文档中的全套酒店参数和功能:   
+  https://docs.brightdata.com/scraping-automation/serp-api/parsing-search-results#hotels
+
+  ![hotels-availability.png](/images/scraping-automation/serp-api/parsing-search-results/hotels-availability.png)
+</Tab>
+
+<Tab title="谷歌旅行酒店页面">
+
+**Provides full details on hotels, pricing, and dates**
+
+SERP API also lets you target the hotel page in Google Travel (Google.\*/travel/hotels/…), where you can find more prices and search by additional parameters (including arrival and departure dates, the number of adults and children, the children’s ages, and whether or not it has free cancellation) to collect more price combinations. 
+
+<Note>
+
+Only //Google.\*/travel/hotels/… URLs are supported.
+</Note>
+
+Go to the control panel [API Guide](https://brightdata.com/cp/serp_api/api/google/hotels) for an explanation of how to target this page and the dedicated parameters you can use or see our [API documentation](/scraping-automation/serp-api/parsing-search-results#hotels).
+
+![hotel-info.png](/images/scraping-automation/serp-api/faqs/hotel-info.png)
+
+</Tab>
+</Tabs>
+
+</Accordion>
+<Accordion title="如何在没有 SSL 证书的情况下发送 SERP API HTTPS 请求？">
+
+当以 HTTPS 为目标时，网址数据是加密的。 因此，要让 SERP API 解密数据并返回结果，您需要下载并安装 Bright Data Certificate 或跳过 SSL 验证。
+
+以下是有关如何发送 HTTPS 请求的示例代码：
+<CodeGroup>
+```sh Shell
+curl "https://www.google.com/search?q=pizza&lum_json=1" -v --insecure--compressed --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+```
+
+```js NodeJS
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+```
+
+```java Java
+-Dcom.sun.net.ssl.checkRevocation=false
+```
+
+```cs C#
+ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+```
+
+```python Python
+import ssl._create_default_https_context = ssl._create_unverified_context
+```
+</CodeGroup>
+</Accordion>
+<Accordion title="如何通过 SSL 验证发送 HTTPS 请求？">
+
+<Tabs>
+<Tab title="Shell">
+使用 `cacert` 标志，后跟证书文件路径：
+
+```sh Shell
+curl -v --compressed "https://www.google.com/search?q=pizza&lum_json=1" --cacert “{cert file path}“ --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+```
+</Tab>
+<Tab title="Java">
+Please import the certificate to the Java Keystore.
+Here's an example using Java keytool to import the certificate:
+<CodeGroup>
+```java Java
+%JAVA_HOME% Keystore (mostly the cacerts file in ..\lib\security\).
+```
+
+```sh Keytool Command Example
+keytool -import -alias <cert alias> -file <cert name>.cer -keystore <keystore filename> -storepass <keystore password>
+
+# After running the keytool command you will be prompted to trust the certificate: answer ‘y’
+```
+</CodeGroup>
+</Tab>
+<Tab title="其他编程语言">
+Follow the instructions in the following article on [how to download and Install the Bright Data certificate](https://docs.brightdata.com/general/account/ssl-certificate) to your local machine's Trusted Root Certification Authorities.
+
+```sh Shell
+T_ID&zone={ASYNC_ZONE}&output={output_fomat_html/json}&response_id={response_id} -H "Authorization: Bearer {API_Token}" -o {Your_result_ouput_file}
+```
+</Tab>
+</Tabs>
+
+
+</Accordion>
+<Accordion title="如何使用 SERP API 解析 JSON？">
+请参阅这篇文章: [解析搜索结果](/scraping-automation/serp-api/parsing-search-results)
+
+</Accordion>
+<Accordion title="如何在相同的 API 请求中发送多个查询？">
+SERP API 支持使用 `multi` 参数通过一个 API 请求发送 2 个并行查询请求。
+
+这些并行请求使用相同的对等 IP 和会话，可用于采集其他数据、比较测试等，例如，发出一对具有不同参数/值的请求。 它们使用相同的 IP 和会话。
+
+<Note>
+**条件：**
+* 仅支持已启用异步请求的区域: https://docs.brightdata.com/scraping-automation/serp-api/asynchronous-requests
+* 仅支持谷歌搜索
+* 仅限 2 个请求
+* 按 2 个请求计费
+</Note>
+
+**用例：**
+
+<CodeGroup>
+```json Different num parameter
+multi:[
+  {
+    "keyword": "pizza",
+    "num": 20
+  },
+  {
+    "keyword": "pizza",
+    "num": 100
+  }
+]
+
+```
+
+```json Different keyword
+multi:[
+  {
+    "keyword": "pizza"
+  },
+  {
+    "keyword": "burger"
+  }
+]
+```
+</CodeGroup>
+
+**示例代码：**
+<CodeGroup>
+```sh Send request
+curl -v --compressed "https://brightdata.com/api/serp/req" -H "Content-Type: application/json" -H "Authorization: Bearer {API_TOKEN}" -d "{\"country\":\"us\",\"multi\":[{\"keyword\":\"pizza\",\"num\":20},{\"keyword\":\"pizza\",\"num\":100}]}"
+```
+
+```sh Collect respone
+# Collect the result 
+# use the response ID from the `x-response-id` returned above to collect the result
+
+curl -k -v --compressed "https://brightdata.com/api/serp/get_result?customer={customer_id&zone={ASYNC_ZONE}&response_id={response_id}" -H "Authorization: Bearer {API_Token}" -o {Your_result_ouput_file}
+```
+</CodeGroup>
+</Accordion>
+<Accordion title="我看到谷歌正在对 SERP 结果进行一些修改。 你们会继续支持 SERP `num` 参数吗？">
+
+绝对可以！
+
+Bright Data 为 `num` 参数开发了一项备份功能，一旦谷歌将来停止支持 `num` 参数，我们就会启动该功能。
+
+我们的新功能将无缝补偿在初始 SERP 响应数据中发现的任何 “num” 参数限制，并发送 9 个额外请求（每个请求 10 个结果），将它们合并在一起，然后将全部 100 个结果作为综合全面的响应返回给您。 这个新响应将与 “num=100” 参数的响应在外观和功能上完全一致。
+
+<Accordion title="那么，这项新功能是否会导致定价改变呢？">
+不会！ 尽管这项新功能涉及到额外的请求并提供合并回复，但定价将不会有任何变化，而且在计费时，该请求将作为一个单独的常规请求来计算。 我们理解维持成本的重要性，因此我们将承担任何额外成本，而不会将其转嫁给我们的客户。
+</Accordion>
+
+<Note>
+如果您在使用 “num” 参数时遇到问题，请联系您的 Bright Data 客户经理，我们将为您激活该功能。
+</Note>
+</Accordion>
+<Accordion title="SERP API 的常见用例有哪些？">
+<Tab title="自然关键词追踪">
+绘制公司在不同地点的各种关键词排名图
+<br/>
+
+</Tab>
+<Tab title="品牌保护">
+追踪公司品牌和商标的热门结果
+<br/>
+
+</Tab>
+<Tab title="价格比较">
+在在线购物网站上搜索产品并比较不同供应商的价格
+<br/>
+
+</Tab>
+<Tab title="市场调研">
+收集公司、联系人、地点等信息
+<br/>
+
+</Tab>
+<Tab title="检测版权侵权行为">
+搜索图片或其他受版权保护的内容
+<br/>
+
+</Tab>
+<Tab title="广告智能">
+查看输入关键词在不同国家显示的广告，包括双击和谷歌广告服务。
+<br/>
+
+</Tab>
+</Accordion>
+<Accordion title="如何使用日期过滤器查询微软必应？">
+在下面的文章中，我们将分析必应上特定日期搜索查询的不同选项，以及如何有效地使用它们。
+
+## 日期过滤器查询类型
+
+<Tabs>
+<Tab title="所有日期">
+未应用日期过滤器
+- 网址：https://www.bing.com/search?q=YOUR_QUERY
+</Tab>
+<Tab title="过去 24 小时">
+Add `filters=ex1%3a"ez1"` to the URL
+- 网址：https://www.bing.com/search?q=YOUR_QUERY&filters=ex1%3a"ez1"
+</Tab>
+<Tab title="上周">
+Add `filters=ex1%3a"ez2"` to the URL
+- 网址：https://www.bing.com/search?q=YOUR_QUERY&filters=ex1%3a"ez2"
+</Tab>
+<Tab title="过去一年">
+Add `filters=ex1%3a"ez3"` to the URL
+- 网址：https://www.bing.com/search?q=YOUR_QUERY&filters=ex1%3a"ez3"
+</Tab>
+<Tab title="精确匹配">
+Specify the exact date range by adding `filters=ex1:"ez5_StartDateSequence_EndDateSequence”` to the URL
+- 网址：https://www.bing.com/search?q=YOUR_QUERY&filters=ex1:"ez5_StartDateSequence_EndDateSequence”
+
+<Tip>`StartDateSequence` and `EndDateSequence` can be calculated using the logic below.</Tip>
+</Tab>
+</Tabs>
+
+***
+
+
+## 确定“精确匹配”查询的序列字符串
+要执行精确匹配日期搜索，需要计算所需日期范围的序列字符串。 请按照以下步骤确定序列字符串。
+
+<Steps>
+
+<Step title="使用已知序列作为“起点”">
+使用 2024 年 1 月 1 日作为已知序列 19723 的起点
+</Step>
+
+<Step title="计算 StartDateSequence">
+- 计算从 1 月 1 日到所需开始日期的天数。
+- 将计算的天数与 1 月 1 日的序号相加，得到 `startDateSequence`。
+<Tip>计数从 “0” 开始。例如 0、1、2、3 ...</Tip>
+
+> #### 示例：
+>  计算 2024 年 2 月 4 日的序列号：
+>  - 从 1 月 1 日到 2 月 4 日的总天数：35 天 
+>  - 35-1（从 “0” 开始计数）= 34 
+>  - February 4, 2024: 19723 (Jan1) + 34 = 19757 (`StartDateSequence`)
+
+</Step>
+
+<Step title="计算 EndDateSequence">
+将日期范围内的天数与 `startDateSequence` 相加，得到 `EndDateSequence`。
+> #### 示例： 
+> 计算 2024 年 2 月 20 日的序列号：
+> - 2024 年 2 月 4 日：19757
+> - 从 2 月 4 日到 2 月 20 日的天数：17 天
+> - 17-1（从 “0” 开始计数）= 16
+> - February 20, 2024: 19757 + 16 = 19773 (`EndDateSequence`)
+
+</Step>
+
+<Step title="形成序列字符串">
+- 使用格式 `ez5_startDateSequence_endDateSequence`
+- 用上面计算的开始日期序列号替换 `startDateSequence` 。
+- 用上面计算的结束日期序列号替换 `endDateSequence` 。
+
+> #### 示例：从 2024 年 2 月 4 日到 2024 年 2 月 20 日：
+> - 计算得出的 `startDateSequence`：19757
+> - 计算得出的 `endDateSequence`：19773
+> - 序列字符串：`ez5_19757_19773`
+> - "查询 pizza 的网址： \
+>  https://www.bing.com/search?q=pizza&filters=ex1:“ez5_19757_19773”"
+
+<Frame>
+![bing-exact-date-filter.png](/images/scraping-automation/serp-api/faqs/bing-exact-date-filter.png)  
+</Frame>
+</Step>
+</Steps>
+
+利用上述方法，您可以构建网址来查询必应的任何特定日期范围。
+</Accordion>
+</AccordionGroup>

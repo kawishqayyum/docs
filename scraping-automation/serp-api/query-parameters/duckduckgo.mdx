@@ -1,0 +1,80 @@
+---
+title: "SERP API DuckDuckGo 查询参数"
+description: "Configure DuckDuckGo search queries with Bright Data's SERP API, including parameters for localization, safe search, time range, and device targeting, tailored to meet your data extraction needs."
+sidebarTitle: DuckDuckGo
+---
+## 搜索
+<AccordionGroup>
+<Accordion title="本地化" icon="flag">
+### `kl`
+用于定义搜索国家/地区和语言的国家/地区和语言代码。 点击此处查看完整列表:  
+https://api.brightdata.com/serp/duckduckgo/kl_values
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://duckduckgo.com/?q=pizza&kl=us-en"
+```
+### `kad`
+搜索页面界面语言：按钮、菜单。 点击此处查看完整列表:  
+https://api.brightdata.com/serp/duckduckgo/kad_values
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://duckduckgo.com/?q=pizza"
+```
+</Accordion>
+<Accordion title="安全搜索" icon="shield">
+### `kp`
+移除搜索结果中的成人内容。
+> **可用值如下：** \
+> ` 1` - 打开安全搜索 \
+> `-1` - 适度搜索内容 \
+> `-2` - 关闭安全搜索 
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://duckduckgo.com/?q=pizza&kp=1"
+```
+</Accordion>
+<Accordion title="时间范围" icon="calendar">
+### `df`
+搜索时间范围。
+
+> **可用值如下：** \
+> `d` - 过去 2 周 \
+> `w` - 上个月 \
+> `m` - 过去 3 个月 \
+> `w` - 过去 6 个月
+
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://duckduckgo.com/?q=pizza&df=d"
+```
+</Accordion>
+<Accordion title="设备" icon="mobile-screen-button">
+### `brd_mobile`
+定义要在用户代理中表示的设备类型
+
+默认或 `brd_mobile=0` 时将提供随机桌面用户代理，而 `brd_mobile=1` 时将提供随机移动用户代理。
+
+> **对于特定的移动平台，提供以下值之一：**  \
+> `brd_mobile=ios` - iPhone 用户代理（别名 `brd_mobile=iphone`） \
+> `brd_mobile=ipad` - iPad 用户代理（别名 `brd_mobile=ios_tablet`） \
+> `brd_mobile=android` - 安卓手机 \
+> `brd_mobile=android_tablet` - 安卓平板
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://duckduckgo.com/?q=pizza&brd_mobile=1"
+```
+</Accordion>
+<Accordion title="Browser" icon="table-columns">
+### `brd_browser`
+Define what browser to be represented in user-agent. \
+Can be combined with `brd_mobile` to get according mobile browser. \
+Default will provide random browser.
+
+> **For specific browser provide one of the following values:** \
+> `brd_browser=chrome` - 谷歌 Chrome \
+> `brd_browser=safari` - Safari \
+> `brd_browser=firefox` - Mozilla Firefox (not compatible with `brd_mobile=1`)
+
+```sh
+curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer-id>-zone-<zone-name>:<zone-password> "https://duckduckgo.com/?q=pizza&brd_browser=chrome"
+```
+</Accordion>
+</AccordionGroup>
