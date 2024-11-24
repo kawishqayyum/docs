@@ -1,0 +1,1239 @@
+---
+title: 函数
+---
+
+## 交互函数
+本文列出并解释了交互代码中用于使用 IDE 编写抓取工具的可用命令。
+
+<Note>
+标有星号 **⭐** 的命令是 Bright Data 开发的专有函数。
+
+</Note>
+
+### `bad_input`
+
+将抓取工具输入标记为不良。将阻止任何抓取重试 `error_code=bad_input`
+
+```js
+bad_input();
+bad_input('Missing search term');
+```
+
+---
+
+### `blocked`
+由于网站拒绝访问，将该页面标记为失败（ `error_code=blocked` ）
+
+```js
+blocked();
+blocked('Login page was shown');
+```
+
+---
+
+### ⭐ `bounding_box`
+描述元素区域的坐标框（相对于页面，而不是浏览器视口）。仅测量第一个匹配的元素
+- `selector`: 元素的有效 CSS 选择器
+
+```js
+let box = bounding_box('.product-list');
+// box == {
+//   top: 10,
+//   right: 800,
+//   bottom: 210,
+//   left: 200,
+//   x: 200,
+//   y: 10,
+//   width: 600,
+//   height: 200,
+// }
+```
+
+---
+
+### ⭐ `browser_size`
+返回当前浏览器窗口大小
+
+```js
+待定
+```
+
+---
+
+### ⭐ `capture_graphql`
+捕获并重放具有已更改变量的 graphql 请求
+
+- 选项：用于控制要捕获的 graphql 请求的参数
+  - url
+  - payload
+
+<CodeGroup>
+```js Example #1
+let q = capture_graphql({
+    payload: {id: 'ProfileQuery'},
+    // you may need to pass url opt as RegExp in case when 
+    // graphql endpoint is not "*/graphql" which is default value
+    // url: /\bgraphql\b/ // default
+});
+
+navigate('https://example.com');
+
+let [first_query, first_response] = q.wait_captured();
+
+collect(first_response.data.profile);
+
+let second = q.replay({
+    variables: {other_id: 2},
+});
+
+collect(second.data.profile);
+```
+```js Example #2
+let q = capture_graphql({
+    payload: {id: 'ProfileQuery'},
+    // you may need to pass url opt as RegExp in case when 
+    // graphql endpoint is not "*/graphql" which is default value
+    // url: /\bgraphql\b/ // default
+});
+
+navigate('https://example.com');
+
+if (!q.is_captured())
+    click('#load_more');
+
+let [first_query, first_response] = q.wait_captured();
+
+collect(first_response.data.profile);
+
+let second = q.replay({
+    variables: {other_id: 2},
+});
+
+collect(second.data.profile);
+```
+</CodeGroup>
+
+---
+
+### ⭐ `click`
+点击一个元素（将等待该元素出现后再点击）
+- `selector`: 元素选择器
+
+```js
+click('#show-more');
+$('#show-more').click()
+// Click the closest match to the passed coordinates
+// (relative to the page).
+// For example, clicking the center pin in a map
+let box = bounding_box('#map')
+let center = {x: (box.left+box.right)/2, y: (box.top+box.bottom)/2};
+click('.map-pin', {coordinates: center});
+```
+
+---
+
+### ⭐ `close_popup`
+在抓取过程中，弹窗可能会随时出现，但您并不总是清楚应该何时等待或关闭它们。在代码顶部添加 close_popup () 以添加后台观察程序，该观察程序将在弹窗出现时将其关闭。如果弹窗多次出现，将始终被关闭
+
+- 弹窗选择器：有效的 CSS 选择器
+- 关闭选择器：有效的 CSS 选择器
+- 选项：click_inside：包含关闭按钮选择器的父级 iframe 选择器
+
+```js
+close_popup('.popup', '.popup_close');
+close_popup('iframe.with-popup', '.popup_close', {click_inside: 'iframe.with-popup'});
+```
+
+
+---
+
+### `collect`
+向网络爬虫创建的数据集添加一行数据
+
+**syntax**: `collect(<data_line>[, <validate_fn>]);`
+- `data_line`: 包含要收集的字段的对象
+- `validate_fn`: 用于验证行数据是否有效的可选函数
+
+```js
+collect({price: data.price});
+collect(product, p=>{
+    if (!p.title)
+        throw new Error('Product is missing a title');
+})
+```
+
+---
+
+### `console`
+来自交互代码的日志消息
+
+```js
+console.log(1, 'brightdata', [1, 2], {key: value});
+console.error(1, 'brightdata', [1, 2], {key: value});
+```
+
+---
+
+### `country`
+将您的抓取配置为从特定国家/地区运行  
+**syntax**: `country(<code>);`
+- `code`: 2 个字符的 ISO 国家/地区代码
+
+```js
+country('us');
+```
+
+---
+
+### `dead_page`
+将页面标记为无效链接，以便您可以从未来的收集中过滤掉它 `error_code=dead_page`
+
+```js
+dead_page();
+dead_page('Product was removed');
+```
+
+---
+
+### ⭐ `detect_block`
+在页面上检测到一个屏蔽
+- `resource`: 指定检测所需资源的对象
+    - `selector`
+- `condition`: 指定如何处理资源以进行检测的对象
+    - `exists`
+    - `has_text`
+
+```js
+detect_block({selector: '.foo'}, {exists: true});
+detect_block({selector: '.bar'}, {has_text: 'text'});
+detect_block({selector: '.baz'}, {has_text: /regex_pattern/});
+```
+
+---
+
+### ⭐ `disable_event_listeners`
+停止页面上的所有事件监听器运行。`track_event_listeners()` 必须先调用
+- `event_types`: 应禁用的特定事件类型
+
+```js
+disable_event_listeners();
+disable_event_listeners(['hover', 'click']);
+```
+
+---
+
+### `el_exists`
+检查页面上是否存在元素，并相应地返回一个布尔值
+- `selector`: 有效的 CSS 选择器
+- `timeout`: 等待元素出现在页面上的超时时间
+
+
+```js
+el_exists('#example'); // => true
+el_exists('.does_not_exist'); // => false
+el_exists('.does_not_exist', 5e3); // => false (after 5 seconds)
+```
+
+---
+
+### `el_is_visible`
+
+检查元素在页面上是否可见
+- `selector`: 有效的 CSS selector
+- `timeout`: 等待元素在页面上可见的超时时间
+
+```js
+el_is_visible('#example');
+el_is_visible('.is_not_visible', 5e3); // false (after 5 seconds)
+```
+
+---
+
+### `embed_html_comment`
+
+在页面 HTML 中添加注释。可用于在 HTML 快照中嵌入元数据。
+- comment: 注释的正文
+
+```js
+embed_html_comment('trace-id: asdf123');
+```
+
+---
+
+### ⭐ `font_exists`
+确定浏览器在页面上渲染给定字体系列的能力  
+**syntax**: `font_exists(<font-family>);`
+
+```js
+font_exists('Liberation Mono');
+```
+
+---
+
+### ⭐ `freeze_page`
+强制页面停止进行更改。这可以用于将页面保存为特定状态，以便在抓取后运行的页面快照不会看到与现在看到的页面状态不同的页面状态。这个命令是实验性的。如果您发现问题，请向支持部门报告
+
+```js
+freeze_page();
+```
+
+---
+
+### ⭐ `hover`
+悬停在元素上（将等待元素出现后再悬停在它上面）  
+**syntax**: `hover(<selector>);`
+- `selector`: 元素选择器
+
+
+```js
+hover('#item');
+```
+
+---
+
+### ⭐ `html_capture_options`
+影响 HTML 捕获的过程
+- `options`: 一个接受定义应如何处理 HTML 捕获的选项的对象
+    - `coordinate_attributes`
+
+```js
+html_capture_options({
+    coordinate_attributes: true,
+});
+```
+
+---
+
+### `Image`
+
+收集图片数据
+- `src`: 图片 URL 或 data:image URI 字符串
+
+```js
+let i = new Image('https://example.com/image.png');
+collect({image: i});
+```
+
+---
+
+### `input`
+
+交互代码可用的全局对象。由触发器输入或 `next_stage()` 调用提供
+
+```js
+navigate(input.url);
+```
+
+---
+
+### `job`
+
+交互代码可用的全局对象。由触发器输入或 `next_stage()` 调用提供
+
+```js
+let {created} = job;
+```
+
+---
+
+### `load_html`
+加载 html 并返回 Cheerio 实例
+- html：任何 HTML 字符串
+
+```js
+let $$ = load_html('<p id="p1">p1</p><p id="p2">p2</p>');
+collect({data: $$('#p2').text()});
+```
+
+
+---
+
+### ⭐ `load_more`
+
+滚动到列表底部以触发加载更多项目。适用于延迟加载的无限滚动网站
+- `selector`: 包含延迟加载项的元素的选择器
+
+```js
+load_more(<selector>);
+load_more('.search-results');
+load_more('.search-results', {children: '.result-item', trigger_selector: '.btn-load-more', timeout: 10000});
+```
+
+
+---
+
+### `load_sitemap`
+从站点地图 xml 中读取 url 列表（支持站点地图索引和 .gz 压缩站点地图。参见示例。）
+
+
+```js
+let {pages} = load_sitemap({url: 'https://example.com/sitemap.xml.gz'});
+let {children} = load_sitemap({url: 'https://example.com/sitemap-index.xml'});
+```
+
+---
+
+### `location`
+含有当前位置信息的对象。可用字段: href
+
+```js
+navigate('https://example.com');
+location.href; // "https://example.com/"
+```
+
+---
+
+### Money
+收集价格/金钱数据
+- `value`: 金钱数额
+- `currency`: 货币代码
+
+
+```js
+let p = new Money(10, 'USD');
+collect({product_price: p});
+```
+
+---
+
+### ⭐ `mouse_to`
+
+将鼠标移到指定的 (x,y) 位置  
+**syntax**: `mouse_to(<x>, <y>);`
+- `x`: 定位 x 位置
+- `y`: 定位 y 位置
+
+```js
+mouse_to(0, 0);
+```
+
+---
+
+### `navigate`
+
+将浏览器导航到 URL  
+**syntax**: `navigate(<url>);`
+- 默认情况下，404 状态代码会抛出 dead_page 错误。使用 `opt.allow_status` 来覆盖它
+- `url`: 要导航到的 URL
+- `opt`: 导航选项（参见示例）
+
+```js
+navigate(input.url);
+navigate('https://example.com');
+
+// waits until DOM content loaded event is fired in the browser
+navigate(`url`, {wait_until: 'domcontentloaded'}); 
+
+// adds a referer to the navigation
+navigate(`url`, {referer: `url`}); 
+
+// the number of milliseconds to wait for. Default is 30000 ms
+navigate(`url`, {timeout: 45000}); 
+
+// Don't throw an error if this URL sends a 404 status code
+navigate(`url`, {allow_status: [404]});
+
+// Specify browser width/height
+navigate(`url`, {
+    fingerprint: {screen: {width: 400, height: 400}},
+});
+```
+
+---
+
+### `next_stage`
+
+使用指定的输入运行网络爬虫的下一阶段
+- `input`: 要传递给下一个浏览器会话的输入对象
+
+```js
+next_stage({url: 'http://example.com', page: 1});
+```
+
+---
+
+### `parse`
+解析页面数据
+
+
+```js
+let page_data = parse();
+collect({
+    title: page_data.title,
+    price: page_data.price,
+});
+
+```
+
+---
+
+### `preserve_proxy_session`
+保留此页面子项间的代理会话
+
+```js
+preserve_proxy_session();
+```
+
+---
+
+### ⭐ `press_key`
+在当前聚焦的输入框中输入 Enter 或 Backspace 等特殊字符（通常在搜索框中输入内容后使用）
+
+```js
+press_key('Enter');
+press_key('Backspace');
+```
+
+---
+
+### ⭐ `proxy_location`
+将您的抓取配置为从特定位置运行。除非您需要对抓取的运行位置进行高精度控制，否则您可能希望改为使用 country(code)
+- `configuration`: 具有所需代理位置的对象，查看示例以获取更多信息
+
+```js
+proxy_location({country: 'us'});
+
+// lat in range: [-85, 85], long in range: [-180, 180]
+proxy_location({lat: 37.7749, long: 122.4194}); 
+
+// radius in km
+proxy_location({lat: 37.7749, long: 122.4194, country: 'US', radius: 100}); 
+
+```
+
+
+---
+
+### ⭐ `redirect_history`
+返回自上次导航以来的 URL 重定向历史记录
+
+```js
+navigate('http://google.com');
+let redirects = redirect_history();
+// returns:
+// [
+//   'http://google.com',
+//   'http://www.google.com',
+//   'https://www.google.com/',
+// ]
+```
+
+---
+
+### `rerun_stage`
+使用新的输入再次运行网络爬虫的这一阶段
+
+```js
+rerun_stage({url: 'http://example.com/other-page'});
+```
+
+---
+
+### `resolve_url`
+返回给定 url 参数指向的最终 URL
+- `url`: URL 字符串/实例
+
+```js
+let {href} = parse().anchor_elem_data;
+collect({final_url: resolve_url(href)});
+```
+
+
+---
+
+### `response_headers`
+返回最后一次页面加载的响应标头
+
+```js
+let headers = response_headers();
+console.log('content-type', headers['content-type']);
+```
+
+---
+
+### `request`
+发出直接 HTTP 请求
+- `url` | `options`：向其发出请求的 `url`，或请求选项（参见示例）
+
+```js
+let res = request('http://www.example.com');
+let res = request({url: 'http://www.example.com', method: 'POST', headers: {'Content-type': 'application/json'}, body: {hello: 'world'}})
+```
+
+
+---
+
+### ⭐ `right_click`
+与单击相同，但使用鼠标右键（等待元素出现后再单击）  
+**syntax**: `right_click(<selector>);`
+- `selector`: 元素选择器
+
+```js
+right_click('#item');
+```
+
+
+---
+
+### `run_stage`
+使用新的浏览器会话运行网络爬虫的特定阶段
+- stage: 将要运行哪个阶段（1 是第一阶段）
+- input: 要传递给下一个浏览器会话的输入对象
+
+
+```js
+run_stage(2, {url: 'http://example.com', page: 1});
+```
+
+
+---
+
+### ⭐ `scroll_to`
+
+滚动页面，使元素可见。如果您这样做是为了触发从延迟加载的列表中加载更多元素，请使用 load_more()。默认为以自然方式滚动，这可能需要几秒钟时间。如果您想要立即跳转，请使用 `{immediate: true}`  
+**syntax**: `scroll_to(<selector>);`
+- `selector`: 要滚动到的元素的选择器
+
+```js
+scroll_to('.author-profile');
+scroll_to('top'); // scroll to the top of the page
+scroll_to('bottom'); // scroll to the bottom of the page
+scroll_to('top', {immediate: true}); // jump to top of page immediately
+```
+
+
+---
+
+### ⭐ `scroll_to_all`
+滚动浏览页面，以便与选择器匹配的所有元素都显示在屏幕上  
+**syntax**: `scroll_to_all(<selector>);`
+- `selector`: 想要滚动浏览的元素的选择权
+
+```js
+scroll_to_all('.author-profiles');
+```
+
+---
+
+### ⭐ `select`
+从选择元素中选择一个值  
+**syntax**: `select(<select>, <value>);`
+- `selector`: 元素选择器
+
+```js
+select('#country', 'Canada');
+```
+
+
+---
+
+### `set_lines`
+
+在本页抓取结束时要添加到数据集的行数组。每次调用 set_lines() 都会覆盖之前的调用，并且只有最后一组行会被添加到数据集中（按页面抓取进行跟踪）。当设置抓取工具来收集部分错误时，这是一个很好的选择。您可以使用到目前为止收集的数据继续调用 set_lines()，并且如果页面抓取出现错误，将使用最后一次调用  
+**syntax**: `set_lines(<data_line>[, <validate_fn>]);`
+- `lines`: 要添加到最终数据集的数据行数组
+- `validate_fn`: 用于验证行数据是否有效的可选函数（每行运行一次）
+
+
+```js
+set_lines(products_so_far);
+set_lines(products_so_far, i=>{
+    if (!i.price)
+        throw new Error('Missing price');
+});
+```
+
+
+---
+
+### `set_session_cookie`
+使用给定的 `cookie` 数据设置 `cookie;` 如果存在等效 `cookie`，可能会覆盖它们
+
+```js
+set_session_cookie(`domain`, `name`, `value`);
+```
+
+---
+
+### `set_session_headers`
+为所有 HTTP 请求设置额外的标头
+- `headers`: 具有 key-value 格式额外标头的对象
+
+```js
+set_session_headers({'HEADER_NAME': 'HEADER_VALUE'});
+```
+
+
+---
+
+### ⭐ `solve_captcha`
+解决页面上显示的所有验证码
+
+```js
+solve_captcha();
+solve_captcha({type: 'simple', selector: '#image', input: '#input'});
+```
+
+---
+
+### `status_code`
+返回最后一次页面加载的状态码
+
+
+```js
+collect({status_code: status_code()});
+```
+
+---
+
+### ⭐ `tag_all_responses`
+保存所有匹配的浏览器请求的响应
+- `field`: 标记字段的名称
+- `pattern`: 要匹配的 URL 模式
+- `options`: 设置 options.jsonp=true 来解析 jsonp 格式的响应主体。
+
+
+```js
+tag_all_responses(<field>, <pattern>, <options>);
+tag_all_responses('resp', /url/, {jsonp: true});
+tag_all_responses('resp', /url/, {allow_error: true});
+tag_all_responses('profiles', /\/api\/profile/);
+navigate('https://example.com/sports');
+let profiles = parse().profiles;
+for (let profile of profiles)
+    collect(profile);
+```
+
+---
+
+### ⭐ `tag_download`
+允许通过浏览器下载文件
+- `url`: 用于匹配请求的模式或字符串
+
+```js
+let SEC = 1000;
+let download = tag_download(/example.com\/foo\/bar/);
+click('button#download');
+let file1 = download.next_file({timeout: 10*SEC});
+let file2 = download.next_file({timeout: 20*SEC});
+collect({file1, file2});
+```
+
+
+---
+
+### ⭐ `tag_image`
+保存元素中的图片 url
+- field: 标记字段的名称
+- selector: 有效的 CSS 选择器
+
+```js
+tag_image(field, selector);
+tag_image('image', '#product-image');
+```
+
+---
+
+### ⭐ `tag_response`
+保存来自浏览器请求的响应数据  
+**syntax**: `tag_response(<field>, <pattern>, <options>);`  
+- `name`: 标记字段的名称
+- `pattern`: 要匹配的 URL 模式
+- `options`: 设置 options.jsonp=true 来解析 jsonp 格式的响应主体。在可能的情况下，这将会自动检测到
+
+```js
+tag_response('resp', /url/, {jsonp: true});
+tag_response('resp', /url/, {allow_error: true});
+tag_response('resp', (req, res)=>{
+            if (req.url.includes('/api/'))
+            {
+                let request_body = req.body;
+                let request_headers = req.headers;
+                let response_body = res.body;
+                let response_headers = res.headers;
+            }
+        });
+
+tag_response('teams', /\/api\/teams/);
+navigate('https://example.com/sports');
+let teams = parse().teams;
+for (let team of teams)
+    collect(team);
+```
+
+
+---
+
+### ⭐ `tag_screenshot`
+保存页面 HTML 的屏幕截图  
+**syntax**: `tag_screenshot(<field>, <options>);`
+- `field`: 标记字段的名称
+- `options`: 下载选项（参见示例）
+
+```js
+tag_screenshot('html_screenshot', {filename: 'screen'});
+tag_screenshot('view', {full_page: false}); // full_page defaults to true
+```
+
+---
+
+### ⭐ `tag_script`
+提取页面脚本中保存的一些 JSON 数据  
+
+**syntax**: `tag_script(<field>, <selector>);`
+- `name`: 标记脚本的名称
+- `selector`: 要标记的脚本的选择器
+
+
+```js
+tag_script('teams', '#preload-data');
+tag_script('ssr_state', '#__SSR_DATA__');
+navigate('https://example.com/');
+collect(parse().ssr_state);
+```
+
+
+
+---
+
+### ⭐ `tag_serp`
+
+将当前页面解析为搜索引擎结果页面
+- field: 标记字段的名称
+- type: 解析器类型：（例如 bing、google）
+
+```js
+tag_serp('serp_bing_results', 'bing')
+tag_serp('serp_google_results', 'google')
+```
+
+---
+
+### ⭐ `tag_video`
+
+保存元素中的视频 url
+- `field`: 标记字段的名称
+- `selector`: 有效的 CSS 选择器
+- `opt`: 下载选项（参见示例）
+
+```js
+tag_video(field, selector);
+tag_video('video', '#product-video', {download: true});
+```
+
+
+
+---
+
+### ⭐ `tag_window_field`
+
+从浏览器页面标记 js 值
+- `field`: 相关数据的路径
+
+```js
+tag_window_field(field, key);
+tag_window_field('initData', '__INIT_DATA__');
+```
+
+---
+
+### ⭐ `track_event_listeners`
+
+开始跟踪浏览器创建的事件监听器。稍后需要运行 `disable_event_listeners()`
+
+```js
+track_event_listeners();
+```
+
+---
+
+### ⭐ `type`
+
+在输入框中输入文本（将等待输入框出现后再进行输入）
+- `selector`: 元素选择器
+- `text`: 要输入的文本
+
+
+```js
+type(<selector>, <text>);
+type('#location', 'New York');
+
+// replacing text in input if it is not empty
+type(<selector>, <text>, {replace: true}); 
+
+// type text to an element with id ending "input-box" (e.g. <input id="c2E57-input-box">)
+type('[id$=input-box]', <text>); 
+
+// dispatching 'Enter' key press
+type(<selector>, ['Enter']); 
+
+// typing text and then dispatching 'Enter' key press
+type(<selector>, ['Some text', 'Enter']); 
+
+// deleting 1 char from input
+type(<selector>, ['Backspace']); 
+```
+
+---
+
+### `URL`
+来自 NodeJS 标准“url”模块的 URL 类
+- `url`: URL 字符串
+
+```js
+let u = new URL('https://example.com');
+```
+
+
+---
+
+### ⭐ `verify_requests`
+使用回调函数监控失败的请求
+- `callback`：每次请求失败时，都会使用以下格式的对象调用的函数：`{url, error, type, response}`
+
+
+```js
+verify_requests(({url, error, type, response})=>{
+    if (response.status!=404 && type=='Font')
+        throw new Error('Font failed to load');
+});
+```
+
+---
+
+### `Video`
+收集视频数据
+- `src`: 视频 URL
+
+```js
+let v = new Video('https://example.com/video.mp4');
+collect({video: v});
+```
+
+---
+
+### ⭐ `wait`
+等待元素出现在页面上
+- `selector`: 元素选择器
+- `opt`: 等待选项（参见示例）
+
+
+```js
+wait(<selector>);
+wait('#welcome-splash');
+wait('.search-results .product');
+wait('[href^="/product"]');
+
+// the number of milliseconds to wait for. Default is 30000 ms
+wait(<selector>, {timeout: 5000}); 
+
+// wait for element to be hidden
+wait(<selector>, {hidden: true}); 
+
+// wait for element inside in an iframe
+wait(<selector>, {inside: '#iframe_id'}); 
+```
+
+---
+
+### ⭐ `wait_any`
+等待任何匹配条件成功
+
+```js
+wait_any(['#title', '#notfound']);
+```
+
+---
+
+### `wait_for_parser_value`
+
+等待解析器字段包含值。在您点击某些内容等待一些数据出现后，这可能会有用
+- `field`: 等待的解析器值路径
+- `validate_fn`: 可选的回调函数，用于验证值是否正确
+- `opt`: 额外选项（例如超时）
+
+```js
+wait_for_parser_value(<field>[, <validate_fn>][, opt]);
+wait_for_parser_value('profile');
+wait_for_parser_value('listings.0.price', v=>{
+            return parseInt(v)>0;
+        }, {timeout: 5000});
+```
+
+---
+
+### ⭐ `wait_for_text`
+等待页面上的元素包含一些文本
+- `selector`: 元素选择器
+- `text`: 要等待的文本
+
+```js
+wait_for_text(<selector>, <text>);
+wait_for_text('.location', 'New York');
+```
+
+---
+
+### ⭐ `wait_hidden`
+
+等待元素在页面上不可见（已删除或隐藏）
+- `selector`: 元素选择器
+
+```js
+wait_hidden(<selector>);
+wait_hidden('#welcome-splash');
+wait_hidden(<selector>, {timeout: 5000});
+```
+
+
+---
+
+### ⭐ `wait_network_idle`
+等待浏览器网络空闲一段时间
+- `timeout`: 等待浏览器网络空闲 X 毫秒
+- `options`: 忽略：用于将请求排除在监控超时范围之外的模式数组：网络需要空闲多少毫秒（默认500）
+
+
+```js
+wait_network_idle();
+wait_network_idle({
+    timeout: 1e3,
+    ignore: [/long_request/, 'https://example.com'],
+});
+```
+
+---
+
+### ⭐ `wait_page_idle`
+等待直至给定的时间内 DOM 树没有发生任何更改
+- `timeout`: 等待无更改的毫秒数
+- `options`: 一个对象，它可以接受忽略参数以将某些元素排除在监控范围之外
+
+```js
+wait_page_idle();
+wait_page_idle({
+    ignore: [<selector1>, <selector2>],
+    idle_timeout: 1000,
+});
+```
+
+---
+
+### ⭐ `wait_visible`
+等待元素在页面上可见
+- `selector`: 元素选择器
+
+```js
+wait_visible(<selector>);
+wait_visible('#welcome-splash');
+wait_visible(<selector>, {timeout: 5000});
+```
+
+
+---
+
+### `$`
+类似 jQuery 的表达式的助手
+- `selector`: 元素选择器
+
+```js
+$(<selector>);
+wait($('.store-card'))
+```
+
+---
+
+### ⭐ `emulate_device`
+
+作为移动设备查看页面。此命令将更改用户代理和屏幕参数（分辨率和设备像素比）
+- `device`: 包含设备名称的字符串
+
+```js
+emulate_device('iPhone X');
+emulate_device('Pixel 2');
+```
+
+
+<Accordion title="这是设备名称的完整列表">
+- Blackberry PlayBook
+- Blackberry PlayBook landscape
+- BlackBerry Z30
+- BlackBerry Z30 landscape
+- Galaxy Note 3
+- Galaxy Note 3 landscape
+- Galaxy Note II
+- Galaxy Note II landscape
+- Galaxy S III
+- Galaxy S III landscape
+- Galaxy S5
+- Galaxy S5 landscape
+- Galaxy S8
+- Galaxy S8 landscape
+- Galaxy S9+
+- Galaxy S9+ landscape
+- Galaxy Tab S4
+- Galaxy Tab S4 landscape
+- iPad
+- iPad landscape
+- iPad (gen 6)
+- iPad (gen 6) landscape
+- iPad (gen 7)
+- iPad (gen 7) landscape
+- iPad Mini
+- iPad Mini landscape
+- iPad Pro
+- iPad Pro landscape
+- iPad Pro 11
+- iPad Pro 11 landscape
+- iPhone 4
+- iPhone 4 landscape
+- iPhone 5
+- iPhone 5 landscape
+- iPhone 6
+- iPhone 6 landscape
+- iPhone 6 Plus
+- iPhone 6 Plus landscape
+- iPhone 7
+- iPhone 7 landscape
+- iPhone 7 Plus
+- iPhone 7 Plus landscape
+- iPhone 8
+- iPhone 8 landscape
+- iPhone 8 Plus
+- iPhone 8 Plus landscape
+- iPhone SE
+- iPhone SE landscape
+- iPhone X
+- iPhone X landscape
+- iPhone XR
+- iPhone XR landscape
+- iPhone 11
+- iPhone 11 landscape
+- iPhone 11 Pro
+- iPhone 11 Pro landscape
+- iPhone 11 Pro Max
+- iPhone 11 Pro Max landscape
+- iPhone 12
+- iPhone 12 landscape
+- iPhone 12 Pro
+- iPhone 12 Pro landscape
+- iPhone 12 Pro Max
+- iPhone 12 Pro Max landscape
+- iPhone 12 Mini
+- iPhone 12 Mini landscape
+- iPhone 13
+- iPhone 13 landscape
+- iPhone 13 Pro
+- iPhone 13 Pro landscape
+- iPhone 13 Pro Max
+- iPhone 13 Pro Max landscape
+- iPhone 13 Mini
+- iPhone 13 Mini landscape
+- JioPhone 2
+- JioPhone 2 landscape
+- Kindle Fire HDX
+- Kindle Fire HDX landscape
+- LG Optimus L70
+- LG Optimus L70 landscape
+- Microsoft Lumia 550
+- Microsoft Lumia 950
+- Microsoft Lumia 950 landscape
+- Nexus 10
+- Nexus 10 landscape
+- Nexus 4
+- Nexus 4 landscape
+- Nexus 5
+- Nexus 5 landscape
+- Nexus 5X
+- Nexus 5X landscape
+- Nexus 6
+- Nexus 6 landscape
+- Nexus 6P
+- Nexus 6P landscape
+- Nexus 7
+- Nexus 7 landscape
+- Nokia Lumia 520
+- Nokia Lumia 520 landscape
+- Nokia N9
+- Nokia N9 landscape
+- Pixel 2
+- Pixel 2 landscape
+- Pixel 2 XL
+- Pixel 2 XL landscape
+- Pixel 3
+- Pixel 3 landscape
+- Pixel 4
+- Pixel 4 landscape
+- Pixel 4a (5G)
+- Pixel 4a (5G) landscape
+- Pixel 5
+- Pixel 5 landscape
+- Moto G4
+- Moto G4 landscape
+</Accordion>
+
+---
+
+## 解析器函数
+本文列出并解释了解析器代码中用于使用 IDE 编写抓取工具的可用命令。
+
+
+### `input`
+可用于解析器代码的全局变量
+
+```js
+let url = input.url;
+```
+
+---
+
+### `$`
+一个 cheerio 实例
+
+```js
+$('#example').text();
+$('$example').attr('href');
+$('#example').text_sane(); /* This is like $().text() but also trims text and replace all space characters with single space "a b \t\n\n c" -> "a b c" */
+```
+<Tip>在 cheerio 网站上查找更多信息: https://cheerio.js.org.</Tip>
+
+---
+
+
+### `location`
+可用于解析器代码的全局变量。含有当前位置信息的对象
+
+```js
+let current_url = location.href; 
+```
+
+---
+
+### `Image`
+收集图片数据
+
+```js
+let i = new Image('https://example.com/image.png');
+collect({image: i});
+```
+
+---
+
+
+### `Video`
+收集视频数据
+
+```js
+let v = new Video('https://example.com/video.mp4');
+collect({video: v});
+```
+
+---
+
+### `Money`
+收集价格/金钱数据
+
+```js
+let p = new Money(10, 'USD');
+collect({product_price: p});
+```

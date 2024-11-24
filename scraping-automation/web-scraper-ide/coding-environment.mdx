@@ -1,0 +1,272 @@
+---
+title: "编码环境和教程"
+description: "探索使用网页抓取工具 IDE 的基本编码指令和最佳实践。 学习如何高效地进行导航、解析数据、与元素交互以及优化抓取任务。"
+---
+## IDE 交互代码
+
+以下是您可以用 IDE 完成的所有代码
+
+`input` - 可用于交互代码的全局对象。由触发器 `input` 或 `next_stage()` 调用提供 
+
+
+```js
+navigate(input.url);
+``` 
+
+---
+
+`navigate` - 将浏览器会话导航到 URL
+- `url`: 所要导航到的 URL
+    
+```js
+navigate([url]);
+navigate(input.url);
+navigate('https://example.com');
+```
+    
+`navigate` 选项
+  
+    
+```js
+// waits until DOM content loaded event is fired in the browser
+navigate([url], {wait_until: 'domcontentloaded'});
+
+// adds a referer to the navigation
+navigate([url], {referer: [url]});
+
+// the number of milliseconds to wait for. Default is 30000 ms
+navigate([url], {timeout: 45000});
+
+// add headers to the navigation
+navigate([url], {header : 'accept: text/html'});
+
+// specify browser width/height
+navigate([url], {fingerprint: {screen: {width: 400, height: 400}}});
+```
+
+---
+`parse` - 解析页面数据   
+    
+```js
+let page_data = parse();
+```
+
+---
+ 
+`collect` - 向网络爬虫创建的数据集添加一行数据 
+- `data_line`: 含有您想采集的字段的对象
+- `validate_fn`: 用于验证行数据是否有效的可选函数
+    
+```js
+collect([data_line] [validate_fn]);
+collect({ title: page_data.title price: page_data.price });
+collect({ price: data.price });
+
+collect(line, l=>!l && throw new Error('Empty line'));
+```
+
+---
+
+`next_stage` - 使用指定的输入运行网络爬虫的下一阶段
+- `input`: 所要传递给下一个浏览器会话的输入对象
+    
+```js
+next_stage({url: 'http://example.com', page: 1});
+```
+<Frame>
+![](images/scraping-automation/web-scraping-ide/coding-environment/next-stage.png)
+</Frame>
+
+---
+  
+`rerun_stage` - 使用新的 `input` 再次运行此阶段的网络爬虫
+- `input`: 所要传递给下一个浏览器会话的输入对象
+    
+```js
+rerun_stage({url: 'http://example.com/other-page'});
+```
+
+---
+  
+`run_stage` - 使用新的浏览器会话运行网络爬虫的特定阶段
+- `input`: 所要传递给下一个浏览器会话的输入对象
+- `stage`: 将要运行哪个阶段（1 是第一阶段）
+    
+```js
+run_stage(2, {url: 'http://example.com', page: 1});
+```
+
+---
+
+`country` - 将您的抓取配置为从特定国家/地区运行
+- `code`: 2 个字符的 ISO 国家/地区代码
+    
+```js
+country(<code>);
+```
+
+---
+
+`wait` - 等待元素出现在页面上
+- `selector`: 元素选择器
+- `opt`: 等待选项（参见示例）
+    
+```js
+wait (<selector>);
+wait('#welcome-splash');
+wait('.search-results .product');
+wait('[href^='/product']');
+wait(<selector>, {timeout: 5000});
+wait(<selector>, {hidden: true});
+```
+
+---
+`wait_for_text` - 等待页面上的元素包含一些文本
+- `selector`: 元素选择器
+- `text`: 所要等待的文本
+    
+```js
+wait_for_text(<selector>, <text>);
+wait_for_text('.location', 'New York');
+```
+
+---
+`click` - 点击一个元素（将等待该元素出现后再点击）  
+- `selector`: 元素选择器  
+    
+```js
+click(<selector>);
+click('#show-more');
+```
+
+---
+
+`type` - 在输入框中输入文本（将等待输入出现后再进行输入）
+- `selector`: 元素选择器
+- `text`: 所要等待的文本
+
+    
+```js
+type(<selector>, <text>);
+type('#location', 'New York');
+type(<selector>, ['Enter']);
+type(<selector>, ['Backspace']);
+```
+
+---
+   
+`select` - 从精选元素中选择一个值
+- `selector`: 元素选择器
+    
+```js
+select(<select>, <value>);
+select('#country', 'Canada');
+```
+
+---
+    
+`URL` - 来自 `NodeJS` 标准 "url" 模块的 `URL` 类
+- `url`: URL 字符串
+
+    
+```js
+let u = new URL('https://example.com');
+```
+
+---
+    
+`location` - 含有当前位置信息的对象. 可用字段: `href`  
+- `url`: URL 字符串
+    
+```js
+navigate('https://example.com');
+location.href;
+```
+
+---
+    
+`tag_response` - 保存浏览器请求的响应数据
+- `name`: 标记字段的名称
+- `pattern`: 所要匹配的 URL 模式
+    
+```js
+tag_response(<field>, <pattern>);
+tag_response('teams', /\/api\/teams/);
+navigate('https://example.com/sports');
+
+let teams = parse().teams;
+for (let team of teams) collect(team);
+```
+
+---
+    
+`response_header` - 返回最后一次页面加载的响应标头
+    
+```js
+let headers = response_headers(); 
+console.log('content-type', headers['content-type']);
+```
+
+---
+
+`console` - 来自交互代码的日志消息
+    
+```js
+console.log(1, 'luminati', [1, 2], {key: value});
+```
+
+---
+    
+`load_more` - 滚动到列表底部，触发加载更多项目。适用于延迟加载的无限滚动网站  
+- `selector`: 元素选择器  
+    
+```js
+load_more(<selector>);
+load_more('.search-results');
+```
+
+---
+    
+`scroll_to` - 滚动页面，从而使元素可见
+```js
+scroll_to(<selector>);
+scroll_to('.author-profile');
+```
+
+---
+
+`$` - 类似 jQuery expressions 的助手
+- `selector`: 元素选择器
+
+```js
+$(<selector>);
+wait($('.store-card'))
+```
+    
+
+## IDE 解析器代码
+以下是您可以用 IDE 完成的所有代码：
+
+`input` - 可用于解析器代码的全局变量
+    
+```js
+let url = input.url;
+```
+
+---
+
+`$` - 一个 cheerio 的实例
+<Tip>在 cheerio 网站上查找更多信息: https://cheerio.js.org/.</Tip>
+```js
+$('#example').text()
+$('$example').attr('href')
+```
+ 
+---
+
+`location` - 可用于解析器代码的全局变量。含有当前位置信息的对象  
+    
+```js
+let current_url = location.href;
+```
+    

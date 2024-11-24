@@ -1,0 +1,65 @@
+---
+title: 了解 IDE 接口
+description: 本文综述了我们专为网页抓取目的而设计的 IDE 接口组件，以及可以用来管理抓取工具的控制面板的接口组件。
+---
+
+## IDE
+
+这是您编写 JavaScript 代码的地方。 详细了解网页抓取的基础知识:  
+https://docs.brightdata.com/scraping-automation/web-scraper-ide/basics-of-web-scraping
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/get-to-know-the-IDE-interface/ide-interface.png)
+</Frame>
+
+**A：查看更多示例**
+- 我们的抓取工具工程师构建的模板代码示例。
+
+**B：再添加一个步骤（阶段）**
+- 当您想从多个页面收集数据时，添加阶段是有用的。 例如，如果您想从亚马逊搜索结果页面收集所有产品以及所有已收集产品的详细信息。 您可以在第一阶段浏览搜索结果页面以收集所有产品 URL，然后将它们传递到第二阶段以浏览每个产品页面。
+- `next_stage`、`run_stage` 命令可用于在各个阶段之间进行交互。
+
+
+**C：帮助**
+- 可用函数列表、函数说明和用法示例。 了解有关交互函数和解析器函数的更多信息。  
+
+[Interaction functions](/scraping-automation/web-scraper-ide/functions#interaction-functions), [Parser functions](/scraping-automation/web-scraper-ide/functions#parser-functions).  
+
+
+**D：调试选项卡**
+- 输入：定义您的输入参数并使用输入集运行测试（预览）
+- 输出：所收集数据的列表
+- 子级：将成为下一阶段输入集的子级列表
+- 运行日志：代码执行日志
+- 浏览器控制台：抓取工具浏览器控制台日志 \[浏览器 > 开发工具 > “控制台选项卡”\]
+- 浏览器网络：抓取工具浏览器网络日志 \[浏览器 > 开发工具 > “网络选项卡”\]
+- 最后的错误：最新错误信息列表
+
+**E：输入**
+- 添加输入参数：定义输入参数，包括其名称和类型
+- 添加另一个输入：添加要测试的输入集的值
+- 预览：使用选定的输入集运行测试
+
+**F：代码设置**
+- 错误模式：设置抓取工具错误案例的代码行为
+- 截屏：在预览测试期间截屏。 在测试期间，您将能够检查加载的页面。
+
+## 控制面板 - 抓取工具操作菜单
+
+`collescraperctor` 操作菜单允许使用抓取工具执行不同的操作。
+
+- **由 API 启动** - 无需进入控制面板即可开始数据收集
+- **手动启动** - Bright Data 的控制面板使您可以轻松开始收集数据
+- **按计划运行** - 精确选择何时收集所需数据
+- **版本** - 查看抓取工具的修改版本
+- **报告问题** - 您可以使用此表单来沟通您在平台、抓取工具或数据集结果方面遇到的任何问题
+- **复制链接** - 复制抓取工具的链接与同事共享
+- **工单** - 查看您的工单状态
+- 高级选项：
+    -   编辑代码 - 在 IDE 中编辑抓取工具的代码。
+    -   禁用抓取工具 - 暂时禁用抓取工具，但是如果需要，您可以将其重新激活。
+    -   删除抓取工具 - 永久删除抓取工具。
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/get-to-know-the-IDE-interface/dashboard-action-menu.png)
+</Frame>

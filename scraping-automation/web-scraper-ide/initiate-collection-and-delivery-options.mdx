@@ -1,0 +1,128 @@
+---
+title: "Initiate Data Collection & Delivery with IDE Scraper"
+description: "Learn how to initiate data collection and set up delivery options using the IDE Scraper. Explore manual, API, and scheduled methods for efficient data scraping."
+sidebarTitle: 启动收集和交付
+---
+
+在IDE中编写抓取器代码时，系统会自动将抓取器作为草稿保存到开发环境中。 在IDE内部，您可以逐页运行以了解抓取器的行为。 要进行完整的生产运行，请点击IDE屏幕右上角的“保存到生产环境”按钮，将抓取器保存到生产环境中。所有抓取器都会显示在控制面板中的我的抓取器选项卡下。任何处于非活动状态的抓取器都将以褪色状态显示。
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/my-scrapers.png)
+</Frame>
+
+## 启动抓取器
+要开始收集数据，请从以下三个选项中选择一个：
+
+<Tabs>
+<Tab title="通过API启动">
+
+您可以通过API开始数据收集，无需访问Bright Data控制面板：[开始使用API文档](
+https://docs.brightdata.com/api-reference/web-scraper-ide-api/Getting_started_wtih_the_API)
+
+在启动API请求之前，请创建API令牌。 **要创建API令牌，请转到：**
+[控制面板侧边菜单设置 > 账户设置 > API令牌](https://brightdata.com/cp/setting)
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/initiate-by-api.png)
+</Frame>
+
+1. 手动设置输入 - 手动输入或通过API请求输入数据
+2. 触发行为 - 您可以添加多个并行请求，这些请求将根据定义的顺序激活。您可以将另一个作业添加到队列中，并同时运行两个以上的作业。
+3. API请求预览 - Bright Data为您提供REST API调用，用于启动抓取器。请选择“Linux Bash”查看器以查看CURL命令。发送请求后，您就会立即收到作业ID。
+
+
+数据将根据之前定义的交付首选项交付给您。
+
+<Note>如果交付首选项设置为API下载，则必须具有调用API才能接收数据</Note>
+</Tab>
+<Tab title="手动启动">
+Bright Data's control panel makes it easy to get started collecting data.
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/initiate-manually.png)  
+</Frame>
+1. 触发行为 - 您可以添加多个并行请求，这些请求将根据定义的顺序激活。您可以将另一个作业添加到队列中，并同时运行两个以上的作业。
+2. **手动设置输入**  
+3. **Upload CSV file** - If you'd like to add a large amount of input, the easiest way is to add them to a CSV file and upload it to the system. For example, a list of URLs.   
+See the example provided for reference.
+</Tab>
+<Tab title="安排抓取器">
+Choose when to initiate the scraper.
+
+**Step One:**  
+1. Choose a date and time for the scraper to start.  
+2. Select the frequency it will run (hourly, daily, weekly, etc.)  
+3. Set a deadline for when a scraper is complete.  
+4. Review your setup.
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/schedule-configuration.png)
+</Frame>
+
+**Step Two :**  
+1. Add a large number of inputs to a CSV file. For instance, a list of URLs. To upload easily without errors, you can download a template of a CSV structure example.
+2. Set up Inputs manually
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/enter-input.png)
+</Frame>
+</Tab>
+</Tabs>
+
+---
+
+## 交付选项
+您可以为数据集设置交付首选项。要进行此设置，只需点击“我的抓取器”选项卡中的抓取器行，然后点击“交付首选项”即可 
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/delivery-preferences.png)
+</Frame>
+
+<AccordionGroup>
+<Accordion title="选择何时获取数据">
+- 批量：管理大量数据的有效方式
+    - 分批：数据准备好后，立即分小批量交付
+- 实时：快速响应一个请求的理想方式
+    - 跳过重试：发生错误时不重试。 可以加快收集速度
+</Accordion>
+
+<Accordion title="选择文件格式">
+- JSON
+- NDJSON
+- CSV
+- XLSX
+</Accordion>
+
+<Accordion title="选择如何接收数据">
+- 电子邮件
+- API下载
+- Webhook
+- 云存储提供商：Amazon S3、Google Cloud Storage、Azure
+- SFTP/FTP
+<Note>如果设置为电子邮件或API下载，则媒体文件无法交付</Note>
+</Accordion>
+
+<Accordion title="选择结果格式">
+- 结果和错误分别存放在不同文件中
+- 结果和错误一起存放在一个文件中
+- 仅包含成功结果
+- 仅包含错误
+</Accordion>
+
+<Accordion title="定义通知">
+- 在收集完成时发出通知
+- 提供成功率的通知
+- 在发生错误时发出通知
+</Accordion>
+</AccordionGroup>
+
+### 输出架构
+
+架构定义了数据点结构以及数据的组织方式。 您可以更改架构结构和修改数据点以满足您的需求，包括重新排序、设置默认值，以及将其他数据添加到输出配置中。 要添加新的字段名称，请进入高级设置并编辑代码。
+
+![](/images/scraping-automation/web-scraping-ide/initiate-collection-and-delivery-options/output-schema.png)
+
+|||
+|-|-|
+|**输入/输出架构**|选择要配置的选项卡|
+|**自定义验证**|验证架构|
+|**已解析的数据**|抓取器收集的数据点|
+|**添加新字段**|如果您需要其他数据点，可以添加字段，并定义字段名称和类型|
+|**附加数据**|您可以将附加信息（时间戳、截图等）添加到架构中|

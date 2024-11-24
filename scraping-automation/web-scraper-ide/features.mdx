@@ -1,0 +1,103 @@
+---
+title: 功能
+---
+## 数据抓取工具控制面板
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/features/dashboard.png)
+</Frame>
+
+无论是使用模板创建的抓取工具，还是自定义的抓取工具，都将显示数据抓取工具的控制面板上。
+
+### 概述
+- **免费试用**: 在 7 天免费试用期间，您可享受 1,000 次页面加载服务。
+- **可用更新**: 提示有新版抓取工具可用。如未显示”更新“按钮，则说明您使用的是最新版本。
+- **属性**: 您可在此处查看所有抓取工具的属性。[了解更多](/scraping-automation/web-scraper-ide/features#properties)
+- **交付首选项**: 选择所需文件格式、交付方式，并进行通知设置。[了解更多](/scraping-automation/web-scraper-ide/initiate-collection-and-delivery-options#output-schema)
+- **输出配置/ 架构**: 您可返回此处编辑输出定义。
+
+---
+
+### 抓取工具操作菜单
+抓取工具操作菜单让您可以使用抓取工具执行不同的操作。
+
+- **通过 API 启动** - 无需进入控制面板即可开始数据采集
+- **手动启动** - Bright Data 的控制面板使您可以轻松开始采集数据
+- **按计划运行** - 精确选择何时采集所需数据
+- **版本** - 查看抓取工具的修改版本
+- **报告问题** - 您可以使用此表单来沟通您在平台、抓取工具或数据集结果方面遇到的任何问题
+- **复制链接** - 复制抓取工具的链接与同事共享
+- **工单** - 查看您的工单状态
+- **高级选项：**
+    - 编辑代码 - 在 IDE 中编辑抓取工具的代码。
+    - 禁用抓取工具 - 暂时禁用抓取工具，但是如果需要，您可以将其重新激活。
+    - 删除抓取工具 - 永久删除抓取工具。
+
+<Frame>
+![](/images/scraping-automation/web-scraping-ide/features/action-menu.png)
+</Frame>
+
+---
+
+### 属性：
+![](/images/scraping-automation/web-scraping-ide/features/properties.png)
+- 抓取工具的维护者：
+    - 自助服务：抓取工具由您自己维护
+    - 全套服务：抓取工具由 Bright Data 数据开发人员维护
+- 抓取工具的类型：
+    - 搜索型：抓取工具的输入参数是一个关键字（例如 iPhone）
+    - PDP：抓取工具的输入参数是产品页面 URL
+    - 发现型：抓取工具的输入参数是类别 URL
+    - 其他
+- 抓取工具的用例（社交媒体、电子商务、旅行网站等）
+- 上次修改时间：表示上次更新抓取工具的时间
+- CPM 价格：1 CPM = 1,000 次页面加载。
+- 平均每次输入 的页面加载次数：处理 1 个输入集所需的平均页面加载次数
+
+## 启动抓取工具并获得采集结果
+
+**启动抓取工具**
+
+您可通过以下三种方式启动数据采集，按需选择其中一种即可：
+
+A. [ 通过 API 启动](/scraping-automation/web-scraper-ide/initiate-collection-and-delivery-options#initiate-scraper)  
+B. [手动启动](/scraping-automation/web-scraper-ide/initiate-collection-and-delivery-options#initiate-scraper)  
+C. [定时启动抓取工具](/scraping-automation/web-scraper-ide/initiate-collection-and-delivery-options#initiate-scraper)  
+
+![](/images/scraping-automation/web-scraping-ide/features/options.png)
+
+**获取采集结果**
+
+数据采集完成后，点击“三个点”图标并选择“统计信息”，即可访问结果并下载数据。
+
+<Note>无法下载实时作业输入和输出数据，因为相关数据并不存储在我们的服务端</Note>
+
+## 统计信息
+![](/images/scraping-automation/web-scraping-ide/features/statistics.png)
+“统计信息”页面会提供一些基本信息，以显示数据采集工作的成功情况。 以下是统计信息表中包含的各种术语列表：
+
+**统计信息 actions menu**
+![](/images/scraping-automation/web-scraping-ide/features/statistics-action-menu.png)
+
+* **三个点**
+您可通过此图标对数据采集作业执行各种功能：
+“统计信息”页面会提供一些基本信息，以显示数据采集工作的成功情况。 以下是统计信息表中包含的各种术语列表：
+
+![](/images/scraping-automation/web-scraping-ide/features/collector-runs.png)
+
+- **作业 ID** - 采集任务的唯一 ID
+- **触发因素** - 启动数据采集的人员和方式（API 启动，手动启动或定时启动）
+- **输入** - 采集请求中键入的输入参数量
+- **记录** - 采集到的结果数
+- **失败** - 抓取失败的页面数
+- **成功率** - 成功采集到的结果的占比
+- **排队时间** - 队列时间戳
+- **开始时间** - 抓取工具开始采集的日期和时间
+- **完成时间** - 抓取工具完成采集的日期和时间
+- **作业时间** - 完成作业所耗费的时间长度
+- **预计剩余时间** - 距离采集完成的剩余时间
+- **队列** - 触发行为中给定的作业名称（队列名称）
+- **用量** - 所用的页面加载总次数
+
+![](/images/scraping-automation/web-scraping-ide/features/three-dots.png)
+

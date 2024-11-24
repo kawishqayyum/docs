@@ -1,0 +1,280 @@
+---
+title: "网页抓取工具 IDE 最佳实践"
+description: "学习使用网页抓取工具 IDE 的最佳实践，包括优化性能、处理错误、管理重试和编写高效的抓取工具代码。"
+sidebarTitle: 最佳实践
+---
+## Missing `dead_page` condition.
+
+使用 `navigate` 指令时，应添加 `dead_page` 条件以检查是否未找到该页面。这将防止自动重试。 虽然当响应状态为 404 时，我们会自动处理此问题，但在某些情况下，网站可能会使用其他各种状态代码进行响应：
+
+Here are good and bad practices examples (you can navigate between them by clicking on the "不好" "Good" tabs)
+
+<CodeGroup>
+```js ❌ 不好
+try {
+  // no need to wait 30sec 'ok-selector' in case of dead_page()
+  wait('ok-selector');
+} catch(e) {
+  // in this case we can't be sure that the page is real dead
+  dead_page('Page doesn\'t exist');
+}
+```
+
+```js ✅ Good
+wait('ok-selector, 404-selector');
+if (el_exists('404-selector'))
+  dead_page();
+```
+</CodeGroup>
+
+## 尽量减少对浏览器的请求量
+一些交互指令，例如点击类型 el_exists el_is_visible wait wait_visible，会向浏览器发出真实请求，因而可能会增加延迟并降低性能。 建议组合选择器，进行单个调用，而非多个调用。
+
+<CodeGroup>
+```js ❌ 不好
+if (!(el_exists('#price1')) || el_exists('#price2')
+  || el_exists('#price3') || el_exists('#discount'))
+{
+    dead_page('No price found');
+}
+```
+
+```js ✅ Good
+if (!el_exists('#price1, #price2, #price3, #discount'))
+  dead_page('No price found');
+```
+</CodeGroup>
+
+## Incorrect usage of `rerun_stage()`
+当网站在页面上进行分页并且需要所有页面的数据时，则应从根页面为每个页面调用 `rerun_stage()`，而不是从每个页面调用。这使系统能够并行处理请求并提高抓取工具的速度。
+
+<CodeGroup>
+```js ❌ 不好
+navigate(input.url);
+let $ = html_load(html());
+let next_page_url = $('.next_page').attr('href');
+rerun_stage({url: next_page_url});
+```
+
+```js ✅ Good
+let url = new URL(input.url);
+if (input.page)
+    url.searchParams.set('page', input.page);
+navigate(url);
+// The input.page does not exist except on the root page, from which we
+// have already invoked rerun_stage() for each page.
+if (input.page)
+    return;
+
+let $ = html_load(html());
+let total_products = +$('.total_pages').text();
+let total_pages = Math.ceil(total_products / 20);
+total_pages = Math.min(total_pages, 50);
+
+for (let page=2;page<=total_pages;page++)
+    rerun_stage({url: input.url, page});
+```
+</CodeGroup>
+
+## Use `close_popup()` to close popups
+不要花时间等待弹出窗口的出现。 使用 `close_popup('popup_selector', 'close_button_selector')` 关闭弹出窗口。弹出窗口可以随时出现，在大多数情况下，在每个交互指令之前添加验证检查是不可取的。
+不好
+
+<CodeGroup>
+```js ❌ 不好
+navigate('https://example.com');
+try {
+  wait_visible('.cky-btn-accept', {timeout: 5000});
+  click('.cky-btn-accept');
+} catch(e) {
+    console.log('Accept cookies button does not exist, continue');
+}
+
+```
+
+```js ✅ Good
+// it runs in the background and does not affect the performance.
+// We check if the popup is visible before any interaction like
+// click or type.
+close_popup('.cky-btn-accept', '.cky-btn-accept');
+navigate('https://example.com');
+click('.open-product-full-info');
+```
+</CodeGroup>
+
+## Use `wait_for_parser_value()` with `tag_response()`
+在使用 `tag_response` 指令并需要确保在从页面采集数据之前完成请求时，应使用 `wait_for_parser_value()` ：
+
+<CodeGroup>
+```js ❌ 不好
+tag_response('product', /api\/product/);
+navigate('https://example.com');
+
+// parser code
+// in this case we can't be sure that the request is finished
+let {product} = parser;
+return product.data;
+```
+
+```js ✅ Good
+tag_response('product', /api\/product/);
+navigate('https://example.com');
+wait_for_parser_value('product');
+
+// parser code
+let {product} = parser;
+return product.data;
+```
+
+```js ✅ Good
+tag_response('product', /api\/product/);
+navigate('https://example.com');
+
+// you can also get the data from the response in interaction
+let product = wait_for_parser_value('product');
+navigate(product.reviews_url);
+tag_html('reviews_html');
+
+// parser code
+let {product, reviews_html} = parser;
+let $ = html_load(reviews_html);
+let reviews = $('.review').toArray().map(v=>$(v).text());
+return {
+  ...product.data,
+  reviews,
+}
+```
+</CodeGroup>
+
+## 自定义错误消息
+尽可能避免使用自定义错误消息。 我们的系统尽最大努力为您提供最准确的错误消息：
+
+<CodeGroup>
+```js ❌ 不好
+try {
+  wait('selector1');
+  //some code
+  wait('selector2');
+  //some code
+} catch(e) {
+  throw "Page not loaded properly"
+}
+```
+
+```js ✅ Good
+// Crawler error: waiting for selector "selector1" failed: timeout 30000ms exceeded
+wait('selector1');
+//some code
+wait('selector2');
+//some code
+```
+
+```js ✅ Good
+if (!el_exists('.product-title'))
+    throw new Error('Failed to load product page');
+```
+</CodeGroup>
+
+## 网站响应缓慢，超时增加
+如果网站无法正常加载，则可能是由于对等连接不良所致。 建议显示错误消息，系统将尝试使用更稳定的对等会话加载页面。
+
+<CodeGroup>
+```js ❌ 不好
+// 120 sec to long for waiting
+wait('selector', {timeout: 120000});
+```
+```js ✅ Good
+wait('selector'); // better to use default timeout (30 sec)
+wait('selector', {timeout: 45000});
+wait('selector', {timeout: 60000});  // 60 sec is ok for slow 网站s
+```
+</CodeGroup>
+
+## 重试机制
+抓取工具代码应清晰，仅专注于抓取数据的必要任务。 没有必要白费力气做重复工作。最好强调与代码无关的问题并在系统中报告这些问题。
+
+<CodeGroup>
+```js ❌ 不好
+let counter = input.counter || 5;
+while (counter > 1) {
+  try {
+    wait('selector' , {timeout: 500});
+    click('selector');
+    type('selector');
+    //some code
+    break;
+  } catch(e) {
+    // not acceptable use rerun_stage to create new session in case of error
+    return rerun_stage({...input, counter: --counter});
+  }
+}
+
+
+```
+
+```js ✅ Good
+navigate("https://example.com");
+wait('h1');
+```
+</CodeGroup>
+
+## 避免使用 try-catch 块
+这有助于开发简洁易读的代码，无需依赖 `try-catch` 块即可有效地管理潜在的 “空”值 或“未定义”值。
+
+<CodeGroup>
+```js ❌ 不好
+try {
+  const example = obj.prop;
+} catch(e) {}
+```
+
+```js ❌ 不好
+// wasting browser time for no reason
+try { wait('selector'); } catch(e){}
+try { wait_network_idle({timeout: 8000}) } catch(e){};
+try { wait_page_idle(); } catch(e) {}
+```
+
+```js ✅ Good
+const example = object?.prop;
+const example2 = object.prop ?? undefined
+const example3 = object.prop ? object.prop : undefined
+```
+</CodeGroup>
+
+## 解析器代码：从元素集中获取值
+最佳实践代码采用更简洁、更实用的 `toArray()` 和 `map()` 方法，而非传统的 `each()` 循环。 这可增强代码的可读性并保持声明样式。
+
+<CodeGroup>
+```js ❌ 不好
+const links = [];
+$('.card.product-wrapper').each(function(i, el) {
+  links.push({url: $(this).find('h4 a').attr('href')});
+})
+return links;
+```
+
+```js ✅ Good
+const links = $('.card.product-wrapper').toArray().map(v=>({
+  url: $(v).find('h4 a').attr('href'),
+}));
+```
+</CodeGroup>
+
+## 规范化文本
+我们在 cheerio prototype \$(selector).text_sane() 中添加了一个自定义函数，它删除了所有不必要的空白字符并将其替换为单个空格。
+
+
+<CodeGroup>
+```js ❌ 不好
+$.prototype.clearText = function () {
+  return this.text().replace(/\s+/g, ' ').trim();
+}
+```
+```js ✅ Good
+let name = $('a').text_sane();
+or if you need only numbers
+let value= +$('a').text().replace(/\D+/g, '');
+```
+</CodeGroup>
+
