@@ -1,0 +1,431 @@
+---
+title: "网络抓取器 API 的交付 API"
+description: "了解如何使用 Bright Data 的交付 API 通过网络抓取器 API 下载、交付并管理数据快照，并存储到各种存储解决方案，包括 S3、Azure 等。"
+---
+## 下载快照
+
+`端点：GET /datasets/v3/snapshot/: snapshot_id`
+
+下载数据收集结果（快照必须处于就绪状态 `status=ready`）
+
+
+<Tabs>
+<Tab title="请求">
+#### 路径参数
+<ParamField path="snapshot_id" 类型="字符串" 必填项>
+触发收集时返回的 ID
+
+> **示例**: `s_lynh132v19n82v81kx`
+
+</ParamField>
+
+#### 查询参数
+<ParamField query="格式" 类型="枚举">
+要接收的数据格式
+
+> **Options**: `json`, [`ndjson`](https://github.com/ndjson/ndjson-spec), [`jsonl`](https://jsonlines.org/), `csv`
+
+> **示例**: `格式=json`
+
+</ParamField>
+
+<ParamField query="压缩" 类型="布尔值">
+结果是否应该压缩
+
+> **示例**: `压缩=true`
+
+</ParamField>
+
+<ParamField query="batch_size" 类型="整数">
+分成 X 条记录的批次
+
+> **示例**: `batch_size=1000`
+
+<Note>至少 1000 条记录</Note>
+</ParamField>
+
+<ParamField query="部分" 类型="整数">
+如果提供了 batch_size，请指定要下载的部分
+
+> **示例**: `部分=1`
+
+</ParamField> 
+</Tab>
+
+<Tab title="响应">
+#### Returns
+Data in the desired 格式.  
+</Tab>
+
+<Tab title="示例">
+### 请求 example
+
+```sh
+c网址 -k -H "Authorization: Bearer API_TOKEN" "https://api.brightdata.com/datasets/v3/snapshot/s_lynh132v19n82v81kx"
+```
+
+### 响应 example
+```json
+[
+  {
+    "网址": "https://www.amazon.de/Schwarzkopf-OSiS-Dust-Haarpuder-Dose/dp/B00B5PFYGO",
+    "product_name": "OSiS+ Dust It – Mattifying Volume Powder – long-lasting Hold, Strong Control and Separation – Matte Effect Texturizer Product for Wild Hair Styling and Volumizing, 0.35 oz",
+    "product_rating": 4.3,
+    "product_rating_对象": {
+      "five_star": 8710,
+      "four_star": 2251,
+      "one_star": 736,
+      "three_star": 1206,
+      "two_star": 503
+    },
+    "product_rating_max": 5,
+    "rating": 4,
+    "author_name": "Amazon Customer",
+    "asin": "B00B5PFYGO",
+    "product_rating_count": 2251,
+    "product_reviews_number": 410,
+    "review_header": "Helps",
+    "review_id": "R14J6PX8M7UA4D",
+    "review_text": "I have very fine hair with a mind of its own. This is not a miracle but it does help. I have found it best to sprinkle a small amount into my hand, then from about 6 inches above the area turn my hand over and let it fall. I then fluff it a bit with my fingers. It gives my hair some lift and appears a bit fuller. If I sprinkle it on straight from the bottle, it is very difficult to control the amount and I end up using too much. I was pleasantly surprised that my second day hair was not oily and actually looked good without reapplying.",
+    "author_id": "AFBD74WRJP5JM5DBGGWBOLURSLYQ",
+    "author_link": "https://www.amazon.com/gp/profile/amzn1.账户.AFBD74WRJP5JM5DBGGWBOLURSLYQ/ref=cm_cr_arp_d_gw_btm?ie=UTF8",
+    "badge": "Verified Purchase",
+    "brand": "OSiS+",
+    "review_posted_date": "March 31, 2019",
+    "review_country": "United States",
+    "review_images": null,
+    "helpful_count": 3,
+    "密钥word": null
+  }
+]
+```
+
+<Note>
+If needed, the result can be divided into several 部分s:
+1. Download the first 部分 by specifying a `batch_size` and `部分=1`
+2. Check how many 部分 were created using <a href="/scraping-automation/web-data-apis/web-scraper-api/management-apis#calculate-the-number-of-部分s-for-交付y" target="_blank">this endpoint</a>
+3. Download the rest of the 部分s by changing the `部分` parameter. (`batch_size`, `格式` and `压缩` must stay the same for each call)
+</Note>  
+</Tab>
+</Tabs>
+
+
+---
+
+
+## 将收集的数据传送到存储
+
+`端点：POST /datasets/v3/交付/: snapshot_id`
+
+将收集的数据直接传送到您指定的存储位置。
+
+<Tabs>
+<Tab title="请求">
+### 路径参数
+
+<ParamField path="snapshot_id" 类型="字符串" 必填项>
+触发收集时返回的 ID
+
+> **示例**: `s_lynh132v19n82v81kx`
+
+</ParamField>
+
+### Notify Parameters
+
+<ParamField path="通知" 类型="网址">
+交付完成后将发送通知的 URL。
+
+> **示例**: `"通知": "https://通知-me.com/"`
+
+</ParamField>
+
+### 正文参数 (JSON)
+<ParamField body="交付" 类型="对象" 必填项>
+配送设置
+
+> **示例**: `{"交付": {...}}`
+
+</ParamField>
+
+#### `交付` has the following four child 属性:
+
+<AccordionGroup>
+<Accordion title="类型">
+  <ParamField body="类型" 类型="枚举" 必填项>
+    您的存储类型
+    > **Options**: `s3`, `gcs`, `azure`, `snowflake`, `sftp`, `gcp_pubsub`
+    
+    > **示例**: `"类型": "s3"`
+    
+    其余设置因存储类型而有所不同：
+    <AccordionGroup>
+      <Accordion title="s3">
+      
+      ### Amazon S3 - `类型: s3`
+      <ParamField body="存储桶" 类型="字符串">
+      您的 S3 存储桶的名称
+
+      > **示例**: `"存储桶": "brd-scrape-results"`
+
+      </ParamField>
+      <ParamField body="目录" 类型="字符串">
+      保存文件的位置。 您可以使用变量来添加上下文。
+      > **示例**: `“目录":"Amazon_products/{[month]}/"`
+
+      > **Available variables**: `{[day]}, {[month]}, {[month_s]}, {[month_l]}, {[year]}`
+
+      </ParamField>
+      
+      <ParamField body="凭证" 类型="对象">
+      Will be used for authentication with S3
+      示例： "凭证": `{...}`
+      <Expandable title="properties">
+      支持的身份验证类型有 2 种：
+      ## 访问密钥
+      <ParamField body="aws-access-密钥" 类型="字符串">
+      > **示例**: `"aws-access-密钥":"AKIAIOSFODNN7EXAMPLE"`
+
+      </ParamField>
+
+      <ParamField body="aws-secret-密钥" 类型="字符串">
+      > **示例**: `"aws-secret-密钥": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"`
+
+      </ParamField>
+      ## 用户角色令牌
+      <ParamField body="角色_arn" 类型="字符串">
+      > **示例**: `"角色_arn":"arn:aws:iam::123456789012:角色/credential-角色"`
+
+      </ParamField>
+
+      <ParamField body="external_id" 类型="字符串">
+      > **示例**: `"external_id":"hl_xxxxx"`
+
+      </ParamField>
+      </Expandable>
+      </ParamField>
+      </Accordion>
+      <Accordion title="gcs">
+      ### Google Cloud Storage - `类型: gcs`
+      <ParamField body="存储桶" 类型="字符串">
+      您的 Google 云存储存储桶的名称
+      > **示例**: `"存储桶":"brd-scrape-results"`
+
+      </ParamField>
+      <ParamField body="目录" 类型="字符串">
+      保存文件的位置。 您可以使用变量来添加上下文。
+      > **示例**: `"目录":"Amazon_products/{[month]}/"`
+
+      > **Available variables**: \
+      > `{[day]}, {[month]}, {[month_s]}, {[month_l]}, {[year]}`
+      </ParamField>
+
+      <ParamField body="凭证" 类型="对象">
+      将用于 Google 云存储的身份验证
+
+      > **示例**: `"凭证": {...}`
+
+      <Expandable title="properties">
+      <ParamField body="client_email" 类型="字符串">
+      > **示例**: `"client_email":"email@example.com"`
+
+      </ParamField>
+
+      <ParamField body="private_密钥" 类型="字符串">
+      > **示例**: \
+      > `"private_密钥": "-----BEGIN PRIVATE KEY----- MII..."`
+
+      </ParamField>
+      </Expandable>
+      </ParamField>
+      </Accordion>
+      <Accordion title="azure">
+      ### Microsoft Azure - `类型: azure`
+      <ParamField body="字段名" 类型="字段名">
+      container 字符串
+      Description: The name of your Microsoft Azure container
+      示例： “container":"brd-scrape-results"
+      </ParamField>
+
+      <ParamField body="字段名" 类型="字段名">
+      目录 字符串
+      Path to 文件名 in storage.
+      Description: 保存文件的位置。 您可以使用变量来添加上下文。
+      示例： `“目录":"Amazon_products/{[month]}/"`
+      Available variables: `{[day]}, {[month]}, {[month_s]}, {[month_l]}, {[year]}`
+      </ParamField>
+
+
+      <ParamField body="凭证" 类型="对象">
+      将用于 Microsoft Azure 的身份验证
+
+      > **示例**: `"凭证": {...}`
+
+      <Expandable title="properties">
+      <ParamField body="账户" 类型="字符串">
+      > **示例**: `"账户": "devstore账户1"`
+
+      </ParamField>
+      ## 支持的身份验证类型有 2 种：
+
+      ### 访问密钥
+      <ParamField body="密钥" 类型="字符串">
+      > **示例**: `"密钥": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="`
+
+      </ParamField>
+
+      ### 共享访问令牌
+      <ParamField body="sas_token" 类型="字符串">
+      > **示例**: `"sas_token": "sv=2023-11-31&sr=b&sig=39Up9jzHkxhUIhFEjEh9594DJxe6cIRCgOv6ICGS%3A377&sp=rcw"`
+
+      </ParamField>
+      </Expandable>
+      </ParamField>
+      </Accordion>
+      <Accordion title="snowflake">
+      ### Snowflake - `类型: snowflake`
+      <ParamField body="数据库" 类型="字符串">
+      > **示例**: `"数据库":"db_name"`
+        
+      </ParamField>
+
+      <ParamField body="架构" 类型="字符串">
+      > **示例**: `"架构":"public"`
+
+      </ParamField>
+
+      <ParamField body="阶段" 类型="字符串">
+      > **示例**: `"阶段":"阶段_name"`
+
+      </ParamField>
+
+      <ParamField body="仓库" 类型="字符串">
+      > **示例**: `"仓库": "仓库_name"`
+
+      </ParamField>
+
+      <ParamField body="角色" 类型="字符串">
+      > **示例**: `"角色":"角色_name"`
+
+      </ParamField>
+
+      <ParamField body="凭证" 类型="对象">
+      将用于 Snowflake 的身份验证
+
+      > **示例**: `"凭证": {...}`
+
+      <Expandable title="properties">
+      <ParamField body="账户" 类型="字符串">
+      > **示例**: `"账户":"jua00001.us-west-1.azure"`
+
+      </ParamField>  
+      <ParamField body="用户" 类型="字符串">
+      > **示例**: `"用户":"用户_name"`
+
+      </ParamField>  
+      <ParamField body="密码" 类型="字符串">
+      > **示例**: `"密码":"密码"`
+
+      </ParamField>
+      </Expandable>
+      </ParamField>
+      </Accordion>
+      <Accordion title="gcp_pubsub">
+      ### Google Cloud PubSub - `类型: gcp_pubsub`
+      <ParamField body="凭证" 类型="对象">
+      将用于 Google 云存储的身份验证
+
+      > **示例**: `"凭证": {...}`
+
+        <Expandable title="properties">
+          <ParamField body="client_email" 类型="字符串">
+          > **示例**: `"client_email":"email@example.com"`
+
+          </ParamField>
+          <ParamField body="private_密钥" 类型="字符串">
+          > **示例**: `"private_密钥":"-----BEGIN PRIVATE KEY----- MII..."`
+
+          </ParamField>
+          <ParamField body="topic_id" 类型="字符串">
+          参见 https://cloud.google.com/pubsub/docs/overview
+          > **示例**: `"topic_id":"projects/..."`
+            
+          </ParamField>
+
+          <ParamField body="属性" 类型="数组">
+          属性遵循 https://cloud.google.com/pubsub/docs/publisher#using-属性
+
+          > **示例**:
+          > ```js
+          > "属性":[
+          >   {密钥: "文件名", value: "{[文件名]}", generic: true},
+          >   {密钥: "collector_id",value: "{[collector_id]}", generic: true}
+          > ]
+          > ```
+
+          > **Available parameters**: \
+          > `{[文件名]}, {[collector_id]}, {[job_id]}, {[类型]}, {[content_类型]}, {[timestamp]}, {[content_length]}, {[page.网址]}`
+
+          </ParamField>
+        </Expandable>
+      </ParamField>
+      </Accordion>
+    </AccordionGroup>
+  </ParamField>
+</Accordion>
+<Accordion title="压缩">
+<ParamField body="压缩" 类型="布尔值">
+      是否应该压缩数据
+      > **示例**: `"压缩": true`
+    </ParamField>
+</Accordion>
+<Accordion title="batch_size">
+<ParamField body="batch_size" 类型="整数">
+  分成 X 条记录的批次
+  > **示例**: `"batch_size": 1000`
+
+</ParamField> 
+
+</Accordion>
+<Accordion title="文件名">
+  <ParamField body="文件名" 类型="对象">
+    如何命名已交付的文件以及使用哪种格式。
+    <Expandable title="properties">
+      <ParamField body="模板" 类型="字符串">
+      文件名。 You can use parameters `{[]}` to add context.
+      > **示例**: `"模板": "Amazon_products_{[datetime]}_{[snapshot_id]}"`
+      
+      > **Available parameters**: \
+      > `{[datetime]}, {[snapshot_id]}, {[snapshot_year]}, {[snapshot_month]}, {[snapshot_day]}, {[snapshot_timestamp]}, {[snapshot_datetime]}`
+      </ParamField>
+      <ParamField body="扩展" 类型="枚举">
+      使用什么格式
+      > **示例**: `"扩展": "json"`
+
+      > **Options**: `json`, [`ndjson`](https://github.com/ndjson/ndjson-spec), [`jsonl`](https://jsonlines.org/), `csv`
+      
+      </ParamField>
+    </Expandable>
+  </ParamField>
+</Accordion>
+</AccordionGroup>
+</Tab>
+<Tab title="响应">
+### Returns
+Object containing `交付y_id`, which represents ID of your 交付y request and can be used in <a href="/scraping-automation/web-data-apis/web-scraper-api/management-apis#monitor-交付y" target="_blank">Monitor Delivery API</a>
+
+</Tab>
+<Tab title="示例">
+### 请求 example
+
+```sh
+c网址 -H "Authorization: Bearer API_TOKEN" -H "Content-Type: application/json" -d '{"交付":{"类型":"s3","文件名":{"模板":"{[snapshot_id]}","扩展":"json"},"压缩":true, "batch_size": 1000, "存储桶":"AWS_BUCKET","凭证":{"aws-access-密钥":"AWS_ACCESS_KEY","aws-secret-密钥":"AWS_SECRET_KEY"},"目录":"{[year]}/{[month]}"}}' "https://api.brightdata.com/datasets/v3/交付/s_lynh132v19n82v81kx"
+```
+
+### 响应 example
+```json
+{"id": "d_lysxl9vf2dobrb6h31"}
+```
+</Tab>
+</Tabs>
+
+

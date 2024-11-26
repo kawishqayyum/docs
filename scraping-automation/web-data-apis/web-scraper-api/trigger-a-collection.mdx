@@ -1,0 +1,165 @@
+---
+title: "触发数据采集 API"
+description: "我们的网页抓取工具 API 提供两种选择：发现 (发现型抓取工具) 型抓取工具和产品详情页 (PDP 抓取工具 抓取工具) 抓取工具，了解如何使用此类 API 触发数据采集。 您可自定义请求、设置交付选项并高效检索数据。"
+sidebarTitle: 触发采集
+---
+
+
+`端点：POST /datasets/v3/trigger`
+
+创建数据采集请求。
+
+
+### 请求
+<ParamField query="dataset_id" type="字符串" 必填项>
+数据集 ID，系统会根据此 ID 触发数据采集任务 You can see our available datasets [here](https://brightdata.com/cp/data_api).
+
+> **Example**: `dataset_id=gd_l1vikfnt1wgvvqz95w`
+
+</ParamField>
+
+<ParamField query="type" type="字符串">
+If you want to trigger a collection that includes a 发现型抓取工具 phase, you should pass discover_new as the type. `type=discover_new` should always be sent when `discover_by` is provided.
+> **Example**: `type=discover_new`
+
+</ParamField>
+
+<ParamField query="discover_by" type="字符串">
+<Note>Relevant **ONLY** for discovery type APIs - e.g. `type=discover_new`</Note>
+
+指定使用何种发现方法探索数据，发现方法类型可设置为
+
+> **Example**: `discover_by=keyword`
+>
+> **Available options**: \
+> `keyword`, `best_sellers_url`,`category_url`, `location` and more (according to the specific API)
+
+</ParamField>
+
+<ParamField query="Limit multiple results" type="整数">
+当采集任务包含数据发现阶段时，用于限制每个输入参数返回的结果数量
+
+> **Example**: discover by keywords - limit to 10 results per keyword
+
+</ParamField>
+
+<ParamField query="Include errors report with the results" type="字符串">
+Ensure the output includes errors report for easier troubleshooting.
+
+> **Example**: `include_errors=true`
+
+</ParamField>
+
+<ParamField query="notify" type="url">
+采集完成后将接收通知的 URL。
+Notification will contain `snapshot_id` and `status`.
+
+> **Example**: `notify=https://notify-me.com/`
+
+</ParamField>
+
+<ParamField query="auth_header" type="字符串">
+Authorization header to be used when sending notification to `notify` URL or delivering data via webhook `endpoint`
+
+> **Example**: `auth_header=QWxhZGRpbjpPcGVuU2VzYW1l`
+
+</ParamField>
+
+<ParamField query="endpoint" type="url">
+用于交付数据的 Webhook URL。
+
+> **Example**: `endpoint=https://webhook-url.com`
+
+</ParamField>
+
+<ParamField query="format" type="枚举">
+指定交付至 Webhook 端点的数据格式。
+
+> **Supported formats**: `JSON`, `NDJSON`, `JSONL`, `CSV` \
+> **Example**: `format=json`
+
+</ParamField>
+
+<ParamField query="uncompressed_webhook" type="布尔值" default='false'>
+默认情况下，数据会以压缩格式发送至 Webhook。如想将数据以未压缩的格式发送，则需将参数设置为 “true”。
+
+> **Example**: `uncompressed_webhook=true`
+
+</ParamField>
+
+<Tip>
+其他交付方法：您可以使用此 API 调用返回的 snapshot_id 触发交付 API，从而将数据发送至特定的存储服务器（Amazon S3, Microsoft Azure 等），或使用下载 API 直接下载数据。
+</Tip>
+
+### 正文
+抓取器的输入配置。 数据可以 JSON 或 CSV 文件提供：
+
+<ParamField body="Content-Type" type="字符串">
+
+### `Content-Type: application/json`
+输入的 JSON 数组
+> **Example**: `[{"url":"https://www.airbnb.com/rooms/50122531"}]`
+
+---
+
+### `Content-Type: multipart/form-data`
+A CSV file, in a field called `data`
+> **Example** (curl): `data=@path/to/your/file.csv`
+
+</ParamField>
+
+
+如想进一步了解抓取工具的输入配置信息，请点击此处
+
+## 网页抓取工具的种类
+不同的抓取工具可能需要设置不同的输入参数以采集数据。 抓取工具主要分为两类：
+
+### 1. PDP 抓取工具 抓取工具
+此类抓取工具需要输入 URL 作为参数。 PDP 抓取工具 抓取工具 抓取工具可从网页中提取详细的产品信息，例如规格、定价和功能等
+
+
+### 2. 发现型抓取工具
+发现型抓取工具可让您通过搜索、类别、关键字等探索并查找新的实体/产品。
+
+<Frame>
+![ae.com.png](/images/scraping-automation/web-scraper-api/ae.com.png)
+</Frame>
+
+## 请求示例 
+
+### `PDP 抓取工具 抓取工具` with URL input
+Input format for `PDP 抓取工具 抓取工具` is always a URL, pointing to the page to be scraped.
+
+```sh 样本请求
+curl -H "Authorization: Bearer API_TOKEN" -H "Content-Type: application/json" -d '[{"url":"https://www.airbnb.com/rooms/50122531"},{"url":"https://www.airbnb.com/rooms/50127677"}]' "https://api.brightdata.com/datasets/v3/trigger?dataset_id=gd_ld7ll037kqy322v05&format=json&uncompressed_webhook=true"
+```
+
+### 发现型抓取工具 input based on the `discovery` method
+```sh 样本请求
+curl -H "Authorization: Bearer x2x3fdaaddrer" -H "Content-Type: application/json" -d '[{"keyword":"light bulb"},{"keyword":"dog toys"},{"keyword":"home decor"}]' "https://api.brightdata.com/datasets/v3/trigger?dataset_id=gd_l7q7dkf244hwjntr0&endpoint=https://webhook-url.com&auth_header=QWxhZGRpbjpPcGVuU2VzYW1l&notify=https://notify-me.com/&format=ndjson&uncompressed_webhook=true&type=discover_new&discover_by=keyword&limit_per_input=10"
+```
+
+
+Input format for `discovery` can vary according to the specific scraper. 其输入格式可以为：
+
+<CodeGroup>
+```JSON keywords
+[{"keyword": "light bulb"},{"keyword": "dog toys"},{"keyword": "home decor"}]
+```
+
+```JSON 搜索 settings
+[{"url": "https://www.amazon.com/s?i=luggage-intl-ship", "sort_by": "Best Sellers"}]
+```
+```JSON Locations
+[{"location": "Europe"},{"location": "Greece"},{"location": "United States"}]
+```
+</CodeGroup>
+
+等等。 Find out what inputs each scraper requires [here](https://brightdata.com/cp/data_api).
+
+### 返回
+Object containing `snapshot_id`, which represents the ID of your request and can be used in the next APIs.
+
+```js 样本响应
+{"snapshot_id": "s_lynh132v19n82v81kx"}
+```

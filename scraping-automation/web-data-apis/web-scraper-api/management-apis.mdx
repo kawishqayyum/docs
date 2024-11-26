@@ -1,0 +1,209 @@
+---
+title: "Web Scraper API的管理API"
+description: "Bright Data的管理API能够监控、检索和交付网页数据快照，欢迎探索。此工具可高效管理数据收集状态、交付和批量处理。"
+---
+
+
+## 监控进度 
+`Endpoint: GET /datasets/v3/progress/:snapshot_id`
+
+返回之前触发的特定收集的状态。
+
+<Tabs>
+<Tab title="请求">
+### 参数
+<ParamField path="snapshot_id" type="string" required>
+触发收集时返回的ID
+> **示例**: `s_lynh132v19n82v81kx`
+
+</ParamField>
+</Tab>
+<Tab title="响应">
+Object containing the status of the snapshot. Possible statuses:
+- `running`
+- `ready`
+- `failed` - With this status, response also contains `error_message`
+</Tab>
+<Tab title="示例">
+
+
+### 请求 示例
+```sh
+curl -k -H "Authorization: Bearer API_TOKEN" "https://api.brightdata.com/datasets/v3/progress/s_lynh132v19n82v81kx"
+```
+### 响应 示例
+```json
+{
+    "status": "ready",
+  "snapshot_id": "s_lynh132v19n82v81kx",
+  "dataset_id": "gd_l1vikfnt1wgvvqz95w"
+}
+```
+</Tab>
+</Tabs>
+
+## 获取快照列表 
+`Endpoint: GET /datasets/v3/snapshots`
+
+返回触发的收集的列表，列表仅包含为特定数据集创建的快照
+
+<Tabs>
+<Tab title="请求">
+### 查询参数
+
+<ParamField query="dataset_id" type="string">
+数据集标识符（可在特定的API页面中找到）
+> **示例**: `dataset_id=gd_l1vikfnt1wgvvqz95w`
+
+</ParamField>
+
+<ParamField query="status" type="string">
+仅列出具有特定状态的快照
+
+> **示例**: `status=ready` 
+
+> **选项**: `running`, `ready`, `failed`
+
+</ParamField>
+
+
+<ParamField query="from_约会" type="约会">
+仅列出在特定日期之后创建的快照
+
+> **示例示例**: `from_约会=2024-01-01`
+
+</ParamField>
+
+
+<ParamField query="to_约会" type="约会">
+仅列出在特定日期之前创建的快照
+
+> **示例**: `from_约会=2024-04-01`
+
+</ParamField>
+</Tab>
+<Tab title="响应">
+Array of objects with the following fields:
+|||
+|-|-|
+| `id` | Snapshot ID returned by trigger API |
+| `dataset_id` | ID of the dataset for which collection was triggered |
+| `status` | Status of the collection. |
+| `dataset_size` | Amount of records collected. |
+| `created` | When the collection was requested. |
+</Tab>
+<Tab title="示例">
+    
+### 请求 example
+```sh
+curl -H "Authorization: Bearer API_TOKEN" -H "Content-Type: application/json" "https://api.brightdata.com/datasets/v3/snapshots"
+```
+### 响应 example
+```json
+[
+  {
+    "id": "s_lynh132v19n82v81kx",
+    "dataset_id": "gd_l1vikfnt1wgvvqz95w",
+    "status": "ready",
+    "dataset_size": 1,
+    "created": "2024-07-17T15:46:28.781Z"
+  }
+]
+```
+</Tab>
+</Tabs>
+
+## 监控交付 
+`Endpoint: GET /datasets/v3/delivery/:delivery_id`
+
+此调用将返回交付状态。
+
+<Tabs>
+<Tab title="请求">
+### 参数
+<ParamField path="delivery_id" type="string" required>
+  
+从交付API端点返回的唯一交付ID
+
+> **示例**: `delivery_id=d_lysxl9vf2dobrb6h31`
+
+</ParamField>
+</Tab>
+<Tab title="响应">
+Object containing:
+- `status` - Status of the delivery, possible statuses:
+    - `done`
+    - `canceled`
+    - `failed`
+
+- `delivery_files` - List of delivered files, each item contains:
+    - `filename` - Filename
+    - `delivery_ts` - Timestamp of delivery
+</Tab>
+<Tab title="示例">
+### 请求 示例
+```sh
+curl -H "Authorization: Bearer API_TOKEN" -H "Content-Type: application/json" "https://api.brightdata.com/datasets/v3/delivery/d_lysxl9vf2dobrb6h31"
+```
+### 响应 示例
+```json
+{
+  "id": "d_lysxl9vf2dobrb6h31",
+  "status": "done",
+  "delivery_files": [
+    {
+      "filename": "s_lynh132v19n82v81kx.json",
+      "delivery_ts": 1721407519423
+    }
+  ]
+}
+```
+</Tab>
+</Tabs>
+
+
+## 计算交付部分的数量
+`Endpoint: GET /datasets/v3/snapshot/:snapshot_id/parts`
+
+在请求批量交付（请参阅可用的交付API）时，使用此端点来检查创建了多少个部分。format、compress和batch_size须与发送到交付/下载API调用的内容完全匹配。
+<Tabs>
+<Tab title="请求">
+### 查询参数
+<ParamField query="format" type="enum">
+要接收的数据格式
+> **选项**: `JSON`, [`ndjson`](https://github.com/ndjson/ndjson-spec), [`jsonl`](https://jsonlines.org/), CSV
+
+> **示例**: `format=json`
+
+</ParamField>
+
+<ParamField query="compress" type="boolean">
+是否压缩结果
+
+> **示例**: `compress=true`
+
+</ParamField>
+
+<ParamField query="batch_size" type="integer">
+<Warning>至少1000条记录</Warning>
+分批，每批X条记录
+> **示例**: `batch_size =1000`
+
+</ParamField>
+</Tab>
+<Tab title="响应">
+Object containing parts.
+</Tab>
+<Tab title="示例">
+### 请求 示例
+```sh
+curl -k -H "Authorization: Bearer API_TOKEN" "https://api.brightdata.com/datasets/v3/snapshot/s_lynh132v19n82v81kx/parts?format=json&compress=true&batch_size=1000"
+```
+### 响应 示例
+```json
+{
+    "parts":10
+}
+```
+</Tab>
+</Tabs>
