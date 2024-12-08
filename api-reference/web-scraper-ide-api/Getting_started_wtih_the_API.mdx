@@ -1,0 +1,33 @@
+---
+title: 开始使用 API
+描述: 数据抓取工具产品提供 JSON API，以编程方式控制和检查您的数据抓取工具。
+---
+
+1. 注册（或登录）我们的控制面板
+2. 插入目标 URL（作为收集数据来源的网站）或选择现成的模板
+3. 设置抓取工具的交付偏好：批处理或实时
+4. 由 API 启动
+
+<Tip>
+不是开发人员？ 联系我们的支持人员，轻松上手。
+</Tip>
+
+数据抓取工具分为两个抓取系统：
+
+<Tabs>
+<Tab title="批处理">
+这是处理大量数据的有效方法。 数据在一段时间内批量收集。 收集、输入和处理数据后，将生成批处理结果。 您可以一次性交付所有结果，也可以在收集结果时将其流式传输到您的系统。
+
+</Tab>
+<Tab title="实时">
+This is an ideal way to get a fast response for one request. This is useful in environments where you have a limited amount of time to crawl a page and get the data.
+</Tab>
+</Tabs>
+
+
+数据抓取工具 API 有四个一般工作流程：
+
+1. [批量触发器 + 推送交付](/api-reference/web-scraper-ide-api/Trigger_a_scraper_for_batch_collection_method)
+2. [批量触发器 + API 轮询](/api-reference/web-scraper-ide-api/Receive_batch_data)
+3. [实时触发器 + 推送交付](/api-reference/web-scraper-ide-api/Trigger_a_scraper_for_real_time_collection)
+4. [实时触发器 + API 轮询](/api-reference/web-scraper-ide-api/Receive_data_from_real_time_work_scraper)

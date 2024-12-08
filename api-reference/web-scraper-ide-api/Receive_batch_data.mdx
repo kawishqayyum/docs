@@ -1,0 +1,106 @@
+---
+title: 接收批量数据
+---
+
+**API 端点:** `GET` `/dca/dataset?id={id_dataset}`
+
+<ParamField query="ID" type="字符串" 必填项>
+  数据集的唯一标识
+</ParamField>
+
+<ParamField header="Authorization" type="字符串" 必填项>
+  身份验证 Bearer Key `-H "Authorization: Bearer API_TOKEN"`
+</ParamField>
+
+
+<ResponseExample>
+```json Waiting for Dataset
+{
+ "status": "building",
+ "message": "Dataset is not ready yet, try again in XXs"
+}
+```
+
+```json Dataset (Ready)
+[
+ {
+ "Image": "https://target网站.com/product_ID.png",
+ "Title": "product_name",
+ "Price": "product_price",
+ "input": {
+ "url": "https://targetwebsite.com/product_id/"
+ }
+ }
+]
+```
+</ResponseExample>
+
+<RequestExample>
+**Shell**
+```sh Shell
+curl "https://api.brightdata.com/dca/dataset?id=ID_DATASET" -H "Content-Type: application/json" -H "Authorization: <Bearer API_TOKEN>"
+```
+
+```js NodeJS
+#!/usr/bin/env node
+require('request-promise')({
+ url: 'https://api.brightdata.com/dca/dataset?id=ID_DATASET',
+ headers: {'Content-Type': 'application/json','Authorization':'Bearer API_TOKEN'},
+}).then(function(data){ console.log(data); },
+ function(err){ console.error(err); });
+```
+
+```java Java
+package example;  
+  
+import org.apache.http.entity.ContentType;  
+import org.apache.http.HttpHost;  
+import org.apache.http.client.fluent.*;  
+  
+public class Main {  
+    public static void main(String[] args) {  
+        String body = "[{\"url\":\"https://targetwebsite.com/product_id/\"}]";  
+        String res = Executor.newInstance()  
+            .execute(  
+                    Request.Post("https://api.brightdata.com/dca/trigger?collector=COLLECTOR_ID&queue_next=1")  
+                    .addHeader("Authorization", "Bearer API_TOKEN")  
+                    .addHeader("Content-Type", "application/json")  
+                    .bodyString(body, ContentType.APPLICATION_JSON))  
+            .returnContent().asString();  
+        System.out.println(res);  
+    }  
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+public class Program {
+ public static async Task Main() {
+ var client = new HttpClient();
+ var requestMessage = new HttpRequestMessage {
+ Method = HttpMethod.Get,  
+ RequestUri = new Uri("https://api.brightdata.com/dca/dataset?id=ID_DATASET"),
+ Headers = {  
+ {"Content-Type", "application/json"},
+ {"Authorization", "Bearer API_TOKEN"}
+ }
+ };
+ var response = await client.SendAsync(requestMessage);
+ var responseString = await response.Content.ReadAsStringAsync();
+ Console.WriteLine(responseString);
+ }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+import requests
+headers = {'Content-Type': 'application/json','Authorization': 'Bearer API_TOKEN'}
+r = requests.get('https://api.brightdata.com/dca/dataset?id=ID_DATASET', headers=headers)
+print(r.content)
+```
+</RequestExample>

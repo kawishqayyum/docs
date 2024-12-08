@@ -1,0 +1,81 @@
+---
+title: 根据请求级别选择交付类型
+sidebarTitle: 选择交付类型
+---
+您可以使用 API 为每个任务选择交付类型，而不是为每种交付类型创建重复的抓取工具。
+<Frame>
+![hero-image.png](/images/api-reference/web-scraper-ide/Choose_a_delivery_type_on_request_level/hero-image.png)
+</Frame>
+
+ 
+<Steps>
+<Step title="更新您的抓取工具">
+确保将您的抓取工具更新到最新版本以提高成功率
+<Frame>
+![update-available.png](/images/api-reference/web-scraper-ide/Choose_a_delivery_type_on_request_level/update-available.png)
+</Frame>
+</Step>
+
+<Step title="将交付类型设置为批处理">
+<Frame>
+![type-batch.png](/images/api-reference/web-scraper-ide/Choose_a_delivery_type_on_request_level/type-batch.png)
+![on-completion.png](/images/api-reference/web-scraper-ide/Choose_a_delivery_type_on_request_level/on-completion.png)    
+</Frame>
+
+当交付类型设置为实时时，批处理 API 将返回以下错误消息。
+
+```json 错误
+"error": "Cannot trigger a batch job with a real-time scraper. Use /trigger_immediate endpoint instead"
+```
+ 
+</Step>
+<Step title="使用首选 API 触发抓取工具">
+
+<Tabs>
+<Tab title="启动批处理任务">
+`dca/trigger`
+
+[触发抓取工具，获取批量采集方法](/api-reference/web-scraper-ide-api/Trigger_a_scraper_for_batch_collection_method)
+<CodeGroup>
+```sh Shell
+curl "https://api.brightdata.com/dca/trigger?collector=ID_COLLECTOR&queue_next=1" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN" -d '[{"url":"https://targetwebsite.com/product_id/"}]'
+```
+
+```json Sample Response
+{
+    "collection_id":"j_l3daejgw1wnpjxxxxx",
+    "start_eta":"2022-05-19T17:28:48.056Z"
+}
+```
+</CodeGroup>
+</Tab>
+<Tab title="启动实时任务">
+`dca/trigger_immediate`
+
+[Trigger a scraper for real-time collection](/api-reference/web-scraper-ide-api/Receive_data_from_real_time_work_scraper)
+
+<CodeGroup>
+```sh Shell
+curl "https://api.brightdata.com/dca/trigger_immediate?collector=ID_COLLECTOR" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN" -d '{"url":"https://targetwebsite.com/product_id/"}'
+```
+
+```json Sample Response
+{
+    "response_id":"z2805t1652973963340rg6252xxxxxx"
+}
+```
+</CodeGroup>
+
+</Tab>
+</Tabs>
+
+<Note>
+批量响应以 `j_****` 开头，实时响应以 `z****` 开头
+</Note>
+ 
+</Step>
+<Step title="接收数据">
+- [接收批量数据](/api-reference/web-scraper-ide-api/Receive_batch_data)
+- [由实时工作抓取工具接收数据](/api-reference/web-scraper-ide-api/Receive_data_from_real_time_work_scraper)
+</Step>
+ </Steps>

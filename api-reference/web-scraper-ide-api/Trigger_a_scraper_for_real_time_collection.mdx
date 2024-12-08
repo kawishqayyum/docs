@@ -1,0 +1,112 @@
+---
+title: 触发抓取工具，进行实时采集
+sidebarTitle: 启动实时作业
+---
+**API 端点:** `POST` `/dca/trigger_immediate?collector={ID_COLLECTOR}`
+
+## `POST` Body
+<ParamField body="Authorization" type="字符串" 必填项>
+  raw JSON `-d '[{"url":"https://targetwebsite.com/product_id/"}]'`
+</ParamField>
+
+## 查询参数
+<ParamField query="collector" type="字符串" 必填项>
+  抓取工具的唯一标识
+</ParamField>
+
+<ParamField query="version" type="字符串">
+  设置为 `dev` 以触发抓取工具的开发版本
+</ParamField>
+
+<ParamField query="name" type="字符串">
+  `human_name` - 实时采集的数据名称，须易于识别和理解
+
+</ParamField>
+
+## 标头
+<ParamField header="Authorization" type="字符串" 必填项>
+  授权持有者密钥 `-H "Authorization: Bearer API_TOKEN"`
+</ParamField>
+
+<ParamField header="Content-Type" type="字符串" 必填项>
+  JSON/CSV/Multipart `-H "Content-Type: application/json"`
+</ParamField>
+
+
+<ResponseExample>
+```json Sample Response
+{
+ "response_id": "ID_RESPONSE",
+}
+```
+</ResponseExample>
+
+<RequestExample>
+```sh Shell
+curl "https://api.brightdata.com/dca/trigger_immediate?collector=ID_COLLECTOR" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN" -d "{\"url\":\"https://targetwebsite.com/product_id/\"}"
+```
+
+```js NodeJS
+#!/usr/bin/env node
+require('request-promise')({
+ method: 'POST',
+ url: 'https://api.brightdata.com/dca/trigger_immediate?collector=ID_COLLECTOR',
+ json: {'url': 'https://targetwebsite.com/product_id/'},
+ headers: {'Authorization': 'Bearer API_TOKEN'},
+}).then(function(data){ console.log(data); },
+ function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.\*;
+public class Example {
+ public static void main(String[] args) throws Exception {  
+ String body = "{\"url\":\"https://targetwebsite.com/product_id/\"}";
+ String res = Executor.newInstance()
+ .addHeader("Authorization", "Bearer API_TOKEN")  
+ .execute(Request.Post("https://api.brightdata.com/dca/trigger_immediate?collector=ID_COLLECTOR"))  
+ .bodyString(body, ContentType.APPLICATION_JSON))  
+ .returnContent().asString();  
+ System.out.println(res)
+ }  
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+public class Program {
+ public static async Task Main() {
+ var client = new HttpClient();
+ var requestMessage = new HttpRequestMessage {
+ Method = HttpMethod.Post,  
+ RequestUri = new Uri("https://api.brightdata.com/dca/trigger_immediate?collector=ID_COLLECTOR"),
+ Headers = {
+ {"Authorization", "Bearer API_TOKEN"}
+ },  
+ Content = new StringContent(JsonConvert.SerializeObject( new {  
+ url = "https://targetwebsite.com/product_id/"  
+ }), Encoding.UTF8, "application/json"))
+ };
+ var response = await client.SendAsync(requestMessage);
+ var responseString = await response.Content.ReadAsStringAsync();
+ Console.WriteLine(responseString);
+ }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+import requests
+  
+data = {'url': 'https://targetwebsite.com/product_id/'}
+headers = {'Content-Type': 'application/json','Authorization': 'Bearer API_TOKEN'}
+r = requests.post('https://api.brightdata.com/dca/trigger_immediate?collector=ID_COLLECTOR', data=data, headers=headers)
+print(r.content)
+```
+</RequestExample>
