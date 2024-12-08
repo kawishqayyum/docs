@@ -1,0 +1,85 @@
+---
+title: 按 job_id 排序的收集状态
+---
+
+**端点:** `GET` `/datasets/request_collection`
+
+这一步是为了查询现有数据收集请求的信息，以了解其当前状态。它用于检查收集请求的状态或详细信息，如总行数、数据的新鲜度或其他相关详细信息。
+
+## 查询参数
+<ParamField query="request_id" type="string" required>
+从先前的 API 获取。
+</ParamField>
+
+<ParamField query="freshness_ms" type="string">
+设置数据新鲜度。
+</ParamField>
+
+<RequestExample>
+```sh
+curl -k "https://api.brightdata.com/datasets/request_collection?request_id=j_lsu5sdup1ggkc5umby" -H "Authorization: Bearer API_TOKEN"
+```
+</RequestExample>
+
+
+<ResponseExample>
+```json Response Example
+{
+  "dataset_id":"gd_l1vikfnt1wgvvqz95w",
+  "view_id":"v_lsu5sdxkopli6q8nn",
+  "total_lines":3,
+  "fresh_count":0,
+  "name":"LinkedIn company information datasets custom input",
+  "status":"done",
+  "request_id":"j_lsu5sdup1ggkc5umby",
+  "preview_total_lines":3,
+  "quote":{
+    "total":585,
+    "subtotal":500,
+    "tax":85,
+    "tax_rates":{
+      "datasets":17,
+      "min":17,
+      "max":17,
+      "avg":17
+    },
+    "items":[
+      {
+        "product":"datasets",
+        "type":"records",
+        "price":7.46,
+        "quantity":3,
+        "total":0.02,
+        "qmult":0.001,
+        "desc":"Records"
+      },
+      {
+        "desc":"Small dataset order fee",
+        "product":"datasets",
+        "type":"small_dataset_fee",
+        "total":499.98,
+        "price":500,
+        "quantity":0.99996
+      }
+    ],
+    "explain":{
+      "datasets":[
+        {
+          "discounts":{
+            "credit_package":0,
+            "manual":0,
+            "volume":0.15
+          },
+          "base_record_prices":{
+            "record":8.78,
+            "record_historical":1.63
+          }
+        }
+      ],
+      "total_discount":0
+    }
+  },
+  "credit_package":false
+}
+```
+</ResponseExample>

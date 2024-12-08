@@ -175,14 +175,6 @@
           ]
         },
         {
-          "group": "Easy Scraper",
-          "pages": [
-            "scraping-automation/easy-scraper/overview",
-            "scraping-automation/easy-scraper/quickstart",
-            "scraping-automation/easy-scraper/faqs"
-          ]
-        },
-        {
           "group": "Scraping Browser",
           "pages": [
             "scraping-automation/scraping-browser/introduction",
@@ -239,10 +231,19 @@
                 "scraping-automation/web-data-apis/web-scraper-api/trigger-a-collection",
                 "scraping-automation/web-data-apis/web-scraper-api/delivery-apis",
                 "scraping-automation/web-data-apis/web-scraper-api/management-apis",
-                "scraping-automation/web-data-apis/web-scraper-api/faqs"
+                "scraping-automation/web-data-apis/web-scraper-api/faqs",
+                "scraping-automation/web-data-apis/web-scraper-api/error-list-by-endpoint"
               ]
             },
             "scraping-automation/web-data-apis/data-snapshots-api"
+          ]
+        },
+        {
+          "group": "Easy Scraper",
+          "pages": [
+            "scraping-automation/easy-scraper/overview",
+            "scraping-automation/easy-scraper/quickstart",
+            "scraping-automation/easy-scraper/faqs"
           ]
         },
         {
@@ -282,8 +283,12 @@
           "pages": [
             "datasets/marketplace/browse-the-marketplace",
             "datasets/marketplace/dataset-view",
+            "datasets/marketplace/customization-and-filtering",
             "datasets/marketplace/purchase-options",
-            "datasets/marketplace/pricing"
+            "datasets/marketplace/pricing",
+            "datasets/marketplace/faqs",
+            "datasets/marketplace/filter-dataset-by-api",
+            "datasets/marketplace/social"
           ]
         },
         {
@@ -291,7 +296,8 @@
           "pages": [
             "datasets/custom-datasets/request",
             "datasets/custom-datasets/delivery-options",
-            "datasets/custom-datasets/custom-dataset-api"
+            "datasets/custom-datasets/custom-dataset-api",
+            "datasets/custom-datasets/faqs"
           ]
         },
         {
@@ -305,7 +311,10 @@
     },
     {
       "group": "",
-      "pages": ["api-reference/introduction"]
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/api-vs-native-access"
+      ]
     },
     {
       "group": " ",
@@ -313,6 +322,8 @@
         {
           "group": "Proxy",
           "pages": [
+            "api-reference/proxy/proxy_api_post_playground",
+            "api-reference/proxy/proxy_api_auth",
             "api-reference/proxy/geolocation-targeting",
             "api-reference/proxy/c-tag",
             "api-reference/proxy/rotate_ips",
@@ -325,7 +336,7 @@
             "api-reference/proxy/os_targeting",
             "api-reference/proxy/select_a_specific_gip",
             "api-reference/proxy/select_a_specific_ip",
-            "api-reference/proxy/api_token_options"
+            "api-reference/proxy/get_dedicated_ips_per_zone"
           ]
         },
         {
@@ -369,14 +380,10 @@
           ]
         },
         {
-          "group": "Web Unlocker",
+          "group": "Web Unlocker & SERP API",
           "pages": [
-            "api-reference/unlocker/sending_first_request",
-            "api-reference/unlocker/geolocation_targeting",
-            "api-reference/unlocker/mobile_user_agent_targeting",
-            "api-reference/unlocker/asynchronous_requests",
-            "api-reference/unlocker/api_token",
-            "api-reference/unlocker/account_management"
+            "api-reference/rest-api/proxy-rest-api-playground",
+            "api-reference/unlocker/sending_first_request"
           ]
         },
         {
@@ -416,6 +423,7 @@
             "api-reference/account-management-api/Get_active_Zones",
             "api-reference/account-management-api/Get_all_available_dedicated_residential_IPs_per_Zone",
             "api-reference/account-management-api/Get_amount_of_available_Datacenter_and_ISP_IPs",
+            "api-reference/account-management-api/Get_Available_Countries",
             "api-reference/account-management-api/Get_country_cities",
             "api-reference/account-management-api/Get_current_service_status",
             "api-reference/account-management-api/Get_list_of_available_cities_of_static_network_per_country",
@@ -441,6 +449,15 @@
             "api-reference/account-management-api/Remove_Zone",
             "api-reference/account-management-api/Switch_100_uptime_ON_OFF_in_a_Static_zone",
             "api-reference/account-management-api/Turn_on_off_Zone"
+          ]
+        },
+        {
+          "group": "Marketplace Dataset API",
+          "pages": [
+            "api-reference/marketplace-dataset-api/filter-dataset",
+            "api-reference/marketplace-dataset-api/get-snapshot-meta",
+            "api-reference/marketplace-dataset-api/download-the-file-by-snapshot_id",
+            "api-reference/marketplace-dataset-api/deliver-snapshot"
           ]
         }
       ]
@@ -502,7 +519,8 @@
             "general/usage-monitoring/bandwidth",
             "general/usage-monitoring/Event_log",
             "general/usage-monitoring/Usage",
-            "general/usage-monitoring/Monitoring_Residential_Network_Usage"
+            "general/usage-monitoring/Monitoring_Residential_Network_Usage",
+            "general/usage-monitoring/fair_use_allowance"
           ]
         },
         {
@@ -669,5 +687,8 @@
     "gtm": {
       "tagId": "GTM-P69HL92P"
     }
+  },
+  "feedback": {
+    "thumbsRating": true
   }
 }

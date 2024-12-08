@@ -1,0 +1,37 @@
+---
+title: 启动收集（新数据集）
+sidebarTitle: 启动收集
+---
+
+**Endpoint:** `POST` `/datasets/initiate_collection`
+
+## `POST` body
+<ParamField query="request_id" type="string" required>
+您正在查询的收集请求的唯一标识符。
+</ParamField>
+
+<ParamField query="freshness_ms" type="string" required>
+以毫秒为单位的时间，表示所需的数据新鲜度。
+</ParamField>
+
+
+```json 正文示例
+{
+    "request_id": "j_lsu5sdup1ggkc5umby",
+    "freshness_ms": 2592000000
+}
+```
+
+<RequestExample>
+```sh
+curl -k "https://api.brightdata.com/datasets/request_collection?dataset_id=gd_l1vikfnt1wgvvqz95w&type=url_collection" -H "Authorization: Bearer API_TOKEN" -H "Content-Type: application/json" -d '[{"id":"user-id"}]'
+```
+</RequestExample>
+
+<ResponseExample>
+```json
+{
+"request_id": "j_lsu5sdup1ggkc5umby"
+}
+```
+</ResponseExample>

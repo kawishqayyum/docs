@@ -1,0 +1,29 @@
+---
+title: 按 snapshot_id 排序的收集状态
+---
+
+**端点:** `GET` `/datasets/snapshot/<snapshot_id>`
+
+## 路径参数：
+<ParamField path="snapshot_id">
+快照 ID
+</ParamField>
+
+<RequestExample>
+```sh
+curl -k "https://api.brightdata.com/datasets/snapshot/snap_lsvrbqhv27x6f8bh9g" -H "Authorization: Bearer API_TOKEN"
+```
+</RequestExample>
+
+<ResponseExample>
+```json Sample Response
+{
+    "id": "snap_lsvrbqhv27x6f8bh9g",
+    "created": "2024-02-21T12:15:00.067Z",
+    "status": "collecting",
+    "view_id": "v_lsu5sdxkopli6q8nn",
+    "dataset_id": "gd_l1vikfnt1wgvvqz95w",
+    "customer_id": "hl_cf5c4907"
+}
+```
+</ResponseExample>
