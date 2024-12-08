@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Brightdata API",
+    "description": "Integrate Bright Data APIs to your pipeline and secure high-end scraping precision",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.brightdata.com"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/request": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "description": "Target URL for your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "Format for requesting a raw HTML via proxy is `raw`.\n\nFormat for request a JSON response is `json`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["raw", "json"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "method",
+            "description": "Method for requesting an HTML via proxy is `GET`.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "GET"
+            }
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "Country code of proxy which request is relayed through.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Missing zone parameter"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "async",
+            "description": "Set this to `true` for asynchronous",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP401"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/response": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "response_id",
+            "description": "Response ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP401"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP400"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PostBody": {
+        "required": ["zone", "url", "format"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "description": "Name of the proxy zone which will service your request.",
+            "type": "string"
+          },
+          "url": {
+            "description": "Target URL for your request.",
+            "type": "string"
+          },
+          "format": {
+            "description": "Format for requesting a raw HTML via proxy is `raw`.\n\nFormat for request a JSON response is `json`.",
+            "type": "string",
+            "enum": ["raw", "json"]
+          },
+          "method": {
+            "description": "Method for requesting an HTML via proxy is `GET`.",
+            "type": "string",
+            "default": "GET"
+          },
+          "country": {
+            "description": "Country code of proxy which request is relayed through.",
+            "type": "string"
+          }
+        }
+      },
+      "HTTP200": {
+        "type": "string",
+        "example": "OK"
+      },
+      "HTTP401": {
+        "type": "string",
+        "example": "User authentication is required"
+      },
+      "HTTP400": {
+        "type": "string",
+        "example": "Bad Request"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

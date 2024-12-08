@@ -1,0 +1,530 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Brightdata API",
+    "description": "Integrate Bright Data APIs to your pipeline and secure high-end scraping precision",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.brightdata.com"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/request": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "description": "Target URL for your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "Format for requesting a raw HTML via proxy is `raw`.\n\nFormat for request a JSON response is `json`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["raw", "json"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "method",
+            "description": "Method for requesting an HTML via proxy is `GET`.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "GET"
+            }
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "Country code of proxy which request is relayed through.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "city",
+            "description": "City name of proxy which request is relayed through, must have country defined.\n\nSupported in DC & ISP for zones pre-configured with cities, and in Residential and mobile networks by default.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zip",
+            "description": "Zip code which request is relayed through, must have country defined.\n\nSupported in Residential networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ASN",
+            "description": "ASN code which request is relayed thru, must have country defined.\n\nSupported in Residential networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "carrier",
+            "description": "For mobile network only: carrier code in which request is relayed through.\n\nSupported in mobile networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "os",
+            "description": "Operating system of the client to set on proxy.\n\nSupported in mobile networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dns",
+            "description": "Use `local` or `remote` to set if domain name mapping is done locally on client side or on remote proxy peer.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["local", "remote"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "session",
+            "description": "A string relayed by the client to mark a session, all requests with the same session parameter will be relayed to the same proxy peer.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ip",
+            "description": "In Datacenter and ISP zones: Relay the request to a specific proxy identified by the `ip`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "gip",
+            "description": "In `Residential` and `Mobile` zones: Relay the request to a specific proxy group identified by the `gip`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "c_tag",
+            "description": "Include a unique `c_tag` flag in their requests. In response, businesses echo back the same tag in the header. This seamless exchange ensures that each response is bound to its corresponding request, eliminating confusion and streamlining data management.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "direct",
+            "description": "Setting the parameter to `true` will instruct to process the request by Bright Data super proxy, a datacenter located proxy and not the proxy peer itself.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Missing zone parameter"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "description": "Target URL for your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "description": "Format for requesting a raw HTML via proxy is `raw`.\n\nFormat for request a JSON response is `json`.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["raw", "json"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "method",
+            "description": "Method for requesting an HTML via proxy is `GET`.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "GET"
+            }
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "Country code of proxy which request is relayed through.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "city",
+            "description": "City name of proxy which request is relayed through, must have country defined.\n\nSupported in DC & ISP for zones pre-configured with cities, and in Residential and mobile networks by default.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zip",
+            "description": "Zip code which request is relayed through, must have country defined.\n\nSupported in Residential networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ASN",
+            "description": "ASN code which request is relayed thru, must have country defined.\n\nSupported in Residential networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "carrier",
+            "description": "For mobile network only: carrier code in which request is relayed through.\n\nSupported in mobile networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "os",
+            "description": "Operating system of the client to set on proxy.\n\nSupported in mobile networks only.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dns",
+            "description": "Use `local` or `remote` to set if domain name mapping is done locally on client side or on remote proxy peer.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["local", "remote"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "session",
+            "description": "A string relayed by the client to mark a session, all requests with the same session parameter will be relayed to the same proxy peer.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ip",
+            "description": "In Datacenter and ISP zones: Relay the request to a specific proxy identified by the `ip`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "gip",
+            "description": "In `Residential` and `Mobile` zones: Relay the request to a specific proxy group identified by the `gip`.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "c_tag",
+            "description": "Include a unique `c_tag` flag in their requests. In response, businesses echo back the same tag in the header. This seamless exchange ensures that each response is bound to its corresponding request, eliminating confusion and streamlining data management.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "direct",
+            "description": "Setting the parameter to `true` will instruct to process the request by Bright Data super proxy, a datacenter located proxy and not the proxy peer itself.",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Missing zone parameter"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP401"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/response": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "response_id",
+            "description": "Response ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP200"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP401"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTP400"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PostBody": {
+        "required": ["zone", "url", "format"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "description": "Name of the proxy zone which will service your request.",
+            "type": "string"
+          },
+          "url": {
+            "description": "Target URL for your request.",
+            "type": "string"
+          },
+          "format": {
+            "description": "Format for requesting a raw HTML via proxy is `raw`.\n\nFormat for request a JSON response is `json`.",
+            "type": "string",
+            "enum": ["raw", "json"]
+          },
+          "method": {
+            "description": "Method for requesting an HTML via proxy is `GET`.",
+            "type": "string",
+            "default": "GET"
+          },
+          "country": {
+            "description": "Country code of proxy which request is relayed through.",
+            "type": "string"
+          },
+          "city": {
+            "description": "City name of proxy which request is relayed through, must have country defined.\n\nSupported in DC & ISP for zones pre-configured with cities, and in Residential and mobile networks by default.",
+            "type": "string"
+          },
+          "zip": {
+            "description": "Zip code which request is relayed through, must have country defined.\n\nSupported in Residential networks only.",
+            "type": "string"
+          },
+          "ASN": {
+            "description": "ASN code which request is relayed thru, must have country defined.\n\nSupported in Residential networks only.",
+            "type": "string"
+          },
+          "carrier": {
+            "description": "For mobile network only: carrier code in which request is relayed through.\n\nSupported in mobile networks only.",
+            "type": "string"
+          },
+          "os": {
+            "description": "Operating system of the client to set on proxy.\n\nSupported in mobile networks only.",
+            "type": "string"
+          },
+          "dns": {
+            "description": "Use `local` or `remote` to set if domain name mapping is done locally on client side or on remote proxy peer.",
+            "type": "string",
+            "enum": ["local", "remote"]
+          },
+          "session": {
+            "description": "A string relayed by the client to mark a session, all requests with the same session parameter will be relayed to the same proxy peer.",
+            "type": "string"
+          },
+          "ip": {
+            "description": "In Datacenter and ISP zones: Relay the request to a specific proxy identified by the `ip`.",
+            "type": "string"
+          },
+          "gip": {
+            "description": "In `Residential` and `Mobile` zones: Relay the request to a specific proxy group identified by the `gip`.",
+            "type": "string"
+          },
+          "c_tag": {
+            "description": "Include a unique `c_tag` flag in their requests. In response, businesses echo back the same tag in the header. This seamless exchange ensures that each response is bound to its corresponding request, eliminating confusion and streamlining data management.",
+            "type": "string"
+          },
+          "direct": {
+            "description": "Setting the parameter to `true` will instruct to process the request by Bright Data super proxy, a datacenter located proxy and not the proxy peer itself.",
+            "type": "boolean"
+          }
+        }
+      },
+      "HTTP200": {
+        "type": "string",
+        "example": "OK"
+      },
+      "HTTP401": {
+        "type": "string",
+        "example": "User authentication is required"
+      },
+      "HTTP400": {
+        "type": "string",
+        "example": "Bad Request"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

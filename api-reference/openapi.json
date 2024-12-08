@@ -1,0 +1,1843 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Brightdata API",
+    "description": "Integrate Bright Data APIs to your pipeline and secure high-end scraping precision",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.brightdata.com"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/cities": {
+      "get": {
+        "description": "Get a list of cities from a Country",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "description": "2-letter `COUNTRY_CODE`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "c_id": "US",
+                      "region": "Texas",
+                      "r_id": "TX",
+                      "country": "United States",
+                      "name": "Cherokee"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countrieslist": {
+      "get": {
+        "operationId": "listAllAvailableCountriesPerZoneType",
+        "description": "List all available countries per zone type ",
+        "responses": {
+          "200": {
+            "description": "OK - Successful request with response body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "zone_types": {
+                      "type": "object",
+                      "properties": {
+                        "DC_shared": {
+                          "type": "object",
+                          "properties": {
+                            "country_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": ["country_codes"]
+                        },
+                        "DC_dedicated_ip": {
+                          "type": "object",
+                          "properties": {
+                            "country_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": ["country_codes"]
+                        },
+                        "DC_dedicated_host": {
+                          "type": "object",
+                          "properties": {
+                            "country_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": ["country_codes"]
+                        },
+                        "ISP_shared": {
+                          "type": "object",
+                          "properties": {
+                            "country_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": ["country_codes"]
+                        },
+                        "ISP_dedicated_ip": {
+                          "type": "object",
+                          "properties": {
+                            "country_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": ["country_codes"]
+                        },
+                        "ISP_dedicated_host": {
+                          "type": "object",
+                          "properties": {
+                            "country_codes": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": ["country_codes"]
+                        }
+                      },
+                      "required": [
+                        "DC_shared",
+                        "DC_dedicated_ip",
+                        "DC_dedicated_host",
+                        "ISP_shared",
+                        "ISP_dedicated_ip",
+                        "ISP_dedicated_host"
+                      ]
+                    }
+                  },
+                  "required": ["data", "zone_types"],
+                  "title": "ListAllAvailableCountriesPerZoneTypeOk"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/balance": {
+      "get": {
+        "description": "Get total balance through API",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "balance": {
+                      "type": "number",
+                      "description": "the amount of money in your account",
+                      "example": 456
+                    },
+                    "pending_balance": {
+                      "type": "number",
+                      "description": "the amount of money you will be billed for, as of this moment, in the next billing cycle",
+                      "example": 123
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/bw": {
+      "get": {
+        "description": "Get the bandwidth stats for all your Zones",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "description": "Start",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2018-07-01T00:00:00"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "End",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2018-07-02T00:00:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ID": {
+                      "customer_id": "CUST_ID",
+                      "from": "2022-10-01T00:00:00.000Z",
+                      "to": "2022-11-24T00:00:00.000Z",
+                      "data": {
+                        "data_center": {},
+                        "isp": {},
+                        "residential": {},
+                        "mobile": {},
+                        "unlocker": {},
+                        "v__ub_browser": {},
+                        "serp": {},
+                        "dc_elastic": {},
+                        "isp1": {},
+                        "test_zone": {},
+                        "test_zone2": {},
+                        "japan": {},
+                        "zone1_res_ex": {},
+                        "zone5_isp": {},
+                        "zone1": {},
+                        "zone2": {},
+                        "zum_rails_res_canada": {},
+                        "zone3": {},
+                        "elastic_log_test": {},
+                        "google_async": {},
+                        "last_value_ts": "2022-11-23T13:41:20.099Z",
+                        "last_update_ts": "2022-11-23T14:05:55.108Z",
+                        "sums": {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/network_status/{NETWORK_TYPE}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "NETWORK_TYPE",
+            "description": "Can be one of following: \n\n `all`: All network type \n\n `res`: Residential \n\n `dc`: Datacenter \n\n  `mobile`: Mobile",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["all", "res", "dc", "mobile"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "status": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status": {
+      "get": {
+        "description": "Get account status",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Auth method is not supported"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "description": "`suspend_manual`: Manually suspend \n\n `active`: Activate",
+                    "enum": ["suspend_manual", "active"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "suspend_manual"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone": {
+      "post": {
+        "description": "Add a new zone",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewZoneBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Zone added"
+          }
+        }
+      },
+      "get": {
+        "description": "Get Zone status",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone Info",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "created": "2024-10-28T15:58:10.593Z",
+                    "password": ["zone-passowrd"],
+                    "ips": ["any"],
+                    "plan": {
+                      "start": "2024-10-31T13:38:23.665Z",
+                      "product": "dc",
+                      "type": "static",
+                      "ip_fallback": 1,
+                      "ips_type": "shared",
+                      "ips": 120,
+                      "bandwidth": "unlimited",
+                      "unl_bw_tiers": "std",
+                      "auto_cost_override": {
+                        "ip_bw": 1,
+                        "price_group": "shared"
+                      }
+                    },
+                    "description": "hash",
+                    "perm": "country"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing zone parameter"
+          }
+        }
+      },
+      "delete": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "can be skipped to affect all your zones"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/zone/blacklist": {
+      "post": {
+        "description": "Add IP to zone's blacklist",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneAndIP"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "description": "Get a list of blacklisted IPs for a specific Zone",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ZONE1": ["127.0.0.1"],
+                    "ZONE2": ["127.0.0.2"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name. \n\n **Note**: can be skipped to affect all your zones"
+                  },
+                  "ip": {
+                    "type": "string",
+                    "description": "can be in one fo the following formats: \n\n + Delete a single IP - `ip=\"1.2.1.2\"` \n + Delete a IP range - `ip=\"1.2.1.2-1.2.1.10\"` \n + Delete a IP subnet - `ip=\"10.20.30.40/24\"` \n + Delete a IP mask - `ip=\"10.20.30.40/255.255.255.0\"`"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/zone/bw": {
+      "get": {
+        "description": "Get the bandwidth stats for a Zone",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "from",
+            "description": "Start",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2018-07-01T00:00:00"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "End",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2018-07-02T00:00:00"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ID:": {
+                      "customer_id": "customer_id",
+                      "from": "2022-10-01T00:00:00.000Z",
+                      "to": "2022-11-23T00:00:00.000Z",
+                      "data": {
+                        "static": {
+                          "bw_sum": [
+                            0, 745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 6960, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0
+                          ],
+                          "bw_dn": [
+                            0, 525, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 5990, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0
+                          ],
+                          "bw_up": [
+                            0, 220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 970, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0
+                          ],
+                          "http_direct_req": [
+                            0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0
+                          ],
+                          "bw_sum_dc": [
+                            0, 745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 6960, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0
+                          ],
+                          "bw_api": [
+                            0, 745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 6960, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0
+                          ],
+                          "https_direct_req": [
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                            0, 0
+                          ]
+                        }
+                      },
+                      "last_value_ts": "2022-11-19T19:1* Connection #0 to host brightdata.com left intact 8:51.546Z",
+                      "last_update_ts": "2022-11-22T11:35:32.122Z",
+                      "sums": {
+                        "static": {
+                          "back_m1": {
+                            "bw_sum": 745,
+                            "bw_dn": 525,
+                            "bw_up": 220,
+                            "http_direct_req": 1,
+                            "bw_sum_dc": 745,
+                            "bw_api": 745,
+                            "https_direct_req": 0
+                          },
+                          "back_m0": {
+                            "bw_sum": 6960,
+                            "bw_dn": 5990,
+                            "bw_up": 970,
+                            "http_direct_req": 0,
+                            "bw_sum_dc": 6960,
+                            "bw_api": 6960,
+                            "https_direct_req": 1
+                          },
+                          "back_d2": {
+                            "bw_sum": 0,
+                            "bw_dn": 0,
+                            "bw_up": 0,
+                            "http_direct_req": 0,
+                            "bw_sum_dc": 0,
+                            "bw_api": 0,
+                            "https_direct_req": 0
+                          },
+                          "back_d1": {
+                            "bw_sum": 0,
+                            "bw_dn": 0,
+                            "bw_up": 0,
+                            "http_direct_req": 0,
+                            "bw_sum_dc": 0,
+                            "bw_api": 0,
+                            "https_direct_req": 0
+                          },
+                          "back_d0": {
+                            "bw_sum": 0,
+                            "bw_dn": 0,
+                            "bw_up": 0,
+                            "http_direct_req": 0,
+                            "bw_sum_dc": 0,
+                            "bw_api": 0,
+                            "https_direct_req": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/change_disable": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["zone", "disable"],
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name"
+                  },
+                  "disable": {
+                    "type": "number",
+                    "description": "`0` - activate zone \n\n `1` - disable zone",
+                    "enum": [0, 1]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "plan": {
+                      "start": "2019-07-15T18:08:59.269Z",
+                      "type": "static",
+                      "ips_type": "shared",
+                      "ip_alloc_preset": "shared_block",
+                      "bandwidth": "payperusage",
+                      "disabled": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/count_available_ips": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "name of the Zone",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "plan",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pool_ip_type": {
+                  "type": "string",
+                  "description": "use in case you want to get the amount of ISP IPs available, the default amount for that API endpoint is data center peer IPs.",
+                  "default": "static_res"
+                },
+                "ips_type": {
+                  "type": "string",
+                  "description": "type of IPs. \n\n `shared`: For shared \n\n `selective`: For selective \n\n `dedicated`: For dedicated \n\n"
+                },
+                "country": {
+                  "type": "string",
+                  "description": "IPs location country"
+                },
+                "country_city": {
+                  "type": "string",
+                  "description": "defines the city location of the IPs"
+                },
+                "city": {
+                  "type": "boolean",
+                  "description": "required with `country_city` parameter"
+                },
+                "domain_whitelist": {
+                  "type": "string",
+                  "description": "Space separated list of domains \n\n **Note**: for `curl` the spaces should be urlencoded : `d1.com%20d2.com`"
+                },
+                "geo_db": {
+                  "type": "object",
+                  "description": "turns on/off using of the IP`s location databases",
+                  "properties": {
+                    "maxmind": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "use MaxMind IP location DB"
+                    },
+                    "dbip": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "use DB-IP IP location DB"
+                    },
+                    "google": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "use Google IP location DB"
+                    },
+                    "ip2location": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "use IP2Location IP location DB"
+                    },
+                    "ipcn": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "use ip.cn IP location DB"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "count": 1234
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/cost": {
+      "get": {
+        "description": "Get the total cost and bandwidth stats for a Zone",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "Start",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "End",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ID": {
+                      "back_m2": {
+                        "bw": 0,
+                        "cost": 0
+                      },
+                      "back_m1": {
+                        "bw": 36557298,
+                        "cost": 0
+                      },
+                      "back_m0": {
+                        "bw": 1219004,
+                        "cost": 0
+                      },
+                      "back_d2": {
+                        "bw": 82190,
+                        "cost": 0
+                      },
+                      "back_d1": {
+                        "bw": 0,
+                        "cost": 0
+                      },
+                      "back_d0": {
+                        "bw": 0,
+                        "cost": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/domain_perm": {
+      "post": {
+        "description": "Add domain to Zone whitelist or blacklist",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneAndDomain"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["zone", "type", "domain"],
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "`whitelist` - To whitelist an IP \n\n `blacklist` - To blacklist an IP",
+                    "enum": ["whitelist", "blacklist"]
+                  },
+                  "domain": {
+                    "type": "string",
+                    "description": "space separated list of domains",
+                    "example": "d1.com d2.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "whitelist": "example.org"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/get_active_zones": {
+      "get": {
+        "description": "Return all active zones",
+        "responses": {
+          "200": {
+            "description": "Zone response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Zone"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/zone/ips": {
+      "post": {
+        "description": "Add Static IPs for Datacenter and ISP",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["customer", "zone", "count"],
+                "properties": {
+                  "customer": {
+                    "type": "string",
+                    "description": "Customer"
+                  },
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name"
+                  },
+                  "count": {
+                    "type": "number",
+                    "description": "Number of IPs"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "new IPs' country (e.g. `us`)",
+                    "example": "us"
+                  },
+                  "country_city": {
+                    "type": "string",
+                    "description": "new IPs' city (e.g. `us-chicago`)",
+                    "example": "us-chicago"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ips": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["1.1.1.1", "1.1.1.2", "1.1.1.3"]
+                    },
+                    "new_ips": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["1.1.1.1", "1.1.1.3"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get Zone Static (Datacenter/ISP) IPs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ip_per_country",
+            "description": "get the total amount of IPs per country",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ips": [
+                      {
+                        "ip": "1.1.1.1",
+                        "maxmind": "au",
+                        "ext": {
+                          "dbip": "au",
+                          "ip2location": "au",
+                          "google": "us"
+                        }
+                      },
+                      {
+                        "ip": "1.1.1.1",
+                        "maxmind": "au",
+                        "ext": {
+                          "dbip": "au",
+                          "ip2location": "au",
+                          "google": "us"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name \n\n **Note**: can be skipped to affect all your zones"
+                  },
+                  "ip": {
+                    "type": "string",
+                    "description": "can be in one of the following formats: \n\n + Delete a single IP - `ip=\"1.2.1.2\"` \n\n + Delete a IP range - `ip=\"1.2.1.2-1.2.1.10\"` \n\n + Delete a IP subnet - `ip=\"10.20.30.40/24\"` \n\n + Delete a IP mask - `ip=\"10.20.30.40/255.255.255.0\"`"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ips": ["ip1", "ip2"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/ips/migrate": {
+      "post": {
+        "description": "Migrate Static IPs between zones (Datacenter/ISP)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["from", "to", "ips"],
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "description": "Zone which IPs will be migrated from",
+                    "example": "zone1"
+                  },
+                  "to": {
+                    "type": "string",
+                    "description": "Zone to which IPs will be migrated",
+                    "example": "zone2"
+                  },
+                  "ips": {
+                    "type": "string",
+                    "description": "IPs to migrate",
+                    "example": ["1.1.1.1", "2.1.1.5", "3.1.1.100"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "from": "zone1",
+                    "to": "zone2",
+                    "count": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/ips/refresh": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["zone"],
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name",
+                    "example": "zone1"
+                  },
+                  "vips": {
+                    "type": "array",
+                    "description": "IPs to refresh \n\n **Note**: If refresh is needed for all allocated IPs, then `vips` parameter should be omitted. \n\n **Note**: Only works for Dedicated Residential IPs",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["vip1", "vip2"]
+                  },
+                  "ips": {
+                    "type": "array",
+                    "description": "IPs to refresh \n\n **Note**: If refresh is needed for all allocated IPs, then `ips` parameter should be omitted",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["ip1", "ip2"]
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "new IPs' country (e.g. `us`)"
+                  },
+                  "country_city": {
+                    "type": "string",
+                    "description": "new IPs' city (e.g. `us-chicago`)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "vips": [
+                      {
+                        "vip": "tr_9121_07_antalya_10",
+                        "country": "tr"
+                      },
+                      {
+                        "vip": "tr_9121_07_antalya_17",
+                        "country": "tr"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/ips/unavailable": {
+      "get": {
+        "description": "Get live status of Static (Datacenter/ISP) Zone and IPs with connectivity problem",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "zone1": ["1.1.1.1", "100.1.1.2"],
+                    "zone10": ["2.1.1.1"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/passwords": {
+      "get": {
+        "description": "Get Zone passwords",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone Info",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/zone/permissions": {
+      "get": {
+        "description": "Get Zone permissions",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone Info",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/zone/recent_ips": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zones",
+            "description": "To get attempting IPs to any of your zone: `zones=*`",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ZONE": ["255.0.0.127", "10.0.0.1"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/route_ips": {
+      "get": {
+        "description": "Get the available Data center/ISP IPs per Zone",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "2-letter Country code",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "10.0.0.0/24"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/route_vips": {
+      "get": {
+        "description": "Get all available residential dedicated IPs per Zone",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone Info",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "422": {
+            "description": "This endpoint is not available with the chosen zone. Please use it only with active Dedicated Residential zones with allocated gIPs"
+          },
+          "403": {
+            "description": "Vip routes not found"
+          }
+        }
+      }
+    },
+    "/zone/static/cities": {
+      "get": {
+        "description": "Get list of available cities of static network per country",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "country",
+            "description": "Country",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pool_ip_type",
+            "description": "Network type: \n\n `dc`: Datacenter, \n\n `static_res`: ISP",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "dc",
+              "enum": ["dc", "static_res"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["us-chicago", "us-ashburn", "us-siouxfalls"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/status": {
+      "get": {
+        "description": "Get Zone status",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone Info",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/zone/switch_100uptime": {
+      "post": {
+        "description": "Switch automatic failover (100% uptime) ON/OFF in a Static zone",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneAndActive"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/zone/vips": {
+      "delete": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["zone"],
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name"
+                  },
+                  "vips": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "IPs to remove. \n\n **Note**: If you need to remove all allocated IPs, then `vips` parameter should be omitted."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": ["us_209_wa_seattle_0", "us_7922_ca_fresno_0"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/zone/whitelist": {
+      "post": {
+        "description": "Add IP to zone's whitelist",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ZoneAndIP"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "description": "Get a list of whitelisted IPs for a specific Zone",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ZONE1": ["127.0.0.1"],
+                    "ZONE2": ["127.0.0.2"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name. \n\n **Note**: can be skipped to affect all your zones."
+                  },
+                  "ip": {
+                    "type": "string",
+                    "description": "can be in one fo the following formats: \n\n + Delete a single IP - `ip=\"1.2.1.2\"` \n + Delete a IP range - `ip=\"1.2.1.2-1.2.1.10\"` \n + Delete a IP subnet - `ip=\"10.20.30.40/24\"` \n + Delete a IP mask - `ip=\"10.20.30.40/255.255.255.0\"`"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AccountStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "customer": {
+            "type": "string"
+          },
+          "can_make_requests": {
+            "type": "boolean"
+          },
+          "auth_fail_reason": {
+            "type": "string"
+          },
+          "ip": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "status": "active",
+          "customer": "customer-id",
+          "can_make_requests": false,
+          "auth_fail_reason": "zone_not_found",
+          "ip": "x.x.x.x"
+        }
+      },
+      "Zone": {
+        "required": ["name"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of the zone",
+            "type": "string"
+          },
+          "type": {
+            "description": "Zone Type, e.g. serp, isp, mobile, etc.",
+            "type": "string"
+          }
+        },
+        "example": {
+          "name": "zone-name",
+          "type": "serp"
+        }
+      },
+      "Plan": {
+        "required": ["type"],
+        "type": "object",
+        "properties": {
+          "type": {
+            "description": "type of zone",
+            "type": "string",
+            "enum": ["static", "resident", "unblocker"]
+          },
+          "domain_whitelist": {
+            "description": "Space separated list of whitelisted domains",
+            "type": "string"
+          },
+          "ips_type": {
+            "description": "`domain_whitelist` is required for `selective`",
+            "type": "string",
+            "enum": ["shared", "dedicated", "selective"]
+          },
+          "bandwidth": {
+            "description": "`bandwidth`: for bandwidth `unlimited`: enable unlimited bandwidth",
+            "type": "string",
+            "enum": ["bandwidth", "unlimited"]
+          },
+          "ip_alloc_preset": {
+            "description": "To set a zone with Shared - Pay per usage type",
+            "type": "string",
+            "enum": ["shared_block", "shared_res_block"]
+          },
+          "ips": {
+            "description": "Number of static IPs to allocate to the zone",
+            "type": "integer",
+            "default": 0
+          },
+          "country": {
+            "description": "Specify which country IP to allocate to the zone, specify this parameter when `ips_type=static`",
+            "type": "string",
+            "default": "any"
+          },
+          "country_city": {
+            "description": "Country code followed by city (e.g. “se-stockholm”) - specify which City IP to allocate to the zone, specify this parameter when `ips_type=static`",
+            "type": "string",
+            "default": "any"
+          },
+          "mobile": {
+            "description": "`true` when adding a Mobile proxy zone, type value must be `resident`",
+            "type": "boolean",
+            "default": "false"
+          },
+          "serp": {
+            "description": "`true` when adding a SERP API zone",
+            "type": "boolean",
+            "default": "false"
+          },
+          "city": {
+            "description": "`true` when enabling City targeting permission",
+            "type": "boolean",
+            "default": "false"
+          },
+          "asn": {
+            "description": "`true` when enabling ASN targeting permission",
+            "type": "boolean",
+            "default": "false"
+          },
+          "vip": {
+            "description": "`true` when allocating `gIP` (group of IPs)",
+            "type": "boolean",
+            "default": "false"
+          },
+          "vips_type": {
+            "description": "specify this parameter when adding a Residential or Mobile zone",
+            "type": "string",
+            "enum": ["shared", "domain"]
+          },
+          "vips": {
+            "description": "Number of `gIP` (group of IPs) to allocate to the zone",
+            "type": "integer",
+            "default": "0"
+          },
+          "vip_country": {
+            "description": "Specify which country IP to allocate to the zone, specify this parameter when `ips_type=resident` and `vip=true`",
+            "type": "string"
+          },
+          "vip_country_city": {
+            "description": "Country code followed by city (e.g. “se-stockholm”) - specify which City IP to allocate to the zone, specify this parameter when `ips_type=resident` and `vip=true`",
+            "type": "string",
+            "default": "any"
+          }
+        }
+      },
+      "NewZoneBody": {
+        "required": ["zone", "plan"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "$ref": "#/components/schemas/Zone"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/Plan"
+          }
+        }
+      },
+      "ZoneAndIP": {
+        "required": ["ip"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "description": "Zone name. Can be skipped to affect all your zones",
+            "type": "string"
+          },
+          "ip": {
+            "description": "`string` or  `array of strings` \n\n Single IP, IP Array, IP range, IP subnet or IP mask  \n\n ### Example \n\n - Single IP: 10.20.30.40 \n\n - IP Array: [\"10.20.30.40\", \"50.60.70.80\",...] \n\n - Range: 10.20.30.40-10.20.30.50 \n\n - Subnet: 10.20.30.0/24 \n\n - Netmask: 10.20.30.0/255.255.252.0 \n\n **Note** IP array syntax requires quotes `\"` for each IP string in array",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "ZoneAndActive": {
+        "required": ["ip"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "description": "Zone name",
+            "type": "string"
+          },
+          "active": {
+            "description": "`0`: Disable 100% Uptime, `1`: Enable 100% Uptime",
+            "type": "integer",
+            "enum": [0, 1]
+          }
+        }
+      },
+      "ZoneAndDomain": {
+        "required": ["zone", "type"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "description": "Zone name",
+            "type": "string"
+          },
+          "type": {
+            "description": "`whitelist` to whitelist domain(s), `blacklist` to blacklist domain(s)",
+            "type": "string",
+            "enum": ["whitelist", "blacklist"]
+          },
+          "domain": {
+            "description": "space separated list of domains",
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "required": ["error", "message"],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

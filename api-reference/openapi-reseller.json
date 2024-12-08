@@ -1,0 +1,1511 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Brightdata API",
+    "description": "Integrate Bright Data APIs to your pipeline and secure high-end scraping precision",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.brightdata.com"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/{PARTNER_NAME}/ips": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "description": "Amount of IPs to allocate",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "hq_static_res"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "country": {
+                    "type": "string",
+                    "description": "Country to allocate IPs in (e.g. `us`)"
+                  },
+                  "country_city": {
+                    "type": "string",
+                    "description": "City in a  country to allocate IPs in (e.g. `us-newyork`"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ip": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ],
+                      "example": ["1.1.1.1", "2.2.2.2"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ips": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "ips": ["1.1.1.1", "2.2.2.2"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "hq_static_res"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ips"],
+                "properties": {
+                  "ips": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": ["1.1.1.1"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/usage_limit": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Name of existing zone",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "residential"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Limit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "unit": {
+                      "type": "string",
+                      "description": "Limit unit",
+                      "example": "bw"
+                    },
+                    "until": {
+                      "type": "string",
+                      "example": "2023-02-14T00:00:00.000Z"
+                    },
+                    "start": {
+                      "type": "string",
+                      "example": "2022-11-15T00:00:00.000Z"
+                    },
+                    "bust_action": {
+                      "type": "string",
+                      "example": "disable"
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "description": "amount of bytes for the new limit",
+                      "example": 5242880000
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "hq_static_res"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "unit": {
+                      "type": "string",
+                      "description": "Limit unit",
+                      "example": "bw"
+                    },
+                    "until": {
+                      "type": "string",
+                      "example": "2023-02-14T00:00:00.000Z"
+                    },
+                    "start": {
+                      "type": "string",
+                      "example": "2022-11-15T00:00:00.000Z"
+                    },
+                    "bust_action": {
+                      "type": "string",
+                      "example": "disable"
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "description": "amount of bytes for the new limit",
+                      "example": 5242880000
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/usage_webhook": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Name of existing zone",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "residential"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Webhook"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "hq_static_res"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "webhook": {
+                      "trigger": 80
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/disable_customer": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/enable_customer": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/proxies": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "hq_static_res"
+            }
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "Name of country (e.g. `us`)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Name of the US country (e.g. `ca`)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "session",
+            "description": "Amount of the sessions to generate",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "asn",
+            "description": "Name of the ASN. YOu can get all available ASNs via `/api/{PARTNER_NAME}/get_asn` API",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "carrier",
+            "description": "Name of the carrier. You can get all available carriers via `/api/{PARTNER_NAME}/carriers` API",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "const",
+            "description": "Use constant",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "split",
+            "description": "If provided only `brd-customer-{CUST_ID}-zone-{ZONE}` part of username will be encoded",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "{PARTNER_NAME_PROXY_HOST}:{PORT}:{ENCRYPTED}:{ZONE_PASSWORD}"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/socks5_proxies": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "hq_static_res"
+            }
+          },
+          {
+            "in": "query",
+            "name": "country",
+            "description": "Name of country (e.g. `us`)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Name of the US country (e.g. `ca`)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "session",
+            "description": "Amount of the sessions to generate",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "asn",
+            "description": "Name of the ASN. YOu can get all available ASNs via `/api/{PARTNER_NAME}/get_asn` API",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "carrier",
+            "description": "Name of the carrier. You can get all available carriers via `/api/{PARTNER_NAME}/carriers` API",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "const",
+            "description": "Use constant",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "split",
+            "description": "If provided only `brd-customer-{CUST_ID}-zone-{ZONE}` part of username will be encoded",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "{PARTNER_NAME_PROXY_HOST}:{PORT}:{ENCRYPTED}:{ZONE_PASSWORD}"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/get_asn": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  },
+                  "example": [
+                    {
+                      "asn": "1",
+                      "title": "ASN 1"
+                    },
+                    {
+                      "asn": "2",
+                      "title": "ASN 2"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/shared_isp": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "de": 1447,
+                    "gb": 1460,
+                    "us": 15597
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/carriers": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["carrier_1", "carrier_2"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/countries": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "required signup type (`residential`|`shared_dc`|`dedicated_dc`|`shared_isp`|`smart_resi`)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "more_than",
+            "description": "minimum amount of free ips on the type",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 1000
+            }
+          },
+          {
+            "in": "query",
+            "name": "mode",
+            "description": "Flag to change output format. If set to `raw`, the API will return the exact amount of ips per country and `more_than` will be ignored.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "mode!=raw",
+                      "type": "array",
+                      "example": ["ae", "ar", "at", "au"],
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "title": "mode=raw",
+                      "type": "object",
+                      "example": { "ae": 1, "ar": 2, "at": 3, "au": 4 }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/customers": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "active",
+            "description": "can be `0`, `1` or empty. \n\nIf `0` - return only not active customers. \n\nIf `1` - only active. \n\nIf empty - return all.",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "enum": [0, 1, null]
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "max amount of account to return on 1 page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1000
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "number of the page to return",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "total": 1,
+                    "page": 1,
+                    "pages": 1,
+                    "per_page": 1,
+                    "customers": [
+                      {
+                        "id": "ex_7f531897",
+                        "start": "2024-05-02T00:00:00.000Z",
+                        "active": true,
+                        "zone": "dedicated_dc"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/carrier_ips_count": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "carrier",
+            "description": "Carrier name (all carriers are returned by default)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": { "att": 94328 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/usage_limit_stats": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "List of valid customers’ IDs",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "residential"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "oc_1": {
+                      "status": "reached",
+                      "usage": {
+                        "used": 0,
+                        "period": {
+                          "start": "2022-03-05T00:00:00.000Z",
+                          "until": "2022-06-04T00:00:00.000Z"
+                        },
+                        "limit": 5242880000
+                      }
+                    },
+                    "oc_unlimited": {
+                      "status": "unlimited"
+                    },
+                    "oc_2": {
+                      "error": "Customer not found"
+                    },
+                    "bad_id": {
+                      "error": "wrong id"
+                    },
+                    "oc_inactive": {
+                      "error": "Customer has invalid status"
+                    },
+                    "oc_zone": {
+                      "error": "zone not found"
+                    },
+                    "oc_invalid_limit": {
+                      "error": "invalid limit"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/refresh_ips": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Valid customer `id`",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Existing zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "dedicated_dc"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["ips"],
+                "properties": {
+                  "ips": {
+                    "oneOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Country to allocate new IPs in (e.g. `us`)",
+                    "example": "us"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "ips": ["1.1.1.1", "2.2.2.2"],
+                    "new_ips": ["3.3.3.3"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/signup_residential": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "zone": {
+                    "type": "string",
+                    "description": "Zone name",
+                    "default": "residential",
+                    "example": "residential"
+                  },
+                  "vertical": {
+                    "type": "string",
+                    "description": "Zone vertical. Can be either `sneakers_release` or `product_release_goods`",
+                    "default": "sneakers_release|product_release_goods",
+                    "example": "sneakers_release|product_release_goods"
+                  },
+                  "ext_cust_email": {
+                    "type": "string",
+                    "description": "Email of existing trusted customer. Specify this parameter when using `product_release_goods` vertical",
+                    "example": "johndoe@example.com"
+                  },
+                  "state_targeting": {
+                    "type": "number",
+                    "description": "Enable State targeting permission",
+                    "default": 1,
+                    "example": 1
+                  },
+                  "city_targeting": {
+                    "type": "number",
+                    "description": "Enable City targeting permission",
+                    "default": 1,
+                    "example": 1
+                  },
+                  "asn_targeting": {
+                    "type": "number",
+                    "description": "Enable City targeting permission",
+                    "default": 1,
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "CUSTOMER_ID",
+                    "zone": "ZONE",
+                    "password": "PASSWORD",
+                    "api_token": "API_TOKEN"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/signup_smart_resi": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "smart_resi"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "CUSTOMER_ID",
+                    "zone": "ZONE",
+                    "password": "PASSWORD",
+                    "api_token": "API_TOKEN"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/{PARTNER_NAME}/signup_shared_isp": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PARTNER_NAME",
+            "description": "Name of the proxy zone which will service your request.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "zone",
+            "description": "Zone name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "shared_static_res"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "CUSTOMER_ID",
+                    "zone": "ZONE",
+                    "password": "PASSWORD",
+                    "api_token": "API_TOKEN"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Limit": {
+        "required": ["limit", "unit", "period", "period_mult"],
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "description": "amount of bytes for the new limit",
+            "example": 5242880000
+          },
+          "unit": {
+            "type": "string",
+            "description": "Limit unit",
+            "example": "bw"
+          },
+          "period": {
+            "type": "string",
+            "description": "Unit time for (only d is accepted)",
+            "example": "d"
+          },
+          "period_mult": {
+            "type": "number",
+            "description": "Days for limit period",
+            "example": 10
+          }
+        }
+      },
+      "Webhook": {
+        "required": ["webhook"],
+        "type": "object",
+        "properties": {
+          "webhook": {
+            "type": "object",
+            "required": ["trigger"],
+            "properties": {
+              "trigger": {
+                "type": "number",
+                "description": "Percentage threshold for sending webhook"
+              },
+              "id": {
+                "type": "string",
+                "description": "Custom webhook ID"
+              }
+            }
+          }
+        }
+      },
+      "PostBody": {
+        "required": ["zone", "url", "format"],
+        "type": "object",
+        "properties": {
+          "zone": {
+            "description": "Name of the proxy zone which will service your request.",
+            "type": "string"
+          },
+          "url": {
+            "description": "Target URL for your request.",
+            "type": "string"
+          },
+          "format": {
+            "description": "Format for requesting a raw HTML via proxy is `raw`.\n\nFormat for request a JSON response is `json`.",
+            "type": "string",
+            "enum": ["raw", "json"]
+          },
+          "method": {
+            "description": "Method for requesting an HTML via proxy is `GET`.",
+            "type": "string",
+            "default": "GET"
+          },
+          "country": {
+            "description": "Country code of proxy which request is relayed through.",
+            "type": "string"
+          },
+          "city": {
+            "description": "City name of proxy which request is relayed through, must have country defined.\n\nSupported in DC & ISP for zones pre-configured with cities, and in Residential and mobile networks by default.",
+            "type": "string"
+          },
+          "zip": {
+            "description": "Zip code which request is relayed through, must have country defined.\n\nSupported in Residential networks only.",
+            "type": "string"
+          },
+          "ASN": {
+            "description": "ASN code which request is relayed thru, must have country defined.\n\nSupported in Residential networks only.",
+            "type": "string"
+          },
+          "carrier": {
+            "description": "For mobile network only: carrier code in which request is relayed through.\n\nSupported in mobile networks only.",
+            "type": "string"
+          },
+          "os": {
+            "description": "Operating system of the client to set on proxy.\n\nSupported in mobile networks only.",
+            "type": "string"
+          },
+          "dns": {
+            "description": "Use `local` or `remote` to set if domain name mapping is done locally on client side or on remote proxy peer.",
+            "type": "string",
+            "enum": ["local", "remote"]
+          },
+          "session": {
+            "description": "A string relayed by the client to mark a session, all requests with the same session parameter will be relayed to the same proxy peer.",
+            "type": "string"
+          },
+          "ip": {
+            "description": "In Datacenter and ISP zones: Relay the request to a specific proxy identified by the `ip`.",
+            "type": "string"
+          },
+          "gip": {
+            "description": "In `Residential` and `Mobile` zones: Relay the request to a specific proxy group identified by the `gip`.",
+            "type": "string"
+          },
+          "c_tag": {
+            "description": "Include a unique `c_tag` flag in their requests. In response, businesses echo back the same tag in the header. This seamless exchange ensures that each response is bound to its corresponding request, eliminating confusion and streamlining data management.",
+            "type": "string"
+          },
+          "direct": {
+            "description": "Setting the parameter to `true` will instruct to process the request by Bright Data super proxy, a datacenter located proxy and not the proxy peer itself.",
+            "type": "boolean"
+          }
+        }
+      },
+      "HTTP200": {
+        "type": "string",
+        "example": "OK"
+      },
+      "HTTP401": {
+        "type": "string",
+        "example": "User authentication is required"
+      },
+      "HTTP400": {
+        "type": "string",
+        "example": "Bad Request"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

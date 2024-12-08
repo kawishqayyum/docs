@@ -1,0 +1,184 @@
+---
+title: 添加区域
+openapi: POST /zone
+---
+<Warning> **Warning:** This API can modify your account settings, damage your operations or incur charges.</Warning>
+
+<Tip>
+将您的 API 令牌粘贴到身份验证字段。要获得令牌，创建账户并了解如何生成令牌
+
+[Create an account](https://brightdata.com/?hs_signup=1&utm_source=docs&utm_campaign=playground), [generate a token](/api-reference/unlocker/api_token)
+</Tip>
+
+# 添加计划示例
+<Tabs>
+<Tab title="数据中心">
+```sh 添加共享数据中心 - 按使用区域付费
+curl "https://api.brightdata.com/区域" -H "Content-Type: application/json" -H "身份验证: 持有者 API_TOKEN" -d "{'区域':{'名称':'区域_名称'},'计划':{'类型':'static','ips_类型':'shared','ip_alloc_preset':'shared_block'}}"
+```
+
+</Tab>
+<Tab title="ISP">
+
+```sh Add an ISP - Exclusive 区域
+curl "https://api.brightdata.com/区域" -H "Content-Type: application/json" -H "身份验证: 持有者 API_TOKEN" -d "{'区域':{'名称':'区域_名称'},'计划':{'类型':'static','ips_类型':'dedicated','pool_ip_类型':'static_res','ips':3}}"
+```
+</Tab>
+<Tab title="住宅">
+```sh Add a 住宅 - Exclusive with Exclusive domain 'example.com' 区域
+curl "https://api.brightdata.com/区域" -H "Content-Type: application/json" -H "身份验证: 持有者 API_TOKEN" -d "{'区域':{'名称':'区域_名称'},'计划':{'类型':'resident','VIP_类型':'domain','VIP':true,'VIP':3,'domain_whitelist':'example.com'}}"
+```
+</Tab>
+<Tab title="移动设备">
+- 
+```sh Add a 移动设备 - Shared 区域
+curl "https://api.brightdata.com/区域" -H "Content-Type: application/json" -H "身份验证: 持有者 API_TOKEN" -d "{'区域':{'名称':'区域_名称'},'计划':{'类型':'resident','移动设备':true,'VIP_类型':'shared'}}"
+```
+</Tab>
+<Tab title="解锁器">
+
+```sh Add a Web Unlcoker Zone
+curl "https://api.brightdata.com/区域" -H "Content-Type: application/json" -H "身份验证: 持有者 API_TOKEN" -d "{'区域':{'名称':'区域_名称'},'计划':{'类型':'unblocker'}}"
+```
+</Tab>
+<Tab title="SERP">
+
+```sh Add a SERP Zone
+curl "https://api.brightdata.com/区域" -H "Content-Type: application/json" -H "身份验证: 持有者 API_TOKEN" -d "{'区域':{'名称':'区域_名称'},'计划':{'类型':'resident','serp':true}}"
+```
+</Tab>
+</Tabs>
+
+<RequestExample>
+```sh Shell
+curl "https://api.brightdata.com/zone" -H "Content-Type: application/json" -H "Authorization: Bearer API_TOKEN" -d "{'zone':{'name':'zone_name'},'plan':{'type':'static|resident','ips_type':'shared|dedicated|selective','ip_alloc_preset':'shared_block','bandwidth':'payperusage|unlimited','mobile':false,'city':false,'asn':false,'vip':false,'vips_type':'shared|vip|domain','vips':0,'domain_whitelist':'test.com fb.com','not_country':null,'vip_country':'any','exclusive_sec':0,'exclusive_type':'days','exclusive_num':0,'ips':0}}"
+```
+
+```js NodeJS
+#!/usr/bin/env node
+
+require('request-promise')({
+    method: 'POST',
+    url: 'https://api.brightdata.com/zone',
+    json: {
+        'zone': {
+            'name': 'zone_name'
+        },
+        'plan': {
+            'type': 'static|resident',
+            'ips_type': 'shared|dedicated|selective',
+            'ip_alloc_preset': 'shared_block',
+            'bandwidth': 'payperusage|unlimited',
+            'mobile': false,
+            'city': false,
+            'asn': false,
+            'vip': false,
+            'vips_type': 'shared|vip|domain',
+            'vips': 0,
+            'domain_whitelist': 'test.com fb.com',
+            'not_country': null,
+            'vip_country': 'any',
+            'exclusive_sec': 0,
+            'exclusive_type': 'days',
+            'exclusive_num': 0,
+            'ips': 0
+        }
+    },
+    headers: {
+        'Authorization': 'Bearer API_TOKEN'
+    },
+}).then(function(data) {
+        console.log(data);
+    },
+    function(err) {
+        console.error(err);
+    });
+```
+
+```java Java
+package example;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.\*;
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String body = "{'zone':{'name':'zone_name'},'plan':{'type':'static|resident','ips_type':'shared|dedicated|selective','ip_alloc_preset':'shared_block','bandwidth':'payperusage|unlimited','mobile':false,'city':false,'asn':false,'vip':false,'vips_type':'shared|vip|domain','vips':0,'domain_whitelist':'test.com fb.com','not_country':null,'vip_country':'any','exclusive_sec':0,'exclusive_type':'days','exclusive_num':0,'ips':0}}";
+    String res = Executor.newInstance()
+      .addHeader("Authorization", "Bearer API_TOKEN")
+      .execute(Request.Post("https://api.brightdata.com/zone")
+        .bodyString(body, ContentType.APPLICATION_JSON))
+      .returnContent().asString();
+    System.out.println(res)
+  }
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method = HttpMethod.Post,
+        RequestUri = new Uri("https://api.brightdata.com/zone"),
+        Headers = {
+          {
+            "Authorization",
+            "Bearer API_TOKEN"
+          }
+        },
+        Content = new StringContent(JsonConvert.SerializeObject(new {
+          zone = new {
+              name = "zone_name"
+            },
+            plan = new {
+              type = "static|resident", ips_type = "shared|dedicated|selective", ip_alloc_preset = "shared_block", bandwidth = "payperusage|unlimited", mobile = false, city = false, asn = false, vip = false, vips_type = "shared|vip|domain", vips = 0, domain_whitelist = "test.com fb.com", not_country = null, vip_country = "any", exclusive_sec = 0, exclusive_type = "days", exclusive_num = 0, ips = 0
+            }
+        }), Encoding.UTF8, "application/json"))
+  };
+  var response = await client.SendAsync(requestMessage);
+  var responseString = await response.Content.ReadAsStringAsync();
+  Console.WriteLine(responseString);
+}
+}
+```
+
+```python Python
+#!/usr/bin/env python
+import requests
+  
+data = {
+	'zone':{'name': 'zone_name'},
+	'plan':{
+		'type': 'static|resident',
+		'ips_type': 'shared|dedicated|selective',
+		'ip_alloc_preset':'shared_block',
+		'bandwidth':'payperusage|unlimited',
+		'mobile':False,
+		'city':False,
+		'asn':False,
+		'vip':False,
+		'vips_type':'shared|vip|domain',
+		'vips':0,
+		'domain_whitelist':'test.com fb.com',
+		'not_country':null,
+		'vip_country':'any',
+		'exclusive_sec':0,
+		'exclusive_type':'days',
+		'exclusive_num':0,
+		'ips':0
+	}
+}
+headers = {'Authorization': 'Bearer API_TOKEN'}
+
+r = requests.post(
+	'https://api.brightdata.com/zone',
+	data=data,
+	headers=headers
+)
+
+print(r.content)
+```
+</RequestExample>
