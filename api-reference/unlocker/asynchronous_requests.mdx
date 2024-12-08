@@ -1,0 +1,31 @@
+---
+title: 异步请求
+---
+无需等待响应即可发起请求。 通过指定端点或 Webhook 获取采集结果。
+
+### 发起异步请求
+
+<CodeGroup>
+```sh Create a request
+RESPONSE_ID=`curl -i --silent --compressed "https://api.brightdata.com/unblocker/req?customer=<Account ID>&zone=<zone_name>" -H "Content-Type: application/json" -H "Authorization: Bearer <API token>" -d "{\"flags\":\"country-de\",\"url\":\"<Target site>\"}" | sed -En 's/^x-response-id: (.\*)/\1/p' | tr -d '\r'`
+```
+```sh Get the response
+curl -v --compressed "https://api.brightdata.com/unblocker/get_result?customer=<customer_id>&zone=<zone_name>&response_id=${RESPONSE_ID}" -H "Authorization: Bearer <API token>"
+```
+</CodeGroup>
+
+### 调整网络解锁器的异步设置
+1. 登录 Bright Data 的控制面板: https://brightdata.com/cp/start
+2. 转到“我的代理页面”: https://brightdata.com/cp/zones
+3. 点击您的网络解锁器区域
+4. 在区域配置页面中点击“高级选项”，然后启用“异步请求”
+    <Frame>
+    ![enable-asynchronous-requests.png](/images/api-reference/unlocker/asynchronous_requests/enable-asynchronous-requests.png) 
+    </Frame>
+
+5. 启用“异步请求” 后，您即可配置 WebHook URL（接收采集结果的地址）和用于传输响应的 HTTP 方法（GET 或 POST）。
+   <Frame>
+    ![save-settings.png](/images/api-reference/unlocker/asynchronous_requests/save-settings.png)
+   </Frame>
+
+6. 配置完请求后，点击“保存”
