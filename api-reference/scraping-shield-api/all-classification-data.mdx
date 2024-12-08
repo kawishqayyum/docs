@@ -1,0 +1,54 @@
+---
+title: 所有分类数据
+---
+
+## 查询参数
+<ParamField query="from" type="string">
+请求数据的起始时间范围
+
+示例: `from=2018-07-01T00:00:00`
+</ParamField>
+
+<ParamField query="to" type="string">
+请求数据的结束时间范围
+
+示例: `to=2018-07-02T00:00:00`
+</ParamField>
+
+<ParamField query="cn" type="string">
+请求来源所在的国家
+
+示例: `cn=uk`
+</ParamField>
+
+<ParamField query="peer_cn" type="string">
+对等 IP 所在的国家
+
+示例: `peer_cn=us`
+</ParamField>
+
+<ParamField query="类别" type="string">
+仅返回特定的分类
+
+示例: `categories=ads`
+</ParamField>
+
+
+<RequestExample>
+```sh Request
+curl "https://api.brightdata.com/shield/class" -H "Authorization: <Bearer Token>"
+```
+
+</RequestExample>
+
+<ResponseExample>
+```json Response
+[
+    {
+        "class":"Shopping",
+        "req":1139485,
+        "bw":61138544246
+    }, ... 
+]
+```
+</ResponseExample>

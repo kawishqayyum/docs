@@ -1,0 +1,65 @@
+---
+title: 按分类数据划分的域
+description: 返回所选分类的每个域的使用数据
+---
+
+## 查询参数
+<ParamField query="from" type="字符串">
+请求数据的起始时间范围
+
+示例: `from=2018-07-01T00:00:00`
+</ParamField>
+
+<ParamField query="to" type="字符串">
+请求数据的结束时间范围
+
+示例: `to=2018-07-02T00:00:00`
+</ParamField>
+
+<ParamField query="cn" type="字符串">
+请求来源所在的国家/地区
+
+示例: `cn=uk`
+</ParamField>
+
+<ParamField query="peer_cn" type="字符串">
+对等 IP 所在的国家/地区
+
+示例: `peer_cn=us`
+</ParamField>
+
+<ParamField query="categories" type="字符串">
+仅返回特定的分类
+
+示例: `categories=ads`
+</ParamField>
+
+<ParamField query="order_by" type="字符串">
+按 bw/requests 排序结果
+- `order_by=bw`
+- `order_by=req`
+</ParamField>
+
+<ParamField query="order" type="字符串">
+按大小升序/降序排列结果
+- `order=asc`
+- `order=desc`
+</ParamField>
+
+<RequestExample>
+```sh Request
+curl "https://api.brightdata.com/shield/domains_by_class?category=Ads" -H "Authorization: <Bearer Token>" 
+```
+</RequestExample>
+
+<ResponseExample>
+```json Response
+[
+    {
+        "domain":"static.addtoany.com",
+        "req":16370,
+        "bw":200590537
+    }, ... 
+]
+```
+</ResponseExample>
