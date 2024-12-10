@@ -1,0 +1,9 @@
+---
+title: 选择特定的 IP
+---
+
+该选项仅适用于分配了多个 IP 的区域。 要将分配给您的区域的特定 IP 作为目标，请使用 `-ip-ip_address` 请求参数。
+
+```sh Shell
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-ip-1.1.1.1.1:<zone_password>
+```

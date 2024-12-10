@@ -1,0 +1,31 @@
+---
+title: 在特定国家/地区选择超级代理
+---
+{/*tags:nosophie*/}
+
+重要提示：本文仅适用于选择超级代理，而很少需要对超级代理执行相关操作。要选择特定的标准代理（例如，住宅代理、数据中心代理或 ISP 代理），请执行以下操作： 
+
+
+
+- 在共享代理区域，您可以在代理用户名中添加 `-country` 标记（以及 `-city` 标记），如下所示：`username-country-country_code-city-city_code`。国家/地区代码是标准的 2 个字符代码。 `city_code` 必须是小写且没有空格，例如 `-city-sanfrancisco`。
+
+- 在专用代理区域，您可以按照以下步骤在区域配置页面中选择国家/地区和城市：
+    1. 添加一个新代理区域，并将 IP 类型设置为“专用”。
+    2. 选择您要在此区域中定位的域名。
+    3. 选择要分配给该区域的专用代理数量。
+    4. 选择您要定位的国家/地区。
+    5. 可选项——选择您想要的国家/地区后，在城市分辨率中点击您想要定位的每个国家/地区旁边的“添加城市”。
+    6. 为每个国家/地区添加所选城市并保存区域。
+    7. 您的新专用代理区域将在您选择的国家/地区和城市之间平均分配您要求的 grproxies 数量。
+
+
+
+如果您确实需要我们的负载均衡器在特定国家/地区提供超级代理：
+
+选择超级代理国家/地区的方法如下：`servercountry-{country}.brd.superproxy.io`。
+
+
+```sh Shell
+curl "https://example.com" --proxy servercountry-gb.brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>:<zone_password>
+```
+

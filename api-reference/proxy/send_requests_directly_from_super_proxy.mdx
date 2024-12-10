@@ -1,0 +1,9 @@
+---
+title: 直接从超级代理发送请求
+---
+
+您可以选择直接从超级代理而不是对等 IP 执行请求。 在这种情况下，通过在请求授权字符串中添加 -direct，请求的 IP 将是超级代理的 IP。
+
+```sh Shell
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-direct:<zone_password>
+```

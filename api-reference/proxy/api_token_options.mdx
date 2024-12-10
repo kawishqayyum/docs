@@ -1,0 +1,84 @@
+---
+title: Get available dedicated IPs per Zone
+---
+
+**API 端点**: `GET` `/api/zone/route_vips`
+
+
+**获取每个区域的所有可用专属 IP**
+
+用于在专属固定或移动区域中收集 [gIPs](/proxy-networks/residential/configure-your-proxy#ip-groups-gips) 列表的 API 端点为：
+`GET /api/zone/route_vips`
+
+
+<CodeGroup>
+```sh Shell
+ curl -X GET "https://api.brightdata.com/zone/route_vips?zone=<zone_name>" -H "Authorization: Bearer <API_TOKEN>"
+```
+
+```js NodeJS
+var request = require('request');
+var options = {
+  'method': 'GET',
+  'url': 'https://api.brightdata.com/zone/route_vips?zone=<zone_name>',
+  'headers': {
+    'Authorization': 'Bearer <API_TOKEN>'
+  }
+};
+request(options, function (error, response) {
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
+```
+
+```java Java
+package example;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String res = Executor.newInstance()
+      .addHeader("Authorization", "Bearer <API_TOKEN>")      .execute(Request.Get("https://api.brightdata.com/zone/route_vips?zone=<zone_name>"))      .returnContent().asString();
+    System.out.println(res)
+  }}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method = HttpMethod.Get,      RequestUri = new Uri("https://api.brightdata.com/zone/route_vips?zone=ZONE"),
+      Headers = {
+        {"Authorization", "Bearer API_TOKEN"}
+      }
+    };
+    var response = await client.SendAsync(requestMessage);
+    var responseString = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(responseString);
+  }
+}
+```
+
+``` python Python
+import requests
+url = "https://api.brightdata.com/zone/route_vips?zone=<zone_name>"
+payload={}
+headers = {
+  'Authorization': 'Bearer <API_TOKEN>'
+}
+response = requests.request("GET", url, headers=headers, data=payload)
+print(response.text)
+```
+</CodeGroup>
+
+```json Sample Response
+[
+  "186XXXXXXXXXXX01",
+  "186XXXXXXXXXXX00"
+]
+```

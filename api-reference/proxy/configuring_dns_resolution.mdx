@@ -1,0 +1,31 @@
+---
+title: 配置 DNS 解析
+---
+可以指示 Bright Data 代理网络使用远程或本地 DNS 解析。 
+
+如果您的目标有两个以上的 IP（取决于进行 DNS 查询的位置），并且想要定向目标站点的特定 IP，这就会很有用。
+
+对 Bright Data 的所有请求都以与超级代理 (brd.superproxy.io) 的连接开始。然后，超级代理将请求发送到不同国家的本地服务器，如果需要，这些服务器可以将请求发送给固定代理（“对等方”）。
+
+
+使用本地DNS 解析时，域名由 Bright Data 超级代理网络服务器解析和缓存，经过解析的 IP 用于代理在实际国家/地区的真实请求。
+
+当使用远程发出请求时，它们最初由超级代理 (brd.superproxy.io) 接收。超级代理在本地进行初步的 DNS 解析，只是为了检查域是否有效。 如果域有效，则请求将发送到距离代理所在国家/地区最近的 Bright Data 服务器。 
+
+- 如果 Bright Data 服务器与代理位于同一个国家/地区，则在服务器上执行 DNS，经过解析的 IP 用于实际请求。 此 DNS 解析通常比代理的 DNS 解析更快。
+- 如果 Bright Data 服务器位于不同的国家/地区，则在实际代理上执行 DNS。
+
+
+<CodeGroup>
+```sh DNS (Local)
+curl "https://example.com" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-dns-local:<zone_password>
+```
+
+```sh DNS (Remote)
+curl "https://example.com" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-dns-remote:<zone_password>
+```
+</CodeGroup>
+
+<Note>
+使用远程 DNS 解析时，由于本地 DNS 解析延迟，您可能会发现一些性能下降。
+</Note>

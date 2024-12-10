@@ -1,0 +1,19 @@
+---
+title: 请求和响应 C-Tag
+---
+处理大量请求时，跟踪单个响应可能会很困难。C-Tag 是一种简单但功能强大的解决方案，可提升请求跟踪效率。
+
+使用 C-Tag，用户可以在请求中添加唯一的 `c_tag` 标志。作为回应，企业会在标头中回传相同的标签。 这种无缝交换可确保每个响应都与相应的请求绑定，从而消除混乱并简化数据管理。  
+
+在请求中添加任何 C-Tag 文本，可在响应标头中获得相同的字符串：
+
+<CodeGroup>
+    
+```sh Sample Request
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-c_tag-<C_TAG_VALUE>:<zone_password>
+```
+
+```js Output headers
+x-brd-c_tag: <C_TAG_VALUE>
+```
+</CodeGroup>

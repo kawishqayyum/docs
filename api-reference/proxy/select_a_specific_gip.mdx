@@ -1,0 +1,9 @@
+---
+title: 选择特定的 gIP
+---
+
+该选项仅适用于分配了多个 IP 的住宅区域或移动区域。要将分配给您的区域的特定 `gIP` 作为目标，请使用 `-gip-gip_name` 请求参数。
+
+```sh
+curl "http://target.site" --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zone-<zone_name>-gip-us_7922_fl_hollywood_0:<zone_password>
+```
