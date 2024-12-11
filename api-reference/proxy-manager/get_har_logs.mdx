@@ -1,0 +1,111 @@
+---
+title: 获取 HAR 日志
+---
+**API 端点:** `GET` `/api/logs`
+
+<ParamField query="limit" type="integar">
+要从尾部获取的日志数量
+</ParamField>
+
+<ParamField query="skip" type="integar">
+要从尾部获取的日志数量
+</ParamField>
+
+<ParamField query="limit" type="integar">
+要获取的最大请求数量
+</ParamField>
+
+<ParamField query="search" type="string">
+URL 的正则表达式搜索查询
+</ParamField>
+
+<ParamField query="port_from" type="string">
+端口号的下限
+</ParamField>
+
+<ParamField query="port_to" type="string">
+端口号的上限
+</ParamField>
+
+<ParamField query="status_code" type="string">
+按状态码筛选请求
+</ParamField>
+
+<ParamField query="sort" type="string">
+排序依据的参数
+</ParamField>
+
+<ParamField query="sort_desc" type="布尔值">
+是降序排序方向
+</ParamField>
+
+{/* TODO: Missing Sample Response */}
+<RequestExample>
+```sh Shell
+curl "http://127.0.0.1:22999/api/logs"
+```
+
+```js NodeJS
+#!/usr/bin/env node
+
+require('request-promise')({
+    url: 'http://127.0.0.1:22999/api/logs'
+}).then(function(data){ console.log(data);},
+
+function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String res = Executor.newInstance()
+     .execute(Request.Get("http://127.0.0.1:22999/api/logs"))
+     .returnContent().asString();
+    System.out.println(res)
+  }
+}
+```
+
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+ 
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method = HttpMethod.Get,
+      RequestUri = new Uri("http://127.0.0.1:22999/api/logs")
+    };
+
+    var response = await client.SendAsync(requestMessage);
+    var responseString = await response.Content.ReadAsStringAsync();
+
+    Console.WriteLine(responseString);
+  }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+
+import requests
+
+ 
+
+r = requests.get('http://127.0.0.1:22999/api/logs')
+
+print(r.content)
+```
+</RequestExample>

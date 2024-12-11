@@ -1,0 +1,78 @@
+---
+title: 启用 SSL 分析（所有端口）
+---
+
+**API 端点:** `POST` `/api/enable_ssl`
+
+<RequestExample>
+```sh
+curl -X POST "http://127.0.0.1:22999/api/enable_ssl"
+```
+
+```js NodeJS
+#!/usr/bin/env node
+
+require('request-promise')({
+    method: 'POST',
+    url: 'http://127.0.0.1:22999/api/enable_ssl'
+}).then(function(data){ console.log(data); },
+
+function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+
+
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String res = Executor.newInstance()
+     .execute(Request.Post("http://127.0.0.1:22999/api/enable_ssl"))
+     .returnContent().asString();
+    System.out.println(res)
+  }
+
+}
+```
+
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+ 
+
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method = HttpMethod.Post,
+     RequestUri = new Uri("http://127.0.0.1:22999/api/enable_ssl")
+    };
+
+    var response = await client.SendAsync(requestMessage);
+    var responseString = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(responseString);
+
+  }
+
+}
+```
+
+```python Python
+#!/usr/bin/env python
+
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+
+import requests
+
+r = requests.post('http://127.0.0.1:22999/api/enable_ssl')
+
+print(r.content)
+```
+</RequestExample>

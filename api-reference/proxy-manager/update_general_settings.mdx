@@ -1,0 +1,153 @@
+---
+title: 更新常规设置
+---
+
+**API 端点:** `PUT` `/api/settings`
+
+## `PUT` Body:
+
+<ParamField body="zone" type="string">
+默认区域
+</ParamField>
+
+<ParamField body="www_whitelist_ips" type="array">
+允许访问浏览器管理界面的白名单 IP 列表
+</ParamField>
+
+<ParamField body="whitelist_ips" type="array">
+所有代理的默认白名单 IP 列表，以允许相关 IP 访问代理
+</ParamField>
+
+<ParamField body="logs" type="integer">
+待存储的请求日志数量
+</ParamField>
+
+<ParamField body="request_stats" type="boolean">
+启用请求统计
+</ParamField>
+
+
+<ResponseExample>
+```JSON Sample Response
+{
+    "customer":"CUSTOMER",
+    "zone":"ZONE",
+    "password":"password",
+    "www_whitelist_ips":[],
+    "whitelist_ips":[],
+    "fixed_whitelist_ips":[],
+    "read_only":false,
+    "config":"/home/user/proxy_manager/.luminati.json",
+    "test_url":"http://lumtest.com/myip.json",
+    "logs":1000,
+    "log":"notice",
+    "har_limit":1024,
+    "request_stats":true,
+    "dropin":true,
+    "pending_ips":[],
+    "pending_www_ips":[],
+    "zagent":false,
+    "sync_config":true
+}
+```
+</ResponseExample>
+
+<RequestExample>
+```sh Shell
+curl -X PUT "http://127.0.0.1:22999/api/settings" -H "Content-Type: application/json" -d '{"zone":"ZONE","www_whitelist_ips":[],"whitelist_ips":[],"logs":1000,"request_stats":true}'
+```
+
+```js NodeJS
+#!/usr/bin/env node
+
+require('request-promise')({
+  method: 'PUT',
+  url: 'http://127.0.0.1:22999/api/settings',
+  json: {
+    'zone': 'ZONE',
+    'www_whitelist_ips':'[]',
+    'whitelist_ips':'[]',
+    'logs':1000,
+    'request_stats':true
+  }
+}).then(function(data){ console.log(data); },
+function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String body = "{\"zone\":\"ZONE\",\"www_whitelist_ips\":[],\"whitelist_ips\":[],\"logs\":1000,\"request_stats\":true}";
+    String res = Executor.newInstance()
+     .execute(Request.Put("http://127.0.0.1:22999/api/settings"))
+     .bodyString(body, ContentType.APPLICATION_JSON))
+     .returnContent().asString();
+    
+    System.out.println(res)
+  }
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method=HttpMethod.Put,
+      RequestUri=new Uri("http://127.0.0.1:22999/api/settings"),
+      Content=new StringContent(JsonConvert.SerializeObject(
+        new {
+          zone="ZONE", 
+          www_whitelist_ips=[],
+          whitelist_ips=[],
+          logs=1000,
+          request_stats=true
+        }
+      ),
+      Encoding.UTF8,
+      "application/json"
+    )
+  };
+
+    var response = await client.SendAsync(requestMessage);
+    var responseString = await response.Content.ReadAsStringAsync();
+
+    Console.WriteLine(responseString);
+  }
+}
+```
+
+```python Python
+#!/usr/bin/env python
+
+print(
+  'If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests'
+)
+
+import requests
+
+ 
+data = {
+  'zone': 'ZONE',
+  'www_whitelist_ips':[],
+  'whitelist_ips':[],
+  'logs':1000,
+  'request_stats':True
+}
+
+r = requests.put('http://127.0.0.1:22999/api/settings', data=json.dumps(data))
+
+print(r.content)
+
+```
+</RequestExample>

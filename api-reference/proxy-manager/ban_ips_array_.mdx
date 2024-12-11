@@ -1,0 +1,105 @@
+---
+title: 封禁多个 IP（阵列）
+---
+**API endpoint:** `POST` `/api/proxies/{PORT}/banips`
+
+## 路径参数
+<ParamField body="PORT" type="string" required>
+现有代理服务器端口号
+</ParamField>
+
+## `POST` body
+
+<ParamField body="ips" type="array" required>
+所要封禁的 IP。例如 `["10.0.0.1", "20.0.0.1"]`
+</ParamField>
+
+<ParamField body="domain" type="string">
+封禁向指定域发送请求的 IP
+</ParamField>
+
+<ParamField body="ms" type="integer">
+在指定毫秒内封禁 IP
+</ParamField>
+
+<RequestExample>
+```sh Shell
+curl "http://127.0.0.1:22999/api/proxies/{PORT}/banips" -H "Content-Type: application/json" -d '{"ips":["10.0.0.1","20.0.0.1"],"domain":"example.com","ms":60000}'
+```
+
+```js NodeJS
+#!/usr/bin/env node
+require('request-promise')({
+    method: 'POST',
+    url: 'http://127.0.0.1:22999/api/proxies/{PORT}/banips',
+    json: {'ips':['10.0.0.1','20.0.0.1'],'domain':'example.com','ms':60000}
+}).then(function(data){ console.log(data);},
+
+function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.\*;
+
+
+public class Example {
+
+  public static void main(String[] args) throws Exception {
+
+    String body = "{\"ips\":[\"10.0.0.1\",\"20.0.0.1\"],\"domain\":\"example.com\",\"ms\":60000}";
+    String res = Executor.newInstance()
+        .execute(Request.Post("http://127.0.0.1:22999/api/proxies/{PORT}/banips")
+        .bodyString(body, ContentType.APPLICATION_JSON))
+        .returnContent().asString();
+    System.out.println(res)
+  }
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+ 
+
+public class Program {
+  public static async Task Main() {
+    var client = new HttpClient();
+    var requestMessage = new HttpRequestMessage {
+      Method = HttpMethod.Post,
+     RequestUri = new Uri("http://127.0.0.1:22999/api/proxies/{PORT}/banips"),
+     Content = new StringContent(JsonConvert.SerializeObject(new {
+       ips = [ "10.0.0.1","20.0.0.1" ],
+       domain = "example.com",
+       ms = 60000
+     }), Encoding.UTF8, "application/json"))
+    };
+    var response = await client.SendAsync(requestMessage);
+    var responseString = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(responseString);
+
+  }
+}
+
+ 
+```
+
+```python Python
+#!/usr/bin/env python
+
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+
+import requests
+
+
+data = {'ips':['10.0.0.1','20.0.0.1'],'domain':'example.com','ms':60000}
+r = requests.post('http://127.0.0.1:22999/api/proxies/{PORT}/banips', data=json.dumps(data))
+
+print(r.content)
+```
+</RequestExample>

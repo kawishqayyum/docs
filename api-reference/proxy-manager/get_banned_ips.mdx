@@ -1,0 +1,102 @@
+---
+title: 获取封禁的 IP
+---
+
+**API 端点:** `GET` `/api/banlist/{PORT}`
+
+<ParamField query="full" type="boolean">
+`full=true` 参数是可选的，可用于提供有关封禁列表中每个条目的更多详情
+</ParamField>
+
+<ResponseExample>
+```JSON Sample Response
+{
+    "ips": [
+        "10.20.30.40",
+        "50.60.70.80|example.com"
+    ]
+}
+```
+</ResponseExample>
+
+<RequestExample>
+```sh Shell
+curl "http://127.0.0.1:22999/api/banlist/{PORT}?full=true"
+```
+
+```js NodeJS
+#!/usr/bin/env node
+
+require('request-promise')({
+
+url: 'http://127.0.0.1:22999/api/banlist/{PORT}?full=true'
+
+}).then(function(data){ console.log(data); },
+
+function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+
+public class Example {
+  public static void main(String[] args) throws Exception {
+    String res = Executor.newInstance()
+     .execute(Request.Get("http://127.0.0.1:22999/api/banlist/{PORT}?full=true"))
+     .returnContent().asString();
+    System.out.println(res)
+  }
+
+}
+```
+
+```cs C#
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+ 
+
+public class Program {
+
+  public static async Task Main() {
+
+    var client = new HttpClient();
+
+    var requestMessage = new HttpRequestMessage {
+
+      Method = HttpMethod.Get,
+
+     RequestUri = new Uri("http://127.0.0.1:22999/api/banlist/{PORT}?full=true")
+
+    };
+
+    var response = await client.SendAsync(requestMessage);
+
+    var responseString = await response.Content.ReadAsStringAsync();
+
+    Console.WriteLine(responseString);
+
+  }
+
+}
+```
+
+```python Python
+#!/usr/bin/env python
+
+print('If you get error "ImportError: No module named requests", please install it:\n$ sudo pip install requests');
+
+import requests
+
+ 
+
+r = requests.get('http://127.0.0.1:22999/api/banlist/{PORT}?full=true')
+
+print(r.content)
+```
+</RequestExample>

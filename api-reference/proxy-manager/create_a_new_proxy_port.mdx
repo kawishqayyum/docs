@@ -1,0 +1,299 @@
+---
+title: 创建新的代理端口
+---
+**API 端点:** `POST` `/api/proxies`
+
+## `POST` 正文
+
+<ParamField body="代理" type="用户对象">
+  <Expandable title="properties">
+    <ParamField body="port" type="integer">
+      HTTP 代理的端口
+    </ParamField>
+
+    <ParamField body="proxy_type" type="string">
+      设置为 `persist` 以将代理保存到配置文件中。
+    </ParamField>
+
+    <ParamField body="multiply" type="integer">
+      将端口定义乘以给定的次数
+    </ParamField>
+
+    <ParamField body="multiply_users" type="boolean">
+    </ParamField>
+
+    <ParamField body="users" type="array">
+      用户 `[string]` 的列表。此选项必须与 `multiply_users` 一起使用
+    </ParamField>
+
+    <ParamField body="ssl" type="boolean">
+	  启用 SSL 分析
+    </ParamField>
+
+	<ParamField body="tls_lib" type="string">
+      选择 SSL 库
+	  |value| description|
+	  |-|-|
+	  |`open_ssl`| 打开 SSL 库|
+	  |`flex_tls`| Flex TLS 库|
+    </ParamField>
+
+	<ParamField body="iface" type="string">
+	所要监听的接口或 IP
+    </ParamField>
+
+	<ParamField body="customer" type="string">
+	客户名称
+    </ParamField>
+
+	<ParamField body="zone" type="string">
+	区域名称
+    </ParamField>
+
+	<ParamField body="password" type="string">
+	区域密码
+    </ParamField>
+
+	<ParamField body="proxy" type="string">
+	超级代理的主机名或 IP
+    </ParamField>
+
+	<ParamField body="proxy_port" type="integer">
+	超级代理端口
+    </ParamField>
+
+	<ParamField body="proxy_connection_type" type="string">
+	确定代理管理器和超级代理之间将使用哪种连接
+	|||
+	|-|-|
+	|`http`||
+	|`https`||
+	|`socks`||
+    </ParamField>
+
+	<ParamField body="proxy_retry" type="integer">
+	超级代理出现故障时自动重试
+    </ParamField>
+
+	<ParamField body="insecure" type="boolean">
+	对不安全的主机启用 SSL 连接/分析
+    </ParamField>
+
+	<ParamField body="country" type="string">
+	国家/地区
+    </ParamField>
+
+	<ParamField body="state" type="string">
+	州
+    </ParamField>
+
+	<ParamField body="city" type="string">
+	城市
+    </ParamField>
+
+	<ParamField body="asn" type="string">
+	ASN
+    </ParamField>
+
+	<ParamField body="ip" type="string">
+	数据中心 IP
+    </ParamField>
+
+	<ParamField body="vip" type="integer">
+	gIP
+    </ParamField>
+
+	<ParamField body="ext_proxies" type="array">
+	来自外部供应商的代理列表。 格式：`[username:password@]ip[:port]`
+	- proxy[string]
+    </ParamField>
+
+	<ParamField body="ext_proxy_username" type="string">
+	外部供应商 IP 的默认用户名
+    </ParamField>
+
+	<ParamField body="ext_proxy_password" type="string">
+	外部供应商 IP 的默认密码
+	</ParamField>
+
+	<ParamField body="ext_proxy_port" type="integer">
+	外部供应商 IP 的默认端口
+	</ParamField>
+
+	<ParamField body="dns" type="string">
+	DNS resolving
+	|||
+	|-|-|
+	|`local`||
+	|`remote`||
+	</ParamField>
+
+	<ParamField body="reverse_lookup_dns" type="boolean">
+	通过 DNS 进行反向查询
+	</ParamField>
+
+	<ParamField body="reverse_lookup_file" type="string">
+	通过文件进行反向查询
+	</ParamField>
+
+	<ParamField body="reverse_lookup_values" type="array">
+	通过值进行反向查询
+	</ParamField>
+
+	<ParamField body="session" type="string">
+	所有代理请求的会话
+	</ParamField>
+
+	<ParamField body="sticky_ip" type="boolean">
+	使用每个请求主机的会话维护每个主机的 IP
+	</ParamField>
+
+	<ParamField body="pool_size" type="integer">
+	</ParamField>
+
+	<ParamField body="rotate_session" type="boolean">
+	会话池大小
+	</ParamField>
+
+	<ParamField body="throttle" type="integer">
+	限制超过给定数量的请求
+	</ParamField>
+
+	<ParamField body="rules" type="array">
+	代理请求规则
+	</ParamField>
+
+	<ParamField body="route_err" type="string">
+	出错时阻止或允许通过超级代理自动发送请求
+	</ParamField>
+
+	<ParamField body="smtp" type="array">
+	</ParamField>
+
+	<ParamField body="override_headers" type="string">
+	</ParamField>
+
+	<ParamField body="os" type="string">
+	对等 IP 的操作系统
+	</ParamField>
+
+	<ParamField body="headers" type="array">
+	请求标头
+	</ParamField>
+		- `name[string]`
+		- `value[string]`
+
+	<ParamField body="debug" type="string">
+	请求调试信息
+	|||
+	|-|-|
+	|`full`||
+	|`none`||
+	</ParamField>
+
+	<ParamField body="lpm_auth" type="string">
+	`x-lpm-authorization header`
+	</ParamField>
+
+	<ParamField body="const" type="boolean">
+	</ParamField>
+
+	<ParamField body="socket_inactivity_timeout" type="integer">
+	</ParamField>
+
+	<ParamField body="multiply_ips" type="boolean">
+	</ParamField>
+
+	<ParamField body="multiply_vips" type="boolean">
+	</ParamField>
+
+	<ParamField body="max_ban_retries" type="integer">
+	</ParamField>
+
+	<ParamField body="preset" type="string">
+	</ParamField>
+
+	<ParamField body="ua" type="boolean">
+	解锁器移动 UA
+	</ParamField>
+
+	<ParamField body="timezone" type="string">
+	浏览器使用的时区 ID
+	</ParamField>
+
+	<ParamField body="resolution" type="string">
+	浏览器屏幕尺寸
+	</ParamField>
+
+	<ParamField body="webrtc" type="string">
+	浏览器中的 WebRTC 插件行为
+	</ParamField>
+
+	<ParamField body="bw_limit" type="object">
+	带宽限制参数
+	- days [integer]
+	- bytes [integer]
+	- reenewable [boolean] - 更新每个周期的字节限制或者使用单个周期，并在达到周期的最后一天时停止使用。 默认值为 true
+	</ParamField>
+  </Expandable>
+</ParamField>
+
+
+<ParamField body="create_users" type="boolean">
+{/* TODO: Add description */}
+</ParamField>
+
+
+<ResponseExample>
+```JSON Sample Response
+{
+	"port":24000,
+	"zone":"zone_name",
+	"proxy_type":"persist",
+	"customer":"customer_id",
+	"password":"password",
+	"whitelist_ips":[]
+}
+```
+</ResponseExample>
+
+<RequestExample>
+```sh Shell
+curl "http://127.0.0.1:22999/api/proxies" -H "Content-Type: application/json" -d '{"proxy":{"port":24000,"zone":"ZONE","proxy_type":"persist","customer":"CUSTOMER","password":"password","whitelist_ips":[]}}'
+```
+
+```js NodeJS
+#!/usr/bin/env node
+
+require('request-promise')({
+method: 'POST',
+method: 'POST',
+
+	method: 'POST',
+
+	url: 'http://127.0.0.1:22999/api/proxies',
+	json: {'proxy':{'port':24000,'zone': 'ZONE','proxy_type':'persist','customer':'CUSTOMER','password':'password','whitelist_ips':[]}}
+}).then(function(data){ console.log(data); },
+
+function(err){ console.error(err); });
+```
+
+```java Java
+package example;
+
+import org.apache.http.HttpHost;
+import org.apache.http.client.fluent.*;
+
+
+public class Example {
+  public static void main(String[] args) throws Exception {
+   String body = "{\"proxy\":{\"port\":24000,\"zone\":\"ZONE\",\"proxy_type\":\"persist\",\"customer\":\"CUSTOMER\",\"password\":\"password\",\"whitelist_ips\":[]}}";
+    String res = Executor.newInstance()
+     .execute(Request.Post("http://127.0.0.1:22999/api/proxies")
+     .bodyString(body, ContentType.APPLICATION_JSON))
+     .returnContent().asString();
+    System.out.println(res)
+  }
+}
+```
+</RequestExample>
