@@ -1,0 +1,54 @@
+---
+title: 启动现有数据集
+---
+
+**端点:** `POST` `/datasets/request_collection`
+
+## Query Parameters
+<ParamField query="dataset_id" type="string" required>
+Dataset ID
+</ParamField>
+
+<ParamField query="view" type="string" required>
+View
+</ParamField>
+
+<ParamField query="type" type="string" required>
+|value|description|
+|-|-|
+|`discover_new`| |
+|`url_collection`| |
+</ParamField>
+
+
+## `POST` body
+<ParamField body="inputs" type="array" required>
+Array - json
+```json
+[
+  {
+    "url":"https://www.linkedin.com/company/2734818"
+  },
+  {
+    "url":"https://www.linkedin.com/company/73259555"
+  },
+  {
+    "url":"https://www.linkedin.com/company/82241573"
+  }
+]
+```
+</ParamField>
+
+<RequestExample>
+```sh
+curl -k -X POST "https://api.brightdata.com/datasets/initiate?dataset_id=gd_l1vikfnt1wgvvqz95w&type=url_collection&view=v_lsu5sdxkopli6q8nn" -H "Authorization: Bearer API_TOKEN" -H "content-type: application/json"  -d '[{"url":"https://www.linkedin.com/company/2734818"},{"url":"https://www.linkedin.com/company/73259555"},{"url":"https://www.linkedin.com/company/82241573"}]'
+```
+</RequestExample>
+
+<ResponseExample>
+```json
+{
+    "id": "j_lsvqo4ge7jwzbe4nn"
+}
+```
+</ResponseExample>
