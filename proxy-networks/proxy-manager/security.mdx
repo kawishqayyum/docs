@@ -27,7 +27,7 @@ sidebarTitle: 安全
 如果使用 IP 不断变化的多个爬虫向远程 Proxy Manager 服务器发送请求，则需要生成一个令牌，用于在 Proxy Manager 上进行身份验证：
 
 * 从服务器内部运行 Bright Data 进程
-* From the Proxy Manager's server run in terminal/command line:
+* 从 Proxy Manager 的服务器在终端/命令行中运行：
 
 ```sh  
 curl -X GET "http://127.0.0.1:22999/api/gen_token" -H "accept: application/json"
