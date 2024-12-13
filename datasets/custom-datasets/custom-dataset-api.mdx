@@ -14,7 +14,7 @@ title: "自定义数据集 API"
 ### 请求采集: 
 端点: `POST` https://api.brightdata.com/datasets/request_collection
 
-**参数: **
+**参数:**
 <ParamField query="dataset_id" type="string" required>
 数据集 ID
 </ParamField>
@@ -44,7 +44,7 @@ curl "https://api.brightdata.com/datasets/request_collection?dataset_id=gd_l1vik
 端点:  `GET` https://api.brightdata.com/datasets/request_collection
 
 	
-**参数: **
+**参数:**
 <ParamField query="request_id" type="string" required>
 从先前的 API 获取。
 </ParamField>
@@ -107,7 +107,7 @@ curl -k "https://api.brightdata.com/datasets/request_collection?request_id=REQUE
 ### 启动采集: 
 端点:  `POST` https://api.brightdata.com/datasets/initiate_collection
 
-**参数: **
+**参数:**
 <ParamField body="request_id" type="string" required>
 您正在查询的采集请求的唯一标识符。
 </ParamField>
@@ -131,7 +131,7 @@ curl -X POST -k "https://api.brightdata.com/datasets/initiate_collection" -d '{"
 ### 启动采集: 
 端点:  `POST` https://api.brightdata.com/datasets/initiate
 
-**参数: **
+**参数:**
 <ParamField query="dataset_id" type="string" required>
 </ParamField>
 
