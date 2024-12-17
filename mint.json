@@ -292,7 +292,7 @@
           ]
         },
         {
-          "group": "Custom Datasets",
+          "group": "自定义数据集",
           "pages": [
             "datasets/custom-datasets/request",
             "datasets/custom-datasets/delivery-options",
@@ -301,7 +301,7 @@
           ]
         },
         {
-          "group": "Data Validation",
+          "group": "数据验证",
           "pages": [
             "datasets/data-validation/data-validation-for-customers",
             "datasets/data-validation/data-validation-for-partners"
