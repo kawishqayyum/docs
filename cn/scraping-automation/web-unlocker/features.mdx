@@ -58,7 +58,7 @@ Geolocation Targeting `-country-country_code`
   网络解锁器 automatically selects the optimal IP location for targeting your domain, eliminating the need for manual selection in most cases.
 </Tip>
 
-If you want to target from a specific **country** in 网络解锁器 refer to [geolocation targeting](https://docs.brightdata.com/api-reference/proxy/geolocation-targeting).
+If you want to target from a specific **country** in 网络解锁器 refer to [geolocation targeting](https://docs.brightdata.com/cn/api-reference/proxy/geolocation-targeting).
 
 Mobile User-agent Targeting `-ua-mobile`
 -------------------
@@ -74,8 +74,8 @@ By default, 网络解锁器 automatically manages all request headers, cookies, 
 Custom 网络解锁器 allows you to override the automated parameters and send your own custom values specific to your needs. 
 
 #### Custom features:
-- [Manual headers & cookies](/scraping-automation/web-unlocker/features#manual-headers-and-cookies)
-- [Manual ‘expect’ elements](/scraping-automation/web-unlocker/features#manual-expect-elements)
+- [Manual headers & cookies](/cn/scraping-automation/web-unlocker/features#manual-headers-and-cookies)
+- [Manual ‘expect’ elements](/cn/scraping-automation/web-unlocker/features#manual-expect-elements)
 
 #### How to enable
 
@@ -83,7 +83,7 @@ In the Control Panel, go to your specific **网络解锁器** zone -> 配置 -> 
 
 ![启用优质域](/images/scraping-automation/web-unlocker/features/custom-expect.png)
 
-Once enabled, you can now send Custom 网络解锁器 requests in accordance with each [custom feature's](/scraping-automation/web-unlocker/features#custom-features) procedure.
+Once enabled, you can now send Custom 网络解锁器 requests in accordance with each [custom feature's](/cn/scraping-automation/web-unlocker/features#custom-features) procedure.
 
 #### Billing
 
@@ -155,7 +155,7 @@ To review your current 网络解锁器 CPM, navigate to [My Proxies](https://bri
 您的网络解锁器使用量采用 CPM 衡量。 CPM 是1000次成功请求的费用，表示只有成功的网络解锁器请求才会计入您的账单。
 
 请参阅我们的账单和定价页面以了解更多信息:
-https://docs.brightdata.com/general/account/billing-and-pricing/payment
+https://docs.brightdata.com/cn/general/account/billing-and-pricing/payment
 
 ## 网络解锁器目标域层级
 网络解锁器允许您在两种模式之间进行选择：
@@ -218,8 +218,8 @@ req_id=hl_d09913c7_a1lw123bkcg; bytes_up=2842; bytes_down=562418; billed=false; 
 | 错误                         | 描述 |
 |-------------------------------|-------------|
 | `404`                         | 找不到页面。 URL 无效，这表明 URL 可能已损坏或失效。 |
-| [403](/proxy-networks/faqs#what-is-error-code-403) | 您尝试访问的 URL 有效，但您被禁止访问该 URL。|
-| [502](/proxy-networks/faqs#what-is-error-code-502) | 错误代码502是网络解锁器用户最常见的错误，描述部分位于 `x-luminati-error-code` 下。|
+| [403](/cn/proxy-networks/faqs#what-is-error-code-403) | 您尝试访问的 URL 有效，但您被禁止访问该 URL。|
+| [502](/cn/proxy-networks/faqs#what-is-error-code-502) | 错误代码502是网络解锁器用户最常见的错误，描述部分位于 `x-luminati-error-code` 下。|
 | `407`                         | 此错误代码表明您的某个账户凭据不正确（密码或区域名称）。|
 | `429`                         | 此错误代码表示速率限制（罕见）。 在这种情况下，如果响应如下所示，则 Bright Data 正在对请求应用自动限制，您应该创建工单或发送电子邮件至 support@brightdata.com 寻求帮助（您可以在此处查阅有关自动限制的更多信息）|
 | `401`<br />`411`<br />`444`             | 错误的请求，通常发生在 API 请求中，当标头或 Cookie 缺失时。 |
@@ -266,7 +266,7 @@ The following API endpoint will provide 网络解锁器 success rate statistics 
 The statistics can be obtained per single domain like `example.com` or for a wildcard domain like `example.*` in order to get statistics for all top-level domains.
 
 **Note**: calling this API endpoint requires using your 
-[API token](https://docs.brightdata.com/general/account/api-token#bright-datas-api-token)
+[API token](https://docs.brightdata.com/cn/general/account/api-token#bright-datas-api-token)
 
 **How to get statistics for a single domain?**
 <CodeGroup>

@@ -73,7 +73,7 @@ sidebarTitle: 配置
   docker run luminati/luminati-proxy proxy-manager  
   docker run luminati/luminati-proxy proxy-manager --version
   ```
-  * Make sure to forward appropriate ports. Proxy manager uses by default 22999 for the web console and the API, <Tooltip tip="Port 33335 replacing port 22225 deprecated on Sep 2026, click to read more">[`33335`](https://docs.brightdata.com/general/faqs#which-port-shall-i-use-22225-or-33335) </Tooltip> for dropin and 24000-24... for all the ports that you'll create.
+  * Make sure to forward appropriate ports. Proxy manager uses by default 22999 for the web console and the API, <Tooltip tip="Port 33335 replacing port 22225 deprecated on Sep 2026, click to read more">[`33335`](https://docs.brightdata.com/cn/general/faqs#which-port-shall-i-use-22225-or-33335) </Tooltip> for dropin and 24000-24... for all the ports that you'll create.
   * To run docker with cli option see the below example:
 
   ```sh
@@ -141,7 +141,7 @@ curl --proxy brd.superproxy.io:33335 --proxy-user brd-customer-<customer_id>-zon
 
 * 从请求中移除 username:password 部分。
 * 与仅接受 IP:Port 格式的第三方软件集成
-* 整洁的代码。 可以预先为端口配置所有必要的标头和规则，而无需调整命令/请求本身。 More information is available [here](https://docs.brightdata.com/api-reference/proxy-manager/update_a_proxy_port)
+* 整洁的代码。 可以预先为端口配置所有必要的标头和规则，而无需调整命令/请求本身。 More information is available [here](https://docs.brightdata.com/cn/api-reference/proxy-manager/update_a_proxy_port)
 
 ## 添加外部代理
 --------------------

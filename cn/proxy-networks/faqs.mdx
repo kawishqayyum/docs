@@ -14,7 +14,7 @@ Every zone has a name and one or more password, allowing you to interact with it
 
 The zone name itself cannot be changed once it's configured, so you may want to use an easy to remember name that represents what you're trying to achieve. Keep in mind, that you can add a 描述 to the zone, and you can change that 描述 anytime. You can find it under the zone name at the top of the page.
 
-The zone name is used to create your proxy username, which you can then [customise if you want in order to control your proxies](https://docs.brightdata.com/proxy-networks/config-options). Here is a sample proxy username for proxies in the USA - as you can see it includes the zone name inside it:
+The zone name is used to create your proxy username, which you can then [customise if you want in order to control your proxies](https://docs.brightdata.com/cn/proxy-networks/config-options). Here is a sample proxy username for proxies in the USA - as you can see it includes the zone name inside it:
 
 `brd-customer-<customer_id>-zone-<zone_name>-country-us`
 
@@ -24,7 +24,7 @@ As mentioned, you cannot change the name of the zone after you have saved it - i
 
 <Accordion title="与第三方工具集成">
 
-Bright Data可以轻松集成到许多第三方工具中。 通常，只需使用您的Bright Data产品凭据来配置HTTP/HTTPS代理即可。 If you are using residential proxies, web unlocker or SERP API don't forget to [use the SSL certificate](https://docs.brightdata.com/general/account/ssl-certificate) to ensure and to end encrypted connections.
+Bright Data可以轻松集成到许多第三方工具中。 通常，只需使用您的Bright Data产品凭据来配置HTTP/HTTPS代理即可。 If you are using residential proxies, web unlocker or SERP API don't forget to [use the SSL certificate](https://docs.brightdata.com/cn/general/account/ssl-certificate) to ensure and to end encrypted connections.
 
 我们为最常用的工具准备了详细的指南。 您可以在以下的列表中找到指南的链接：
 
@@ -402,7 +402,7 @@ If you use a third-party application in conjunction with the proxies, you can en
 
 Of course, if you send requests to the proxy using code that you wrote, you can easily adjust the username to target specific countries as needed.
 
-Remember, you can also choose proxies by country, state, city, zip code and ASN. See [this guide](https://docs.brightdata.com/proxy-networks/config-options) for more info.
+Remember, you can also choose proxies by country, state, city, zip code and ASN. See [this guide](https://docs.brightdata.com/cn/proxy-networks/config-options) for more info.
 
 </Accordion>
 
@@ -443,7 +443,7 @@ Note this option is available only in the following zone types:
 </Accordion>
 <Accordion title="如何以特定城市为目标？">
 
-In order to target a specific city you will need to use a [共享IP (pay-per-IP)](/proxy-networks/data-center/configure-your-proxy#ip-type) or [专用IP](/proxy-networks/data-center/configure-your-proxy#ip-type) proxy network.
+In order to target a specific city you will need to use a [共享IP (pay-per-IP)](/cn/proxy-networks/data-center/configure-your-proxy#ip-type) or [专用IP](/cn/proxy-networks/data-center/configure-your-proxy#ip-type) proxy network.
 
 配置代理区域时，选择首选国家/地区后，您可以添加城市，以进一步指定您的地理定位
 
@@ -519,7 +519,7 @@ The **100% uptime** brings immediate value by providing 100% connectivity and co
 
 
 <Note>
-100% uptime feature can be turned on or off, [via API](/api-reference/account-management-api/Switch_100_uptime_ON_OFF_in_a_Static_zone).
+100% uptime feature can be turned on or off, [via API](/cn/api-reference/account-management-api/Switch_100_uptime_ON_OFF_in_a_Static_zone).
 </Note>
 
 </Accordion>
@@ -586,12 +586,12 @@ Remember, the fact that you whitelist an IP does not mean you can access your Br
 	
 	Add all the relevant IPs and domains you'll allow access to with your proxy zone.
 * **通过API端点：**
-	+ [将IP添加到区域白名单](/api-reference/account-management-api/Add_IP_to_Zone_whitelist)
-	+ [将IP从区域白名单中移除](/api-reference/account-management-api/Remove_IP_from_Zone_whitelist)
-	+ [将IP添加到区域黑名单](/api-reference/account-management-api/Add_IP_to_Zone_blacklist)
-	+ [将IP从区域黑名单中移除](/api-reference/account-management-api/Remove_IP_from_Zone_blacklist)
-	+ [将域名从区域白名单/黑名单中移除](/api-reference/account-management-api/Remove_domain_from_Zone_whitelist_blacklist)
-	+ [将域名添加到区域白名单/黑名单](/api-reference/account-management-api/Add_domain_to_Zone_whitelist_blacklist)
+	+ [将IP添加到区域白名单](/cn/api-reference/account-management-api/Add_IP_to_Zone_whitelist)
+	+ [将IP从区域白名单中移除](/cn/api-reference/account-management-api/Remove_IP_from_Zone_whitelist)
+	+ [将IP添加到区域黑名单](/cn/api-reference/account-management-api/Add_IP_to_Zone_blacklist)
+	+ [将IP从区域黑名单中移除](/cn/api-reference/account-management-api/Remove_IP_from_Zone_blacklist)
+	+ [将域名从区域白名单/黑名单中移除](/cn/api-reference/account-management-api/Remove_domain_from_Zone_whitelist_blacklist)
+	+ [将域名添加到区域白名单/黑名单](/cn/api-reference/account-management-api/Add_domain_to_Zone_whitelist_blacklist)
 
 * **关于白名单的重要提示：**
 	+ IPs that should be whitelisted are **your** machine's IPs that you'll be sending requests with, **not** the proxy IPs in your zones.
@@ -614,7 +614,7 @@ Bright data supports `SOCKS5` protocol, with a default port 22228 assigned for S
 
 SOCKS5 is supported for Datacenter and ISP networks.
 
-See here for [full SOCKS5 configuration instructions](https://docs.brightdata.com/proxy-networks/socks5)
+See here for [full SOCKS5 configuration instructions](https://docs.brightdata.com/cn/proxy-networks/socks5)
 
 
 Note: If you need to use SOCKS5 on the 住宅 proxy network, please obtain approval by our compliance department. Compliance approval is *not needed* for Datacenter and ISP networks.
@@ -668,7 +668,7 @@ In order to refresh IPs allocated to your zone, navigate to your selected zone, 
 
 <Note>刷新IP或GiP将产生额外费用。</Note>
 
-Alternatively, you can use API to refresh your [dedicated 住宅 IPs](/api-reference/account-management-api/Refresh_dedicated_residential_IPs) or your [Datacenter/ISP IPs](/api-reference/account-management-api/Refresh_Static_Datacenter_ISP_IPs)
+Alternatively, you can use API to refresh your [dedicated 住宅 IPs](/cn/api-reference/account-management-api/Refresh_dedicated_residential_IPs) or your [Datacenter/ISP IPs](/cn/api-reference/account-management-api/Refresh_Static_Datacenter_ISP_IPs)
 
 </Accordion>
 <Accordion title="如何使用特定IP？">
@@ -711,7 +711,7 @@ curl --proxy brd.superproxy.io:22225 --proxy-user brd-customer-<customer_id>-zon
 </Accordion>
 <Accordion title="如何针对住宅IP组（gIP）？">
 
-专用IP 住宅 IPs can be selected in the form of [gIPs](/proxy-networks/residential/configure-your-proxy#ip-groups-gips). They can be allocated under the zone's configuration page by selecting a "专用IP" IP type and choosing a number of gips. 此外，还需要针对特定域名。
+专用IP 住宅 IPs can be selected in the form of [gIPs](/cn/proxy-networks/residential/configure-your-proxy#ip-groups-gips). They can be allocated under the zone's configuration page by selecting a "专用IP" IP type and choosing a number of gips. 此外，还需要针对特定域名。
 
 ![number-of-dedicated-gIPs.png](/images/proxy-networks/faqs/number-of-dedicated-gIPs.png)
 
@@ -818,15 +818,15 @@ brd-customer-<customer_id>-zone-<zone_name>-carrier-sprint
 </Accordion>
 <Accordion title="哪些Bright Data产品最适合用来抓取搜索引擎（SERP）？">
 #### 用于单步抓取：
-[SERP API](https://docs.brightdata.com/scraping-automation/serp-api/introduction) is the ideal product for targeting SERPs as it has a guaranteed success rate (pay only for success) with active unlocking, automatically chooses the best proxies, customizes headers, fingerprinting, solves CAPTCHAs, and more. 
+[SERP API](https://docs.brightdata.com/cn/scraping-automation/serp-api/introduction) is the ideal product for targeting SERPs as it has a guaranteed success rate (pay only for success) with active unlocking, automatically chooses the best proxies, customizes headers, fingerprinting, solves CAPTCHAs, and more. 
 
 #### 用于多步抓取（playwright/puppeteer/selenium）：
-[Scraping Browser](https://docs.brightdata.com/scraping-automation/scraping-browser/introduction) is the ideal product as it is our fully cloud-hosted browser designed to help you easily focus on your multi-step data collection while we take care of the full proxy and unblocking infrastructure for you, including CAPTCHA solving.
+[Scraping Browser](https://docs.brightdata.com/cn/scraping-automation/scraping-browser/introduction) is the ideal product as it is our fully cloud-hosted browser designed to help you easily focus on your multi-step data collection while we take care of the full proxy and unblocking infrastructure for you, including CAPTCHA solving.
 </Accordion>
 
 <Accordion title="我能否使用住宅、数据中心或ISP代理网络来针对Google SERP进行抓取？">
 
-**住宅 Proxy** - No, [SERP API](https://docs.brightdata.com/scraping-automation/serp-api/introduction) is the ideal product for targeting SERPs as it has a guaranteed success rate (pay only for success) with active unlocking, automatically chooses the best proxies, customizes headers, fingerprinting, solves CAPTCHAs, and more. Targeting Google SERPs from the 住宅 network will result in Super-proxy bypass, which will casue the request to be sent from our servers instead of the peer. 
+**住宅 Proxy** - No, [SERP API](https://docs.brightdata.com/cn/scraping-automation/serp-api/introduction) is the ideal product for targeting SERPs as it has a guaranteed success rate (pay only for success) with active unlocking, automatically chooses the best proxies, customizes headers, fingerprinting, solves CAPTCHAs, and more. Targeting Google SERPs from the 住宅 network will result in Super-proxy bypass, which will casue the request to be sent from our servers instead of the peer. 
 
 **Datacenter & ISP Proxies** - No. When attempting to specifically target Google through either of these proxy networks, your request will be denied and you will receive the following error message in the response headers:
 
@@ -866,7 +866,7 @@ x-luminati-ip: superproxy bypass
 
 是的。 Bright data supports `SOCKS5` protocol, with a default port 22228 assigned for SOCKS5 communication. 
 
-See here for [full SOCKS5 configuration instructions](https://docs.brightdata.com/proxy-networks/socks5)
+See here for [full SOCKS5 configuration instructions](https://docs.brightdata.com/cn/proxy-networks/socks5)
 
 </Accordion>
 
@@ -953,7 +953,7 @@ The server understands the request, but it can't fulfill the request because of 
 
 **可能的原因**
 
-* 您的机器IP未列入白名单。 In order to learn how to whitelist an IP, please review the [following article.](/api-reference/proxy-manager/whitelist_ips)
+* 您的机器IP未列入白名单。 In order to learn how to whitelist an IP, please review the [following article.](/cn/api-reference/proxy-manager/whitelist_ips)
 * The domain you try to access is blocked by Bright Data for compliance reasons.
 * 您尝试访问的域未在您的用例中指定。
 * 验证码响应失败（与Web Unlocker和SERP API相关）。
@@ -997,15 +997,15 @@ If you've tried using the residential or mobile proxy networks and have encounte
 
 It means that you are using the residential/mobile networks in 'Immediate Access' mode, and have not handled the SSL verification correctly
 
-For more info on what 'Immediate Access' mode means: [Immediate Access Explanation](https://docs.brightdata.com/proxy-networks/residential/network-access)
+For more info on what 'Immediate Access' mode means: [Immediate Access Explanation](https://docs.brightdata.com/cn/proxy-networks/residential/network-access)
 
 **How to resolve the SSL errors?**
 
 You have three options:
 - Complete the KYC process, which takes ~2-3 business days to process - after which you'll be able to use the residential/mobile network with minimal restrictions, which also resolves the SSL errors.<br/>
 To complete KYC process fill in the [KYC form](https://brightdata.com/cp/kyc)
-- Install the BrightData SSL certificate, according to our [SSL certificate installation guide](https://docs.brightdata.com/general/account/ssl-certificate) (note that for some specific integration methods installing the ssl certificate may not be possible due to it not being supported)
-- If you are utilizing our proxies through code (NodeJS, Python, C#, etc.)  you can ignore SSL verification entirely, which resolves all SSL verification errors. We provide examples on how to do this in the [SSL certificate documentation page](https://docs.brightdata.com/general/account/ssl-certificate)
+- Install the BrightData SSL certificate, according to our [SSL certificate installation guide](https://docs.brightdata.com/cn/general/account/ssl-certificate) (note that for some specific integration methods installing the ssl certificate may not be possible due to it not being supported)
+- If you are utilizing our proxies through code (NodeJS, Python, C#, etc.)  you can ignore SSL verification entirely, which resolves all SSL verification errors. We provide examples on how to do this in the [SSL certificate documentation page](https://docs.brightdata.com/cn/general/account/ssl-certificate)
 </Accordion>
 
 <Accordion title="How do I redirect `curl` ourput to a file?">
