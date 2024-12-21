@@ -36,27 +36,33 @@
   "tabs": [
     {
       "name": "代理网络",
-      "url": "cn/proxy-networks"
+      "url": "cn/proxy-networks",
+      "version": "cn"
     },
     {
       "name": "抓取解决方案",
-      "url": "cn/scraping-automation"
+      "url": "cn/scraping-automation",
+      "version": "cn"
     },
     {
       "name": "数据集",
-      "url": "cn/datasets"
+      "url": "cn/datasets",
+      "version": "cn"
     },
     {
       "name": "API 参考",
-      "url": "cn/api-reference"
+      "url": "cn/api-reference",
+      "version": "cn"
     },
     {
       "name": "通用信息",
-      "url": "cn/general"
+      "url": "cn/general",
+      "version": "cn"
     },
     {
       "name": "集成 >>",
-      "url": "https://brightdata.com/integration"
+      "url": "https://brightdata.com/integration",
+      "version": "cn"
     }
   ],
   "anchors": [],
